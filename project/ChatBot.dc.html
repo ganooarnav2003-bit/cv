@@ -11,42 +11,56 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 .cbw-root *{box-sizing:border-box;font-family:'Inter',system-ui,sans-serif}
-.cbw-fab{position:fixed;bottom:24px;right:24px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1D3557 0%,#3B5A82 100%);box-shadow:0 10px 28px rgba(16,24,40,0.28);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:2147483000;transition:transform .12s ease}
+.cbw-root{
+  --bg:#EAF1FB;--surface:#FFFFFF;--surface-2:#FBFBFC;
+  --border:#E4E7EC;--text:#101828;
+  --accent:#15803D;--accent-2:#22C55E;--accent-contrast:#FFFFFF;
+  --chip-bg:#EDF2FA;--chip-hover:#DCE7F7;
+}
+.cbw-root[data-app-root="dark"]{
+  --bg:#0B1710;--surface:#0F1712;--surface-2:#111C15;
+  --border:#1E2E22;--text:#34D399;
+  --accent:#22C55E;--accent-2:#4ADE80;--accent-contrast:#04130B;
+  --chip-bg:#132019;--chip-hover:#17261D;
+}
+.cbw-fab{position:fixed;bottom:24px;right:24px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#064E2E 0%,#22C55E 100%);box-shadow:0 10px 28px rgba(16,24,40,0.28);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:2147483000;transition:transform .12s ease}
 .cbw-fab:hover{transform:translateY(-2px)}
-.cbw-panel{position:fixed;bottom:24px;right:24px;width:348px;max-width:calc(100vw - 32px);height:500px;max-height:calc(100vh - 48px);background:#FFF;border-radius:16px;box-shadow:0 24px 60px rgba(16,24,40,0.3);display:flex;flex-direction:column;overflow:hidden;z-index:2147483000;border:1px solid #E4E7EC}
-.cbw-head{background:linear-gradient(135deg,#1D3557 0%,#3B5A82 100%);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cbw-root[data-app-root="dark"] .cbw-fab{overflow:hidden;background:radial-gradient(circle at 28% 22%,rgba(255,255,255,0.65) 0%,rgba(255,255,255,0) 45%),linear-gradient(135deg,#22C55E 0%,#3B82F6 100%);box-shadow:0 10px 28px rgba(34,160,230,0.45),inset 0 1px 2px rgba(255,255,255,0.5)}
+.cbw-root[data-app-root="dark"] .cbw-fab::after{content:"";position:absolute;top:-60%;left:-20%;width:60%;height:220%;background:linear-gradient(115deg,rgba(255,255,255,0.55) 0%,rgba(255,255,255,0) 60%);transform:rotate(20deg);pointer-events:none}
+.cbw-panel{position:fixed;bottom:24px;right:24px;width:348px;max-width:calc(100vw - 32px);height:500px;max-height:calc(100vh - 48px);background:var(--surface);border-radius:16px;box-shadow:0 24px 60px rgba(16,24,40,0.3);display:flex;flex-direction:column;overflow:hidden;z-index:2147483000;border:1px solid var(--border)}
+.cbw-head{background:linear-gradient(135deg,#064E2E 0%,#22C55E 100%);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cbw-root[data-app-root="dark"] .cbw-head{position:relative;overflow:hidden;background:radial-gradient(circle at 15% 15%,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 50%),linear-gradient(135deg,#22C55E 0%,#3B82F6 100%)}
+.cbw-root[data-app-root="dark"] .cbw-head::after{content:"";position:absolute;top:-80%;left:-10%;width:40%;height:260%;background:linear-gradient(115deg,rgba(255,255,255,0.35) 0%,rgba(255,255,255,0) 60%);transform:rotate(20deg);pointer-events:none}
 .cbw-logo{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.cbw-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#F0E6D3}
-.cbw-bubble-bot{align-self:flex-start;background:#FFF;border:1px solid #E4E7EC;color:#101828;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 12px 4px;max-width:85%;white-space:pre-line}
-.cbw-bubble-user{align-self:flex-end;background:#1D3557;color:#FFF;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 4px 12px;max-width:85%}
-.cbw-chip{background:#EDF2FA;color:#1D3557;font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;border:none;cursor:pointer;text-align:left}
-.cbw-chip:hover{background:#DCE7F7}
-.cbw-inputrow{display:flex;gap:8px;padding:12px;border-top:1px solid #E4E7EC;flex-shrink:0;background:#FFF}
-.cbw-input{flex:1;border:1px solid #D0D5DD;border-radius:999px;padding:9px 14px;font-size:13px;outline:none;color:#101828}
-.cbw-input:focus{border-color:#1D3557;box-shadow:0 0 0 3px rgba(29,53,87,0.12)}
-.cbw-send{width:36px;height:36px;border-radius:50%;background:#1D3557;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;cursor:pointer}
+.cbw-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.cbw-bubble-bot{align-self:flex-start;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 12px 4px;max-width:85%;white-space:pre-line}
+.cbw-bubble-user{align-self:flex-end;background:var(--accent);color:var(--accent-contrast);font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 4px 12px;max-width:85%}
+.cbw-chip{background:var(--chip-bg);color:var(--accent);font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;border:none;cursor:pointer;text-align:left}
+.cbw-chip:hover{background:var(--chip-hover)}
+.cbw-inputrow{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);flex-shrink:0;background:var(--surface)}
+.cbw-input{flex:1;border:1px solid var(--border);border-radius:999px;padding:9px 14px;font-size:13px;outline:none;color:var(--text);background:var(--surface)}
+.cbw-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,197,94,0.15)}
+.cbw-send{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;cursor:pointer}
 .cbw-close{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:auto}
-.cbw-dot{position:absolute;bottom:1px;right:1px;width:15px;height:15px;border-radius:50%;background:#86EFAC;border:2.5px solid #FFF;box-shadow:0 0 0 1px rgba(16,24,40,0.08)}
-.cbw-dot-sm{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#86EFAC;border:2px solid #1D3557}
+.cbw-dot{position:absolute;bottom:1px;right:1px;width:15px;height:15px;border-radius:50%;background:#BBF7D0;border:2.5px solid #FFF;box-shadow:0 0 0 1px rgba(16,24,40,0.08)}
+.cbw-dot-sm{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#BBF7D0;border:2px solid #064E2E}
 .cbw-close:hover{background:rgba(255,255,255,0.26)}
 </style>
 </helmet>
 
-<div class="cbw-root">
+<div class="cbw-root" data-app-root="{{theme}}" style="color:var(--text)">
 
   <sc-if value="{{ closed }}">
     <button class="cbw-fab" onClick="{{ toggleOpen }}" aria-label="Open the MR.DRAFTORA chat" style="position:fixed">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <line x1="12" y1="5" x2="12" y2="3.2" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M12 .4l.8 1.5 1.6.8-1.6.8-.8 1.5-.8-1.5-1.6-.8 1.6-.8z" fill="#F59E0B"/>
-        <rect x="4.6" y="5" width="14.8" height="13" rx="5" fill="#FFFFFF" fill-opacity="0.97"/>
-        <rect x="2" y="9.4" width="2.6" height="5" rx="1.3" fill="#E4572E"/>
-        <rect x="19.4" y="9.4" width="2.6" height="5" rx="1.3" fill="#2E86AB"/>
-        <rect x="6.6" y="8.2" width="10.8" height="5.2" rx="2.6" fill="#1D3557"/>
-        <circle cx="9.7" cy="10.8" r="1.25" fill="#86EFAC"/>
-        <circle cx="14.3" cy="10.8" r="1.25" fill="#86EFAC"/>
-        <path d="M9.6 15.6q2.4 1.7 4.8 0" stroke="#1D3557" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <rect x="8.4" y="18" width="7.2" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.85"/>
+        <line x1="12" y1="2.2" x2="12" y2="4.6" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="12" cy="1.9" r="1.35" fill="#BBF7D0"/>
+        <rect x="5" y="4.6" width="14" height="12.6" rx="4.2" fill="#FFFFFF" fill-opacity="0.96"/>
+        <rect x="2.6" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+        <rect x="19.1" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+        <circle cx="9.3" cy="10.8" r="1.5" fill="#064E2E"/>
+        <circle cx="14.7" cy="10.8" r="1.5" fill="#064E2E"/>
+        <rect x="9" y="14" width="6" height="1.6" rx="0.8" fill="#064E2E"/>
       </svg>
       <span class="cbw-dot"></span>
     </button>
@@ -57,17 +71,15 @@
       <div class="cbw-head">
         <div class="cbw-logo" style="position:relative">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <line x1="12" y1="5" x2="12" y2="3.2" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
-        <path d="M12 .4l.8 1.5 1.6.8-1.6.8-.8 1.5-.8-1.5-1.6-.8 1.6-.8z" fill="#F59E0B"/>
-        <rect x="4.6" y="5" width="14.8" height="13" rx="5" fill="#FFFFFF" fill-opacity="0.97"/>
-        <rect x="2" y="9.4" width="2.6" height="5" rx="1.3" fill="#E4572E"/>
-        <rect x="19.4" y="9.4" width="2.6" height="5" rx="1.3" fill="#2E86AB"/>
-        <rect x="6.6" y="8.2" width="10.8" height="5.2" rx="2.6" fill="#1D3557"/>
-        <circle cx="9.7" cy="10.8" r="1.25" fill="#86EFAC"/>
-        <circle cx="14.3" cy="10.8" r="1.25" fill="#86EFAC"/>
-        <path d="M9.6 15.6q2.4 1.7 4.8 0" stroke="#1D3557" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-        <rect x="8.4" y="18" width="7.2" height="3" rx="1.5" fill="#FFFFFF" fill-opacity="0.85"/>
-      </svg>
+            <line x1="12" y1="2.2" x2="12" y2="4.6" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="12" cy="1.9" r="1.35" fill="#BBF7D0"/>
+            <rect x="5" y="4.6" width="14" height="12.6" rx="4.2" fill="#FFFFFF" fill-opacity="0.96"/>
+            <rect x="2.6" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+            <rect x="19.1" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+            <circle cx="9.3" cy="10.8" r="1.5" fill="#064E2E"/>
+            <circle cx="14.7" cy="10.8" r="1.5" fill="#064E2E"/>
+            <rect x="9" y="14" width="6" height="1.6" rx="0.8" fill="#064E2E"/>
+          </svg>
           <span class="cbw-dot-sm"></span>
         </div>
         <div style="min-width:0">
@@ -139,7 +151,8 @@ const KB = [
   { keys: ["banner size", "social media", "dimensions", "resolution"], answer: "Common sizes: Instagram post 1080×1080, Instagram story 1080×1920, LinkedIn banner 1584×396, Facebook cover 820×312, YouTube thumbnail 1280×720. Pick the matching preset in the Banner Maker before you start designing." },
   { keys: ["banner", "professional", "brand"], answer: "For a professional banner: use one accent color or gradient, one bold headline (under ~6 words), plenty of empty space, and your logo or name in a consistent corner. Avoid more than 2 fonts and keep text readable at a glance." },
   { keys: ["logo", "brand mark"], answer: "Keep your logo in the same corner across all your banners for brand consistency, and give it some breathing room (don't let text touch it)." },
-  { keys: ["text", "headline", "copy", "wording"], answer: "Keep banner headlines short — 4 to 7 words reads best at a glance. Put supporting details (dates, price, etc.) in a smaller line underneath, not in the headline itself." }
+  { keys: ["text", "headline", "copy", "wording"], answer: "Keep banner headlines short — 4 to 7 words reads best at a glance. Put supporting details (dates, price, etc.) in a smaller line underneath, not in the headline itself." },
+  { keys: ["dark mode", "light mode", "theme", "dark theme", "light theme"], answer: "You can switch between light and dark mode any time using the toggle in the top-right of the page (the sun/moon icon) — your choice is remembered the next time you visit." }
 ];
 
 const GREETING = "Hi! I'm MR.DRAFTORA. Here's what I can help with:\n• Resume & banner design (layout, fonts, colors, sizing)\n• What HR and recruiters look for today\n• Certifications & skills for finance, marketing, IT/tech, and future-proofing your career\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
@@ -158,7 +171,7 @@ function matchAnswer(raw) {
     "keyword", "achievement", "certification", "reference", "print", "paper",
     "size", "dimension", "advertisement", "promo", "sale", "event", "quote",
     "post", "canva", "hiring", "recruiter", "job post", "career", "qualification",
-    "layout", "canvas", "gradient", "icon", "spacing", "alignment", "contrast"
+    "layout", "canvas", "gradient", "icon", "spacing", "alignment", "contrast", "theme", "dark", "light"
   ];
   const inScope = IN_SCOPE_WORDS.some((k) => text.includes(k));
   if (inScope) {
@@ -222,6 +235,7 @@ class Component extends DCLogic {
       : baseChips;
 
     return {
+      theme: (this.props && this.props.theme) || "light",
       closed: this.state.closed,
       messages: this.state.messages,
       draft: this.state.draft,

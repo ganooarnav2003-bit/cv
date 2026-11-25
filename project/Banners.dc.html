@@ -10,31 +10,61 @@
 <helmet>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:'Inter',system-ui,sans-serif;background:#F0E6D3;color:#101828;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none}
-.backlink{color:#475467;font-weight:500;font-size:14px}
-.backlink:hover{color:#101828}
-.pill{background:#FFF;border:1px solid #D0D5DD;color:#475467;font-weight:600;font-size:13px;padding:8px 16px;border-radius:7px}
-.pill:hover{border-color:#1D3557;color:#101828}
-.bcard:hover{border-color:#D0D5DD;box-shadow:0 12px 28px rgba(16,24,40,0.08)}
+:root,[data-app-root]{
+  --bg:#EAF1FB;--surface:#FFFFFF;
+  --border:#E4E7EC;--line:#D0D5DD;
+  --text:#101828;--text-muted:#475467;--text-faint-2:#98A2B3;
+  --accent:#15803D;--accent-2:#22C55E;--accent-contrast:#FFFFFF;
+  --chip-bg:#F2F4F7;--chip-bg-2:#EDF2FA;
+}
+[data-app-root="dark"]{
+  --bg:#070D09;--surface:#0F1712;
+  --border:#1E2E22;--line:#2A3D2F;
+  --text:#34D399;--text-muted:#10B981;--text-faint-2:#047857;
+  --accent:#22C55E;--accent-2:#4ADE80;--accent-contrast:#04130B;
+  --chip-bg:#132019;--chip-bg-2:#13241A;
+}
+body{background:var(--bg);color:var(--text)}
+.backlink{color:var(--text-muted);font-weight:500;font-size:14px}
+.backlink:hover{color:var(--text)}
+.pill{background:var(--surface);border:1px solid var(--line);color:var(--text-muted);font-weight:600;font-size:13px;padding:8px 16px;border-radius:7px}
+.pill:hover{border-color:var(--accent);color:var(--text)}
+.bcard{background:var(--surface);border:1px solid var(--border)}
+.bcard:hover{border-color:var(--accent-2);box-shadow:0 12px 28px rgba(16,24,40,0.08)}
 .usebtn{opacity:0;transition:opacity .12s ease}
 .bcard:hover .usebtn{opacity:1}
+.theme-toggle{width:36px;height:36px;border-radius:8px;background:var(--chip-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 @media (max-width:700px){
   .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr)) !important}
 }
 </style>
 </helmet>
 
-<div style="width:100%;max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;box-sizing:border-box">
+<div data-app-root="{{theme}}" style="width:100%;max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;box-sizing:border-box;background:var(--bg);color:var(--text)">
 
   <!-- HEADER -->
   <header style="width:100%;max-width:1280px;padding:28px 32px 0;box-sizing:border-box">
-    <a class="backlink" href="Main.dc.html">&larr; Back to home</a>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <a class="backlink" href="Main.dc.html">&larr; Back to home</a>
+      <button class="theme-toggle" onClick="{{toggleTheme}}" aria-label="Toggle dark mode">
+        <sc-if value="{{ isDark }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="5" stroke="var(--accent-2)" stroke-width="1.8"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </sc-if>
+        <sc-if value="{{ isLight }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--accent)"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+        </sc-if>
+        <sc-if value="{{ isAuto }}">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="var(--accent)"/></svg>
+        </sc-if>
+      </button>
+    </div>
     <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:14px">
       <div>
-        <h1 style="font-size:28px;font-weight:800;letter-spacing:-0.01em;margin:0 0 6px">Banner templates</h1>
-        <p style="font-size:14.5px;color:#475467;margin:0">250 free templates &mdash; pick one and customize it on the canvas</p>
+        <h1 style="font-size:28px;font-weight:800;letter-spacing:-0.01em;margin:0 0 6px;color:var(--text)">Banner templates</h1>
+        <p style="font-size:14.5px;color:var(--text-muted);margin:0">250 free templates &mdash; pick one and customize it on the canvas</p>
       </div>
     </div>
 
@@ -50,7 +80,7 @@ button{font-family:inherit;cursor:pointer;border:none}
   <section style="width:100%;max-width:1280px;padding:16px 32px 80px;box-sizing:border-box">
     <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px">
       <sc-for list="{{banners}}" as="item" hint-placeholder-count="30">
-        <div class="bcard" onClick="{{ item.open }}" style="background:#FFF;border:1px solid #E4E7EC;border-radius:12px;overflow:hidden;transition:all .12s ease;display:flex;flex-direction:column;min-width:0;cursor:pointer">
+        <div class="bcard" onClick="{{ item.open }}" style="border-radius:12px;overflow:hidden;transition:all .12s ease;display:flex;flex-direction:column;min-width:0;cursor:pointer">
 
           <div style="height:130px;background:linear-gradient(135deg,{{item.c1}} 0%,{{item.c2}} 100%);padding:16px;box-sizing:border-box;position:relative;display:flex">
 
@@ -80,9 +110,9 @@ button{font-family:inherit;cursor:pointer;border:none}
           <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
             <div style="min-width:0">
               <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{item.name}}</div>
-              <div style="font-size:11.5px;color:#98A2B3;font-weight:500">{{item.category}}</div>
+              <div style="font-size:11.5px;color:var(--text-faint-2);font-weight:500">{{item.category}}</div>
             </div>
-            <a href="BannerEditor.dc.html" onClick="{{ stopClick }}" style="display:inline-block;background:#EDF2FA;color:#1D3557;font-weight:700;font-size:12px;padding:7px 12px;border-radius:7px;flex-shrink:0">Use</a>
+            <a href="BannerEditor.dc.html" onClick="{{ stopClick }}" style="display:inline-block;background:var(--chip-bg-2);color:var(--accent);font-weight:700;font-size:12px;padding:7px 12px;border-radius:7px;flex-shrink:0">Use</a>
           </div>
         </div>
       </sc-for>
@@ -91,7 +121,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 
   <sc-if value="{{ showPreview }}">
     <div onClick="{{ closePreview }}" style="position:fixed;inset:0;background:rgba(16,24,40,0.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px;box-sizing:border-box">
-      <div onClick="{{ stopClick }}" style="background:#FFF;border-radius:16px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 30px 70px rgba(16,24,40,0.35)">
+      <div onClick="{{ stopClick }}" style="background:var(--surface);border-radius:16px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 30px 70px rgba(16,24,40,0.35)">
         <div style="height:240px;background:linear-gradient(135deg,{{preview.c1}} 0%,{{preview.c2}} 100%);padding:32px;box-sizing:border-box;position:relative;display:flex">
 
           <sc-if value="{{ preview.v0 }}">
@@ -115,14 +145,14 @@ button{font-family:inherit;cursor:pointer;border:none}
           </sc-if>
 
         </div>
-        <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #E4E7EC">
+        <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--border)">
           <div style="min-width:0">
             <div style="font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{preview.name}}</div>
-            <div style="font-size:12.5px;color:#98A2B3;font-weight:500">{{preview.category}} template</div>
+            <div style="font-size:12.5px;color:var(--text-faint-2);font-weight:500">{{preview.category}} template</div>
           </div>
           <div style="display:flex;gap:10px;flex-shrink:0">
-            <button onClick="{{ closePreview }}" style="background:#F2F4F7;color:#475467;font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px">Close</button>
-            <a href="BannerEditor.dc.html" style="display:inline-block;background:#1D3557;color:#FFF;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px">Use this template</a>
+            <button onClick="{{ closePreview }}" style="background:var(--chip-bg);color:var(--text-muted);font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px">Close</button>
+            <a href="BannerEditor.dc.html" style="display:inline-block;background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px">Use this template</a>
           </div>
         </div>
       </div>
@@ -130,7 +160,7 @@ button{font-family:inherit;cursor:pointer;border:none}
   </sc-if>
 
 </div>
-  <dc-import name="ChatBot" hint-size="58px,58px"></dc-import>
+  <dc-import name="ChatBot" hint-size="58px,58px" theme="{{theme}}"></dc-import>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":10800}}'>
 const NAME_POOL = [
@@ -141,7 +171,7 @@ const NAME_POOL = [
 ];
 const TAGS = ["NEW","SALE","LIMITED","FEATURED","TRENDING"];
 const COLOR_PAIRS = [
-  ["#1D3557","#3B5A82"],
+  ["#15803D","#22C55E"],
   ["#1F4E4A","#2F6F63"],
   ["#4A3F6B","#6354A1"],
   ["#7A4B1F","#A66A32"],
@@ -153,7 +183,24 @@ const CATEGORIES = ["All","Social Post","LinkedIn Banner","Event Flyer","Sale Pr
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { category: "All", previewId: null };
+    let mode = "light";
+    try { mode = localStorage.getItem("draftora-theme") || "light"; } catch (e) {}
+    let systemDark = false;
+    try { systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
+    this.state = { category: "All", previewId: null, mode: mode, systemDark: systemDark };
+    try {
+      const mq = window.matchMedia("(prefers-color-scheme: dark)");
+      const onChange = (e) => this.setState({ systemDark: e.matches });
+      if (mq.addEventListener) mq.addEventListener("change", onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    } catch (e) {}
+  }
+
+  cycleTheme() {
+    const order = ["light", "dark", "auto"];
+    const next = order[(order.indexOf(this.state.mode) + 1) % order.length];
+    try { localStorage.setItem("draftora-theme", next); } catch (e) {}
+    this.setState({ mode: next });
   }
 
   renderVals() {
@@ -187,7 +234,7 @@ class Component extends DCLogic {
       return {
         label: name,
         style: isSel
-          ? "background:#1D3557;color:#FFF;border-color:#1D3557"
+          ? "background:var(--accent);color:var(--accent-contrast);border-color:var(--accent)"
           : "",
         pick: () => this.setState({ category: name })
       };
@@ -197,11 +244,18 @@ class Component extends DCLogic {
     const closePreview = () => this.setState({ previewId: null });
     const stopClick = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
 
+    const mode = this.state.mode;
+    const effective = mode === "auto" ? (this.state.systemDark ? "dark" : "light") : mode;
     return {
+      theme: effective,
+      isDark: mode === "dark",
+      isLight: mode === "light",
+      isAuto: mode === "auto",
+      toggleTheme: () => this.cycleTheme(),
       banners,
       categories,
       showPreview: !!previewItem,
-      preview: previewItem || { name: "", category: "", c1: "#1D3557", c2: "#3B5A82", headline: "", tag: "", v0: true, v1: false, v2: false },
+      preview: previewItem || { name: "", category: "", c1: "#15803D", c2: "#22C55E", headline: "", tag: "", v0: true, v1: false, v2: false },
       closePreview,
       stopClick
     };
