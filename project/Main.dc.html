@@ -42,6 +42,10 @@ body{background:var(--bg);color:var(--text)}
   .nav-links{display:none !important}
   .cards-row{flex-direction:column !important}
   .steps-row{flex-direction:column !important}
+  .pricing-grid{grid-template-columns:repeat(2,1fr) !important}
+}
+@media (max-width:480px){
+  .pricing-grid{grid-template-columns:1fr !important}
 }
 </style>
 </helmet>
@@ -52,14 +56,12 @@ body{background:var(--bg);color:var(--text)}
   <header style="width:100%;border-bottom:1px solid var(--border);display:flex;justify-content:center;background:var(--surface);position:sticky;top:0;z-index:40;box-shadow:0 1px 2px rgba(16,24,40,0.04)">
     <div style="width:100%;max-width:1200px;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box">
       <div style="display:flex;align-items:center;gap:10px">
-        <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
-          <defs><linearGradient id="navLogoGrad" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#064E2E"/><stop offset="1" stop-color="#22C55E"/></linearGradient></defs>
-          <rect width="32" height="32" rx="9" fill="url(#navLogoGrad)"/>
-          <path d="M24 0 L32 0 L32 8 Z" fill="rgba(255,255,255,0.16)"/>
-          <path d="M10 8 L15 8 A8 8 0 0 1 15 24 L10 24 Z" fill="#FFFFFF"/>
-          <circle cx="26.5" cy="26.5" r="4" fill="#BBF7D0" stroke="#064E2E" stroke-width="1.3"/>
+        <svg width="34" height="34" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M 26.85,77.58 A 36,36 0 0 1 50,14" fill="none" stroke="var(--border)" stroke-width="8" stroke-linecap="round" stroke-dasharray="9 12"/>
+          <path d="M 50,14 A 36,36 0 0 1 73.15,77.58" fill="none" stroke="var(--accent)" stroke-width="14" stroke-linecap="round"/>
+          <circle cx="73.15" cy="77.58" r="13" fill="var(--accent-2)"/>
         </svg>
-        <span style="font-weight:800;font-size:18px;letter-spacing:-0.01em"><span style="color:#E4572E">D</span><span style="color:#2E86AB">R</span><span style="color:#3DA35D">A</span><span style="color:#A23B72">F</span><span style="color:#D9A400">T</span><span style="color:#5C4D9D">O</span><span style="color:#17A398">R</span><span style="color:#D7263D">A</span></span>
+        <span style="font-weight:700;font-size:18px;letter-spacing:-0.01em;color:var(--text);display:flex;align-items:flex-end;gap:3px"><span>draftora</span><div style="width:4px;height:4px;border-radius:50%;background:var(--accent-2);margin-bottom:3px"></div></span>
       </div>
       <nav class="nav-links" style="display:flex;align-items:center;gap:32px">
         <a class="navlink" href="Templates.dc.html">Resume Builder</a>
@@ -185,64 +187,80 @@ body{background:var(--bg);color:var(--text)}
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section style="width:100%;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;justify-content:center;box-sizing:border-box">
-    <div style="width:100%;max-width:980px;padding:64px 32px;box-sizing:border-box">
-      <h2 style="font-size:26px;font-weight:800;margin:0 0 36px;text-align:center;letter-spacing:-0.01em">What people are saying</h2>
-      <div class="cards-row" style="display:flex;gap:24px">
-        <div style="flex:1;background:var(--surface-2);border:1px solid var(--border-2);border-radius:14px;padding:26px;min-width:0">
-          <div style="display:flex;gap:1px;margin-bottom:14px">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-          </div>
-          <p style="font-size:14px;line-height:1.65;color:var(--text);margin:0 0 18px">The live CV score genuinely helped — it pointed out my experience section had no numbers in it, which I never would have caught myself.</p>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent-contrast);font-size:13px;font-weight:700;flex-shrink:0">A</div>
-            <div>
-              <div style="font-size:13px;font-weight:700">Aditi M.</div>
-              <div style="font-size:11.5px;color:var(--text-faint-2)">Marketing Analyst</div>
-            </div>
-          </div>
-        </div>
-        <div style="flex:1;background:var(--surface-2);border:1px solid var(--border-2);border-radius:14px;padding:26px;min-width:0">
-          <div style="display:flex;gap:1px;margin-bottom:14px">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-          </div>
-          <p style="font-size:14px;line-height:1.65;color:var(--text);margin:0 0 18px">Made a LinkedIn banner and a resume in the same afternoon — no account, no watermark, no catch. Exactly what I needed before an interview.</p>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:34px;height:34px;border-radius:50%;background:#A23B72;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:13px;font-weight:700;flex-shrink:0">M</div>
-            <div>
-              <div style="font-size:13px;font-weight:700">Marcus T.</div>
-              <div style="font-size:11.5px;color:var(--text-faint-2)">Software Engineer</div>
-            </div>
-          </div>
-        </div>
-        <div style="flex:1;background:var(--surface-2);border:1px solid var(--border-2);border-radius:14px;padding:26px;min-width:0">
-          <div style="display:flex;gap:1px;margin-bottom:14px">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="#D9A400"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="var(--border)"><path d="M12 2l2.9 6.6L22 9.3l-5 4.8 1.3 7-6.3-3.5L5.7 21l1.3-7-5-4.8 7.1-0.7z"/></svg>
-          </div>
-          <p style="font-size:14px;line-height:1.65;color:var(--text);margin:0 0 18px">The chatbot actually answers career questions well — asked about what certifications matter for finance roles and got a genuinely useful answer.</p>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:34px;height:34px;border-radius:50%;background:#3DA35D;display:flex;align-items:center;justify-content:center;color:#FFF;font-size:13px;font-weight:700;flex-shrink:0">J</div>
-            <div>
-              <div style="font-size:13px;font-weight:700">Jasmine R.</div>
-              <div style="font-size:11.5px;color:var(--text-faint-2)">Recent Graduate</div>
-            </div>
-          </div>
-        </div>
+  <!-- PRICING -->
+  <section style="width:100%;max-width:1200px;padding:0 32px 72px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center">
+    <div style="background:var(--chip-bg);color:var(--accent);font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:7px;margin-bottom:16px;letter-spacing:0.04em;text-transform:uppercase">Coming Soon</div>
+    <h2 style="font-size:26px;font-weight:800;margin:0 0 10px;text-align:center;letter-spacing:-0.01em">Premium plans</h2>
+    <p style="font-size:14.5px;color:var(--text-muted);margin:0 0 40px;text-align:center;max-width:540px">Unlock extra templates, priority exports, and more. Prices shown in INR — subscriptions aren't live yet, this is a preview of what's coming.</p>
+    <div class="pricing-grid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:16px;width:100%">
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">7 Days</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;49</div>
+        <div style="font-size:11.5px;color:var(--text-faint-2);margin-bottom:16px">one-time</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
+      </div>
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">14 Days</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;89</div>
+        <div style="font-size:11.5px;color:var(--text-faint-2);margin-bottom:16px">one-time</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
+      </div>
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">1 Month</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;149</div>
+        <div style="font-size:11.5px;color:var(--text-faint-2);margin-bottom:16px">per month</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
+      </div>
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">3 Months</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;399</div>
+        <div style="font-size:11.5px;color:var(--accent);font-weight:600;margin-bottom:16px">&#8377;133/mo &middot; Save 11%</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
+      </div>
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0">
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">6 Months</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;699</div>
+        <div style="font-size:11.5px;color:var(--accent);font-weight:600;margin-bottom:16px">&#8377;117/mo &middot; Save 22%</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
+      </div>
+      <div class="card" style="border-radius:14px;padding:22px 16px;text-align:center;min-width:0;position:relative;border-color:var(--accent)">
+        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--accent-contrast);font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;letter-spacing:0.03em;white-space:nowrap">BEST VALUE</div>
+        <div style="font-size:12.5px;font-weight:700;color:var(--text-faint-2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:10px">Annual</div>
+        <div style="font-size:26px;font-weight:800;margin-bottom:4px">&#8377;1,199</div>
+        <div style="font-size:11.5px;color:var(--accent);font-weight:600;margin-bottom:16px">&#8377;100/mo &middot; Save 33%</div>
+        <button disabled style="width:100%;background:var(--chip-bg);color:var(--text-faint-2);font-weight:600;font-size:12.5px;padding:9px;border-radius:7px;cursor:not-allowed">Coming Soon</button>
       </div>
     </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section style="width:100%;max-width:640px;padding:0 32px 80px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center">
+    <sc-if value="{{!feedbackOpen}}">
+      <button onClick="{{openFeedback}}" style="background:var(--chip-bg);color:var(--accent);font-weight:700;font-size:14px;padding:12px 24px;border-radius:8px">Give Feedback</button>
+    </sc-if>
+    <sc-if value="{{feedbackOpen}}">
+    <div class="card" style="border-radius:16px;padding:36px;box-sizing:border-box;width:100%">
+      <h2 style="font-size:22px;font-weight:800;margin:0 0 8px;letter-spacing:-0.01em;text-align:center">Got feedback?</h2>
+      <p style="font-size:14px;color:var(--text-muted);margin:0 0 24px;text-align:center">Tell us what's working, what's missing, or what you'd love to see next.</p>
+      <sc-if value="{{feedbackSent}}">
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-size:15px;font-weight:700;color:var(--accent);margin-bottom:6px">Thanks for the feedback!</div>
+          <div style="font-size:13.5px;color:var(--text-muted)">We read every message.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{!feedbackSent}}">
+        <div class="field" style="margin-bottom:14px">
+          <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Name (optional)</label>
+          <input type="text" value="{{feedbackName}}" onChange="{{onFeedbackName}}" placeholder="Your name" style="width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;outline:none"/>
+        </div>
+        <div class="field" style="margin-bottom:18px">
+          <label style="display:block;font-size:12.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px">Your feedback</label>
+          <textarea rows="4" value="{{feedbackText}}" onChange="{{onFeedbackText}}" placeholder="What do you think?" style="width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;outline:none;resize:vertical"></textarea>
+        </div>
+        <button onClick="{{submitFeedback}}" style="width:100%;background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:14px;padding:12px;border-radius:8px">Send feedback</button>
+      </sc-if>
+    </div>
+    </sc-if>
   </section>
 
   <!-- FOOTER -->
@@ -251,14 +269,12 @@ body{background:var(--bg);color:var(--text)}
       <div class="cards-row" style="display:flex;gap:40px;padding-bottom:40px">
         <div style="flex:1.4;min-width:200px">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-            <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
-              <defs><linearGradient id="footLogoGrad" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#064E2E"/><stop offset="1" stop-color="#22C55E"/></linearGradient></defs>
-              <rect width="32" height="32" rx="9" fill="url(#footLogoGrad)"/>
-              <path d="M24 0 L32 0 L32 8 Z" fill="rgba(255,255,255,0.16)"/>
-              <path d="M10 8 L15 8 A8 8 0 0 1 15 24 L10 24 Z" fill="#FFFFFF"/>
-              <circle cx="26.5" cy="26.5" r="4" fill="#BBF7D0" stroke="#064E2E" stroke-width="1.3"/>
+            <svg width="32" height="32" viewBox="0 0 100 100" aria-hidden="true">
+              <path d="M 26.85,77.58 A 36,36 0 0 1 50,14" fill="none" stroke="var(--border)" stroke-width="8" stroke-linecap="round" stroke-dasharray="9 12"/>
+              <path d="M 50,14 A 36,36 0 0 1 73.15,77.58" fill="none" stroke="var(--accent)" stroke-width="14" stroke-linecap="round"/>
+              <circle cx="73.15" cy="77.58" r="13" fill="var(--accent-2)"/>
             </svg>
-            <span style="font-weight:800;font-size:17px;letter-spacing:-0.01em"><span style="color:#E4572E">D</span><span style="color:#2E86AB">R</span><span style="color:#3DA35D">A</span><span style="color:#A23B72">F</span><span style="color:#D9A400">T</span><span style="color:#5C4D9D">O</span><span style="color:#17A398">R</span><span style="color:#D7263D">A</span></span>
+            <span style="font-weight:700;font-size:17px;letter-spacing:-0.01em;color:var(--text);display:flex;align-items:flex-end;gap:3px"><span>draftora</span><div style="width:4px;height:4px;border-radius:50%;background:var(--accent-2);margin-bottom:3px"></div></span>
           </div>
           <p style="font-size:13.5px;line-height:1.65;color:var(--text-muted);margin:0;max-width:260px">Free resume and banner tools, built right in your browser — no account, no watermark, no catch.</p>
         </div>
@@ -317,7 +333,7 @@ class Component extends DCLogic {
     try { mode = localStorage.getItem("draftora-theme") || "light"; } catch (e) {}
     let systemDark = false;
     try { systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
-    this.state = { mode: mode, systemDark: systemDark };
+    this.state = { mode: mode, systemDark: systemDark, feedbackOpen: false, feedbackName: "", feedbackText: "", feedbackSent: false };
     try {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       const onChange = (e) => this.setState({ systemDark: e.matches });
@@ -331,6 +347,13 @@ class Component extends DCLogic {
     try { localStorage.setItem("draftora-theme", next); } catch (e) {}
     this.setState({ mode: next });
   }
+  submitFeedback() {
+    if (!this.state.feedbackText || !this.state.feedbackText.trim()) return;
+    this.setState({ feedbackSent: true });
+    setTimeout(() => {
+      this.setState({ feedbackSent: false, feedbackOpen: false, feedbackName: "", feedbackText: "" });
+    }, 2000);
+  }
   renderVals() {
     const mode = this.state.mode;
     const effective = mode === "auto" ? (this.state.systemDark ? "dark" : "light") : mode;
@@ -339,7 +362,15 @@ class Component extends DCLogic {
       isDark: mode === "dark",
       isLight: mode === "light",
       isAuto: mode === "auto",
-      toggleTheme: () => this.cycleTheme()
+      toggleTheme: () => this.cycleTheme(),
+      feedbackName: this.state.feedbackName || "",
+      feedbackText: this.state.feedbackText || "",
+      feedbackSent: !!this.state.feedbackSent,
+      feedbackOpen: !!this.state.feedbackOpen,
+      openFeedback: () => this.setState({ feedbackOpen: true }),
+      onFeedbackName: (e) => this.setState({ feedbackName: e.target.value }),
+      onFeedbackText: (e) => this.setState({ feedbackText: e.target.value }),
+      submitFeedback: () => this.submitFeedback()
     };
   }
 }
