@@ -283,7 +283,7 @@
     e.preventDefault();
     history.pushState({}, "", m[1] === "Main" ? "./" : "?page=" + m[1]);
     load(m[1]);
-  });
+  }, true);
   window.addEventListener("popstate", function () { load(pageFromUrl()); });
 
   load(pageFromUrl()).catch(function (err) {
