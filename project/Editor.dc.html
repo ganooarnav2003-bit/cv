@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resume Editor</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:#F0E6D3;color:#101828;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none}
+.backlink{color:#475467;font-weight:500;font-size:14px}
+.backlink:hover{color:#101828}
+label{display:block;font-size:12.5px;font-weight:600;color:#344054;margin-bottom:6px}
+input,textarea{width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-size:14px;color:#101828;background:#FFF;border:1px solid #D0D5DD;border-radius:8px;padding:10px 12px;outline:none}
+input:focus,textarea:focus{border-color:#1D3557;box-shadow:0 0 0 3px rgba(29,53,87,0.12)}
+.field{margin-bottom:14px}
+.swatch{width:28px;height:28px;border-radius:7px;flex-shrink:0;cursor:pointer;box-sizing:border-box}
+.vbtn{background:#FFF;border:1px solid #D0D5DD;color:#475467;font-weight:600;font-size:12.5px;padding:8px 12px;border-radius:7px;flex:1}
+.sectionTitle{font-size:16px;font-weight:700;margin:0 0 14px}
+.entry{border:1px solid #E4E7EC;border-radius:10px;padding:14px;margin-bottom:12px;position:relative}
+.removeBtn{position:absolute;top:10px;right:10px;background:#F2F4F7;color:#98A2B3;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px}
+.removeBtn:hover{color:#B42318;background:#FEF3F2}
+.addBtn{background:#EDF2FA;color:#1D3557;font-weight:600;font-size:13px;padding:9px 14px;border-radius:8px;width:100%}
+.row2{display:flex;gap:10px}
+.skilltag{display:inline-flex;background:#EDF2FA;color:#1D3557;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;margin:0 6px 6px 0}
+.legendrow{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.legenddot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.scoretitle{font-size:14.5px;font-weight:700;margin-bottom:2px}
+.scoreblurb{font-size:11.5px;color:#475467;line-height:1.4}
+.fbrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #F0EDE5}
+.fbrow:last-child{border-bottom:none}
+.fbdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+@media (max-width:860px){
+  .layout{flex-direction:column !important}
+  .panel{max-width:100% !important}
+  .scorerow{flex-direction:column !important;align-items:flex-start !important}
+}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;box-sizing:border-box">
+
+  <header style="width:100%;max-width:1200px;padding:24px 32px 0;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <a class="backlink" href="Templates.dc.html">&larr; All resume templates</a>
+    <button style="background:#1D3557;color:#FFF;font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:8px">Download PDF</button>
+  </header>
+
+  <!-- LIVE CV SCORE -->
+  <section style="width:100%;max-width:1200px;padding:18px 32px 0;box-sizing:border-box">
+    <div style="background:#FFF;border:1px solid #E4E7EC;border-radius:14px;padding:22px 24px;box-sizing:border-box">
+
+      <div class="scorerow" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:84px;height:84px;border-radius:50%;flex-shrink:0;{{completionRing}};display:flex;align-items:center;justify-content:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-size:18px;font-weight:800">{{completion}}%</div>
+            </div>
+          </div>
+          <div>
+            <div class="scoretitle">Completion &mdash; {{completionLabel}}</div>
+            <div class="scoreblurb">How much of your resume is filled in.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="width:84px;height:84px;border-radius:50%;flex-shrink:0;{{qualityRing}};display:flex;align-items:center;justify-content:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-size:18px;font-weight:800">{{quality}}%</div>
+            </div>
+          </div>
+          <div>
+            <div class="scoretitle">Content quality &mdash; {{qualityLabel}}</div>
+            <div class="scoreblurb">How strong and specific the writing is.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:16px;flex:1;min-width:220px">
+          <div style="width:72px;height:72px;border-radius:50%;flex-shrink:0;{{pieBackground}}"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px">
+            <sc-for list="{{categories}}" as="cat" hint-placeholder-count="5">
+              <div class="legendrow">
+                <span class="legenddot" style="{{cat.dotStyle}}"></span>
+                <span style="flex:1;color:#344054;font-weight:500">{{cat.name}}</span>
+                <span style="font-weight:700">{{cat.quality}}%</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:1px;background:#E4E7EC;margin-bottom:12px"></div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px">Feedback</div>
+      <div style="font-size:11.5px;color:#98A2B3;margin-bottom:4px">Specific, section-by-section notes &mdash; updates live as you type.</div>
+      <sc-for list="{{feedback}}" as="fb" hint-placeholder-count="5">
+        <div class="fbrow">
+          <span class="fbdot" style="{{fb.dotStyle}}"></span>
+          <div>
+            <div style="font-size:12.5px;font-weight:700;margin-bottom:2px">{{fb.name}}</div>
+            <div style="font-size:12.5px;color:#475467;line-height:1.5">{{fb.message}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <div class="layout" style="width:100%;max-width:1200px;padding:20px 32px 80px;box-sizing:border-box;display:flex;gap:28px;align-items:flex-start">
+
+    <!-- FORM PANEL -->
+    <div class="panel" style="flex:1;max-width:380px;background:#FFF;border:1px solid #E4E7EC;border-radius:14px;padding:24px;box-sizing:border-box;min-width:0">
+
+      <h2 class="sectionTitle">Your details</h2>
+      <div class="field">
+        <label>Full name</label>
+        <input type="text" value="{{name}}" onChange="{{ onName }}">
+      </div>
+      <div class="field">
+        <label>Job title</label>
+        <input type="text" value="{{title}}" onChange="{{ onTitle }}">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="text" value="{{email}}" onChange="{{ onEmail }}">
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input type="text" value="{{phone}}" onChange="{{ onPhone }}">
+      </div>
+      <div class="field">
+        <label>Profile photo (optional)</label>
+        <sc-if value="{{ hasPhoto }}">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+            <img src="{{photo}}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:1px solid #E4E7EC">
+            <button type="button" onClick="{{ removePhoto }}" style="background:#F2F4F7;color:#B42318;font-size:12px;font-weight:600;padding:6px 10px;border-radius:7px">Remove photo</button>
+          </div>
+        </sc-if>
+        <input type="file" accept="image/*" onChange="{{ onPhoto }}">
+      </div>
+      <div class="field">
+        <label>Summary</label>
+        <textarea rows="3" value="{{summary}}" onChange="{{ onSummary }}"></textarea>
+      </div>
+
+      <div style="height:1px;background:#E4E7EC;margin:20px 0"></div>
+
+      <h2 class="sectionTitle">Experience</h2>
+      <sc-for list="{{experiences}}" as="exp" hint-placeholder-count="2">
+        <div class="entry">
+          <button class="removeBtn" onClick="{{ exp.remove }}">Remove</button>
+          <div class="field">
+            <label>Role</label>
+            <input type="text" value="{{exp.role}}" onChange="{{ exp.onRole }}">
+          </div>
+          <div class="row2">
+            <div class="field" style="flex:1">
+              <label>Company</label>
+              <input type="text" value="{{exp.company}}" onChange="{{ exp.onCompany }}">
+            </div>
+            <div class="field" style="flex:1">
+              <label>Dates</label>
+              <input type="text" value="{{exp.period}}" onChange="{{ exp.onPeriod }}">
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Description</label>
+            <textarea rows="2" value="{{exp.description}}" onChange="{{ exp.onDescription }}"></textarea>
+          </div>
+        </div>
+      </sc-for>
+      <button class="addBtn" onClick="{{ addExperience }}" style="margin-bottom:20px">+ Add experience</button>
+
+      <h2 class="sectionTitle">Education</h2>
+      <sc-for list="{{education}}" as="edu" hint-placeholder-count="1">
+        <div class="entry">
+          <button class="removeBtn" onClick="{{ edu.remove }}">Remove</button>
+          <div class="field">
+            <label>Degree</label>
+            <input type="text" value="{{edu.degree}}" onChange="{{ edu.onDegree }}">
+          </div>
+          <div class="row2">
+            <div class="field" style="flex:1;margin-bottom:0">
+              <label>School</label>
+              <input type="text" value="{{edu.school}}" onChange="{{ edu.onSchool }}">
+            </div>
+            <div class="field" style="flex:1;margin-bottom:0">
+              <label>Year</label>
+              <input type="text" value="{{edu.year}}" onChange="{{ edu.onYear }}">
+            </div>
+          </div>
+        </div>
+      </sc-for>
+      <button class="addBtn" onClick="{{ addEducation }}" style="margin-bottom:20px">+ Add education</button>
+
+      <h2 class="sectionTitle">Skills</h2>
+      <div class="field">
+        <label>Comma separated</label>
+        <input type="text" value="{{skillsText}}" onChange="{{ onSkills }}">
+      </div>
+
+      <div style="height:1px;background:#E4E7EC;margin:20px 0"></div>
+
+      <h2 class="sectionTitle">Style</h2>
+      <label>Accent color</label>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <sc-for list="{{swatches}}" as="sw" hint-placeholder-count="6">
+          <div class="swatch" onClick="{{ sw.pick }}" style="background:{{sw.color}};{{sw.ring}}"></div>
+        </sc-for>
+      </div>
+      <label>Layout</label>
+      <div style="display:flex;gap:8px">
+        <sc-for list="{{layouts}}" as="lo" hint-placeholder-count="3">
+          <button class="vbtn" onClick="{{ lo.pick }}" style="{{ lo.style }}">{{ lo.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div style="flex:2;min-width:0;display:flex;flex-direction:column;align-items:center">
+      <div style="font-size:12px;color:#667085;font-weight:600;margin-bottom:10px;text-align:center">This is exactly how your resume will look when you open it to edit or download the PDF</div>
+      <div style="width:100%;max-width:560px;background:#FFF;border:1px solid #E4E7EC;border-radius:14px;box-shadow:0 20px 48px rgba(16,24,40,0.08);padding:48px;box-sizing:border-box">
+
+        <sc-if value="{{ v0 }}">
+          <div style="height:4px;width:60px;background:{{accent}};border-radius:2px;margin-bottom:16px"></div>
+          <div style="font-size:26px;font-weight:800;letter-spacing:-0.01em;margin-bottom:4px">{{name}}</div>
+          <div style="font-size:14px;font-weight:600;color:{{accent}};margin-bottom:10px">{{title}}</div>
+          <div style="font-size:12.5px;color:#667085;margin-bottom:22px">{{email}} &middot; {{phone}}</div>
+          <div style="font-size:13px;line-height:1.7;color:#344054;margin-bottom:26px">{{summary}}</div>
+        </sc-if>
+
+        <sc-if value="{{ v1 }}">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px">
+            <sc-if value="{{ hasPhoto }}">
+              <img src="{{photo}}" style="width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0">
+            </sc-if>
+            <sc-if value="{{ !hasPhoto }}">
+              <div style="width:56px;height:56px;border-radius:50%;background:{{accent}};flex-shrink:0"></div>
+            </sc-if>
+            <div style="min-width:0">
+              <div style="font-size:22px;font-weight:800;letter-spacing:-0.01em">{{name}}</div>
+              <div style="font-size:13px;font-weight:600;color:{{accent}}">{{title}}</div>
+            </div>
+          </div>
+          <div style="font-size:12.5px;color:#667085;margin-bottom:16px">{{email}} &middot; {{phone}}</div>
+          <div style="font-size:13px;line-height:1.7;color:#344054;margin-bottom:26px">{{summary}}</div>
+        </sc-if>
+
+        <sc-if value="{{ v2 }}">
+          <div style="display:flex;gap:24px;margin-bottom:26px">
+            <div style="width:34%;background:{{accent}};border-radius:8px;flex-shrink:0;padding:18px;box-sizing:border-box">
+              <div style="font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:10px">{{email}}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.85)">{{phone}}</div>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:24px;font-weight:800;letter-spacing:-0.01em;margin-bottom:4px">{{name}}</div>
+              <div style="font-size:13px;font-weight:600;color:{{accent}};margin-bottom:16px">{{title}}</div>
+              <div style="font-size:13px;line-height:1.7;color:#344054">{{summary}}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="font-size:11.5px;font-weight:700;color:{{accent}};letter-spacing:0.07em;text-transform:uppercase;margin-bottom:12px">Experience</div>
+        <sc-for list="{{experiences}}" as="pexp" hint-placeholder-count="2">
+          <div style="margin-bottom:16px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:2px">
+              <span style="font-size:13.5px;font-weight:700">{{pexp.role}} &middot; {{pexp.company}}</span>
+              <span style="font-size:11.5px;color:#98A2B3;white-space:nowrap">{{pexp.period}}</span>
+            </div>
+            <div style="font-size:12.5px;line-height:1.6;color:#475467">{{pexp.description}}</div>
+          </div>
+        </sc-for>
+
+        <div style="font-size:11.5px;font-weight:700;color:{{accent}};letter-spacing:0.07em;text-transform:uppercase;margin:22px 0 12px">Education</div>
+        <sc-for list="{{education}}" as="pedu" hint-placeholder-count="1">
+          <div style="margin-bottom:12px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <span style="font-size:13.5px;font-weight:700">{{pedu.degree}}</span>
+              <span style="font-size:11.5px;color:#98A2B3;white-space:nowrap">{{pedu.year}}</span>
+            </div>
+            <div style="font-size:12.5px;color:#475467">{{pedu.school}}</div>
+          </div>
+        </sc-for>
+
+        <div style="font-size:11.5px;font-weight:700;color:{{accent}};letter-spacing:0.07em;text-transform:uppercase;margin:22px 0 12px">Skills</div>
+        <div>
+          <sc-for list="{{skills}}" as="skill" hint-placeholder-count="5">
+            <span class="skilltag">{{skill.text}}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<dc-import name="ChatBot" cv-tips="{{cvTipsText}}" hint-size="58px,58px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1420}}'>
+const ACCENTS = ["#1D3557","#3B5A82","#2F6F63","#6354A1","#A66A32","#8C5A5A"];
+const LAYOUTS = [
+  { key: "v0", label: "Classic" },
+  { key: "v1", label: "Profile" },
+  { key: "v2", label: "Sidebar" }
+];
+const GOOD = "#2F9E5A";
+const WARN = "#D9A400";
+const BAD = "#D92D20";
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "Alex Morgan",
+      title: "Product Designer",
+      email: "alex.morgan@email.com",
+      phone: "+1 555 0100",
+      summary: "Product designer with 6+ years building clean, usable interfaces for B2B and consumer apps.",
+      experiences: [
+        { role: "Senior Product Designer", company: "Acme Co", period: "2022 — Present", description: "Led the design system overhaul and mentored two junior designers." },
+        { role: "Product Designer", company: "Globex", period: "2019 — 2022", description: "Shipped the core onboarding flow used by 500k+ monthly users." }
+      ],
+      education: [
+        { degree: "B.Des, Interaction Design", school: "State University", year: "2015 — 2019" }
+      ],
+      skillsText: "Figma, Design Systems, User Research, Prototyping, HTML/CSS",
+      accentIndex: 0,
+      layout: "v0",
+      photo: null
+    };
+  }
+
+  onPhoto(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => this.setState({ photo: reader.result });
+    reader.readAsDataURL(file);
+  }
+
+  removePhoto() {
+    this.setState({ photo: null });
+  }
+
+  updateExperience(idx, field, value) {
+    const experiences = this.state.experiences.map((e, i) => i === idx ? { ...e, [field]: value } : e);
+    this.setState({ experiences });
+  }
+
+  updateEducation(idx, field, value) {
+    const education = this.state.education.map((e, i) => i === idx ? { ...e, [field]: value } : e);
+    this.setState({ education });
+  }
+
+  computeScore() {
+    const name = (this.state.name || "").trim();
+    const title = (this.state.title || "").trim();
+    const email = (this.state.email || "").trim();
+    const phone = (this.state.phone || "").trim();
+    const summary = (this.state.summary || "").trim();
+    const experiences = this.state.experiences || [];
+    const education = this.state.education || [];
+    const skills = (this.state.skillsText || "").split(",").map((s) => s.trim()).filter(Boolean);
+    const WEIGHT = { contact: 10, summary: 20, experience: 30, education: 10, skills: 30 };
+
+    // ---- CONTACT ----
+    const validEmail = /@/.test(email) && /\./.test(email);
+    const validPhone = phone.replace(/\D/g, "").length >= 7;
+    const contactFilled = [name.length > 1, title.length > 1, email.length > 0, phone.length > 0].filter(Boolean).length;
+    const contactCompletion = Math.round((contactFilled / 4) * 100);
+    const contactQualityHits = [name.length > 1, title.length > 1, validEmail, validPhone].filter(Boolean).length;
+    const contactQuality = Math.round((contactQualityHits / 4) * 100);
+    const missingContact = [];
+    if (!(name.length > 1)) missingContact.push("your name");
+    if (!(title.length > 1)) missingContact.push("a job title");
+    if (!validEmail) missingContact.push("a valid email");
+    if (!validPhone) missingContact.push("a phone number");
+    const contactFeedback = missingContact.length === 0
+      ? { message: "All contact details are filled in and look valid.", status: GOOD }
+      : { message: `Add ${missingContact.join(", ")}.`, status: missingContact.length >= 2 ? BAD : WARN };
+
+    // ---- SUMMARY ----
+    const sLen = summary.length;
+    const summaryCompletion = sLen > 0 ? 100 : 0;
+    let summaryQuality;
+    let summaryFeedback;
+    if (sLen === 0) {
+      summaryQuality = 0;
+      summaryFeedback = { message: "No summary yet — add 2–3 sentences covering your experience, strongest skill, and the kind of role you want next.", status: BAD };
+    } else if (sLen < 80) {
+      summaryQuality = Math.round((sLen / 80) * 100);
+      summaryFeedback = { message: `A bit short (${sLen} characters) — aim for roughly 80–240 so it reads as a complete thought, not a fragment.`, status: WARN };
+    } else if (sLen <= 240) {
+      summaryQuality = 100;
+      summaryFeedback = { message: `Good length (${sLen} characters) — concise and readable at a glance.`, status: GOOD };
+    } else {
+      summaryQuality = Math.max(40, Math.round(100 - (sLen - 240) / 5));
+      summaryFeedback = { message: `Running long (${sLen} characters) — trim toward 240 so recruiters read the whole thing.`, status: WARN };
+    }
+
+    // ---- EXPERIENCE ----
+    const experienceCompletion = experiences.length > 0
+      ? Math.round((experiences.filter((e) => (e.role || "").trim() && (e.company || "").trim() && (e.period || "").trim()).length / experiences.length) * 100)
+      : 0;
+    let experienceQuality = 0;
+    let experienceFeedback;
+    if (experiences.length === 0) {
+      experienceFeedback = { message: "Add at least one role — even a short one shows what you've worked on.", status: BAD };
+    } else {
+      const withShortDesc = experiences.filter((e) => (e.description || "").trim().length < 30);
+      const withoutNumbers = experiences.filter((e) => (e.description || "").trim().length >= 30 && !/\d/.test(e.description));
+      const quality = experiences.map((e) => {
+        let pts = 0;
+        if ((e.role || "").trim() && (e.company || "").trim() && (e.period || "").trim()) pts += 50;
+        const desc = (e.description || "").trim();
+        if (desc.length >= 30) pts += 30;
+        if (/\d/.test(desc)) pts += 20;
+        return pts;
+      });
+      const countScore = experiences.length >= 2 ? 100 : 60;
+      const qualityScore = quality.reduce((a, b) => a + b, 0) / quality.length;
+      experienceQuality = Math.round(countScore * 0.4 + qualityScore * 0.6);
+      if (withShortDesc.length > 0) {
+        experienceFeedback = { message: `Add a description to "${withShortDesc[0].role || "that role"}" — one line on what you did and the result.`, status: WARN };
+      } else if (withoutNumbers.length > 0) {
+        experienceFeedback = { message: `Try adding a number to "${withoutNumbers[0].role || "that role"}" (e.g. "30%", "5 projects", "$2M") — metrics make impact concrete.`, status: WARN };
+      } else if (experiences.length === 1) {
+        experienceFeedback = { message: "Descriptions look solid — adding a second role would round this section out.", status: WARN };
+      } else {
+        experienceFeedback = { message: "Entries are detailed and include measurable results — this is a strong section.", status: GOOD };
+      }
+    }
+
+    // ---- EDUCATION ----
+    let educationCompletion = 0;
+    let educationQuality = 0;
+    let educationFeedback;
+    if (education.length === 0) {
+      educationFeedback = { message: "Add your most recent degree, certification, or qualification.", status: BAD };
+    } else {
+      const scores = education.map((e) => {
+        let filled = 0;
+        if ((e.degree || "").trim()) filled++;
+        if ((e.school || "").trim()) filled++;
+        if ((e.year || "").trim()) filled++;
+        return (filled / 3) * 100;
+      });
+      educationCompletion = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+      educationQuality = educationCompletion;
+      const incomplete = education.find((e) => !(e.degree || "").trim() || !(e.school || "").trim() || !(e.year || "").trim());
+      educationFeedback = incomplete
+        ? { message: "Fill in the missing degree, school, or year.", status: WARN }
+        : { message: "Education details are complete.", status: GOOD };
+    }
+
+    // ---- SKILLS ----
+    const n = skills.length;
+    const skillsCompletion = n > 0 ? 100 : 0;
+    let skillsQuality;
+    let skillsFeedback;
+    if (n === 0) {
+      skillsQuality = 0;
+      skillsFeedback = { message: "List your key skills — start with 6–10 relevant to the role you want.", status: BAD };
+    } else if (n < 6) {
+      skillsQuality = Math.round((n / 6) * 100);
+      skillsFeedback = { message: `${n} skill${n === 1 ? "" : "s"} listed — add a few more (6–10 is ideal) so you match more job keywords.`, status: WARN };
+    } else if (n <= 10) {
+      skillsQuality = 100;
+      skillsFeedback = { message: `${n} skills — right in the ideal range.`, status: GOOD };
+    } else {
+      skillsQuality = Math.max(60, Math.round(100 - (n - 10) * 5));
+      skillsFeedback = { message: `${n} skills listed — trim to your strongest 6–10 so the most relevant ones stand out.`, status: WARN };
+    }
+
+    const CATS = [
+      { key: "contact", name: "Contact info", weight: WEIGHT.contact, completion: contactCompletion, quality: contactQuality, color: "#E4572E", feedback: contactFeedback },
+      { key: "summary", name: "Summary", weight: WEIGHT.summary, completion: summaryCompletion, quality: summaryQuality, color: "#2E86AB", feedback: summaryFeedback },
+      { key: "experience", name: "Experience", weight: WEIGHT.experience, completion: experienceCompletion, quality: experienceQuality, color: "#A23B72", feedback: experienceFeedback },
+      { key: "education", name: "Education", weight: WEIGHT.education, completion: educationCompletion, quality: educationQuality, color: "#D9A400", feedback: educationFeedback },
+      { key: "skills", name: "Skills", weight: WEIGHT.skills, completion: skillsCompletion, quality: skillsQuality, color: "#3DA35D", feedback: skillsFeedback }
+    ];
+
+    const completion = Math.round(CATS.reduce((sum, c) => sum + (c.weight * c.completion) / 100, 0));
+    const quality = Math.round(CATS.reduce((sum, c) => sum + (c.weight * c.quality) / 100, 0));
+
+    const labelFor = (score) => score >= 85 ? "Excellent" : score >= 70 ? "Good" : score >= 50 ? "Needs work" : "Weak";
+    const colorFor = (score) => score >= 85 ? "#1D8A52" : score >= 70 ? "#2F9E5A" : score >= 50 ? "#D9A400" : "#D92D20";
+
+    let cursor = 0;
+    const segments = CATS.map((c) => {
+      const gap = c.weight * (1 - c.quality / 100);
+      const start = cursor;
+      cursor += gap;
+      return `${c.color} ${start.toFixed(2)}% ${cursor.toFixed(2)}%`;
+    });
+    segments.push(`#1D3557 ${cursor.toFixed(2)}% 100%`);
+
+    const categories = CATS.map((c) => ({
+      name: c.name,
+      quality: c.quality,
+      dotStyle: `background:${c.color}`
+    }));
+
+    const feedback = CATS.map((c) => ({
+      name: c.name,
+      message: c.feedback.message,
+      dotStyle: `background:${c.feedback.status}`
+    }));
+
+    const cvTipsText = CATS
+      .filter((c) => c.feedback.status !== GOOD)
+      .map((c) => `${c.name}: ${c.feedback.message}`)
+      .join(" || ");
+
+    return {
+      completion,
+      quality,
+      completionLabel: labelFor(completion),
+      qualityLabel: labelFor(quality),
+      completionRing: `background:conic-gradient(${colorFor(completion)} ${completion}%, #E4E7EC 0)`,
+      qualityRing: `background:conic-gradient(${colorFor(quality)} ${quality}%, #E4E7EC 0)`,
+      pieBackground: `background:conic-gradient(${segments.join(",")})`,
+      categories,
+      feedback,
+      cvTipsText
+    };
+  }
+
+  renderVals() {
+    const accent = ACCENTS[this.state.accentIndex];
+    const scoreData = this.computeScore();
+
+    const swatches = ACCENTS.map((color, idx) => ({
+      color,
+      ring: idx === this.state.accentIndex ? `outline:2px solid ${color};outline-offset:2px` : "",
+      pick: () => this.setState({ accentIndex: idx })
+    }));
+
+    const layouts = LAYOUTS.map((l) => ({
+      label: l.label,
+      style: this.state.layout === l.key ? "background:#1D3557;color:#FFF;border-color:#1D3557" : "",
+      pick: () => this.setState({ layout: l.key })
+    }));
+
+    const experiences = this.state.experiences.map((e, idx) => ({
+      ...e,
+      onRole: (ev) => this.updateExperience(idx, "role", ev.target.value),
+      onCompany: (ev) => this.updateExperience(idx, "company", ev.target.value),
+      onPeriod: (ev) => this.updateExperience(idx, "period", ev.target.value),
+      onDescription: (ev) => this.updateExperience(idx, "description", ev.target.value),
+      remove: () => this.setState({ experiences: this.state.experiences.filter((_, i) => i !== idx) })
+    }));
+
+    const education = this.state.education.map((e, idx) => ({
+      ...e,
+      onDegree: (ev) => this.updateEducation(idx, "degree", ev.target.value),
+      onSchool: (ev) => this.updateEducation(idx, "school", ev.target.value),
+      onYear: (ev) => this.updateEducation(idx, "year", ev.target.value),
+      remove: () => this.setState({ education: this.state.education.filter((_, i) => i !== idx) })
+    }));
+
+    const skills = this.state.skillsText
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((text) => ({ text }));
+
+    return {
+      name: this.state.name,
+      title: this.state.title,
+      email: this.state.email,
+      phone: this.state.phone,
+      summary: this.state.summary,
+      skillsText: this.state.skillsText,
+      accent,
+      swatches,
+      layouts,
+      experiences,
+      education,
+      skills,
+      v0: this.state.layout === "v0",
+      v1: this.state.layout === "v1",
+      v2: this.state.layout === "v2",
+      photo: this.state.photo,
+      hasPhoto: !!this.state.photo,
+      onPhoto: (e) => this.onPhoto(e),
+      removePhoto: () => this.removePhoto(),
+      ...scoreData,
+      onName: (e) => this.setState({ name: e.target.value }),
+      onTitle: (e) => this.setState({ title: e.target.value }),
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onPhone: (e) => this.setState({ phone: e.target.value }),
+      onSummary: (e) => this.setState({ summary: e.target.value }),
+      onSkills: (e) => this.setState({ skillsText: e.target.value }),
+      addExperience: () => this.setState({
+        experiences: [...this.state.experiences, { role: "New role", company: "Company", period: "Year — Year", description: "What you did and the impact it had." }]
+      }),
+      addEducation: () => this.setState({
+        education: [...this.state.education, { degree: "Degree", school: "School", year: "Year — Year" }]
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

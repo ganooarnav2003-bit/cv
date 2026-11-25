@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resume Editor (Phone)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:#F0E6D3;color:#101828;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none}
+.backlink{color:#475467;font-weight:500;font-size:13.5px}
+label{display:block;font-size:12px;font-weight:600;color:#344054;margin-bottom:6px}
+input,textarea{width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-size:14px;color:#101828;background:#FFF;border:1px solid #D0D5DD;border-radius:8px;padding:10px 12px;outline:none}
+.field{margin-bottom:12px}
+.swatch{width:26px;height:26px;border-radius:7px;flex-shrink:0;cursor:pointer}
+.vbtn{background:#FFF;border:1px solid #D0D5DD;color:#475467;font-weight:600;font-size:12px;padding:8px 10px;border-radius:7px;flex:1}
+.sectionTitle{font-size:15px;font-weight:700;margin:0 0 12px}
+.entry{border:1px solid #E4E7EC;border-radius:10px;padding:12px;margin-bottom:10px;position:relative}
+.removeBtn{position:absolute;top:8px;right:8px;background:#F2F4F7;color:#98A2B3;font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:6px}
+.addBtn{background:#EDF2FA;color:#1D3557;font-weight:600;font-size:12.5px;padding:9px 14px;border-radius:8px;width:100%}
+.skilltag{display:inline-flex;background:#EDF2FA;color:#1D3557;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;margin:0 6px 6px 0}
+</style>
+</helmet>
+
+<div style="width:390px;min-width:0;display:flex;flex-direction:column;align-items:stretch;box-sizing:border-box">
+
+  <header style="padding:18px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <a class="backlink" href="Templates-Phone.dc.html">&larr; Templates</a>
+    <button style="background:#1D3557;color:#FFF;font-weight:700;font-size:12.5px;padding:9px 14px;border-radius:8px">Download</button>
+  </header>
+
+  <!-- CV SCORE -->
+  <section style="padding:0 18px 16px;box-sizing:border-box">
+    <div style="background:#FFF;border:1px solid #E4E7EC;border-radius:12px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:14px;box-sizing:border-box">
+      <div style="width:96px;height:96px;border-radius:50%;background:conic-gradient({{pieGradient}});display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <div style="width:70px;height:70px;border-radius:50%;background:#FFF;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div style="font-size:19px;font-weight:800;color:#101828;line-height:1">{{overall}}%</div>
+          <div style="font-size:8.5px;color:#98A2B3;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;margin-top:2px">Score</div>
+        </div>
+      </div>
+      <div style="width:100%">
+        <div style="font-size:14px;font-weight:700;margin-bottom:3px;text-align:center">{{scoreLabel}}</div>
+        <div style="font-size:12px;color:#475467;margin-bottom:12px;line-height:1.5;text-align:center">{{scoreTip}}</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <sc-for list="{{categories}}" as="cat" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="width:9px;height:9px;border-radius:3px;background:{{cat.color}};flex-shrink:0"></span>
+              <span style="font-size:11.5px;color:#344054;flex:1">{{cat.name}}</span>
+              <span style="font-size:11.5px;font-weight:700;color:#101828">{{cat.percent}}%</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE PREVIEW -->
+  <section style="padding:0 18px 18px;box-sizing:border-box">
+    <div style="background:#FFF;border:1px solid #E4E7EC;border-radius:12px;box-shadow:0 10px 26px rgba(16,24,40,0.08);padding:22px;box-sizing:border-box">
+      <sc-if value="{{ v0 }}">
+        <div style="height:3px;width:46px;background:{{accent}};border-radius:2px;margin-bottom:10px"></div>
+        <div style="font-size:18px;font-weight:800;letter-spacing:-0.01em;margin-bottom:3px">{{name}}</div>
+        <div style="font-size:12px;font-weight:600;color:{{accent}};margin-bottom:6px">{{title}}</div>
+        <div style="font-size:10.5px;color:#667085;margin-bottom:14px">{{email}} &middot; {{phone}}</div>
+        <div style="font-size:11.5px;line-height:1.6;color:#344054;margin-bottom:16px">{{summary}}</div>
+      </sc-if>
+      <sc-if value="{{ v1 }}">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:40px;height:40px;border-radius:50%;background:{{accent}};flex-shrink:0"></div>
+          <div style="min-width:0">
+            <div style="font-size:16px;font-weight:800">{{name}}</div>
+            <div style="font-size:11px;font-weight:600;color:{{accent}}">{{title}}</div>
+          </div>
+        </div>
+        <div style="font-size:10.5px;color:#667085;margin-bottom:10px">{{email}} &middot; {{phone}}</div>
+        <div style="font-size:11.5px;line-height:1.6;color:#344054;margin-bottom:16px">{{summary}}</div>
+      </sc-if>
+      <sc-if value="{{ v2 }}">
+        <div style="font-size:18px;font-weight:800;margin-bottom:3px">{{name}}</div>
+        <div style="font-size:12px;font-weight:600;color:{{accent}};margin-bottom:6px">{{title}}</div>
+        <div style="font-size:10.5px;color:#667085;margin-bottom:16px">{{email}} &middot; {{phone}}</div>
+        <div style="font-size:11.5px;line-height:1.6;color:#344054;margin-bottom:16px">{{summary}}</div>
+      </sc-if>
+
+      <div style="font-size:10px;font-weight:700;color:{{accent}};letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px">Experience</div>
+      <sc-for list="{{experiences}}" as="pexp" hint-placeholder-count="2">
+        <div style="margin-bottom:12px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+            <span style="font-size:12px;font-weight:700">{{pexp.role}}</span>
+            <span style="font-size:10px;color:#98A2B3;white-space:nowrap">{{pexp.period}}</span>
+          </div>
+          <div style="font-size:11px;color:#475467">{{pexp.company}}</div>
+        </div>
+      </sc-for>
+
+      <div style="font-size:10px;font-weight:700;color:{{accent}};letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 10px">Skills</div>
+      <div>
+        <sc-for list="{{skills}}" as="skill" hint-placeholder-count="5">
+          <span class="skilltag">{{skill.text}}</span>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section style="padding:0 18px 36px;box-sizing:border-box">
+    <div style="background:#FFF;border:1px solid #E4E7EC;border-radius:12px;padding:18px;box-sizing:border-box">
+      <h2 class="sectionTitle">Your details</h2>
+      <div class="field"><label>Full name</label><input type="text" value="{{name}}" onChange="{{ onName }}"></div>
+      <div class="field"><label>Job title</label><input type="text" value="{{title}}" onChange="{{ onTitle }}"></div>
+      <div class="field"><label>Email</label><input type="text" value="{{email}}" onChange="{{ onEmail }}"></div>
+      <div class="field"><label>Phone</label><input type="text" value="{{phone}}" onChange="{{ onPhone }}"></div>
+      <div class="field"><label>Summary</label><textarea rows="3" value="{{summary}}" onChange="{{ onSummary }}"></textarea></div>
+
+      <div style="height:1px;background:#E4E7EC;margin:16px 0"></div>
+      <h2 class="sectionTitle">Experience</h2>
+      <sc-for list="{{experiences}}" as="exp" hint-placeholder-count="2">
+        <div class="entry">
+          <button class="removeBtn" onClick="{{ exp.remove }}">Remove</button>
+          <div class="field"><label>Role</label><input type="text" value="{{exp.role}}" onChange="{{ exp.onRole }}"></div>
+          <div class="field"><label>Company</label><input type="text" value="{{exp.company}}" onChange="{{ exp.onCompany }}"></div>
+          <div class="field" style="margin-bottom:0"><label>Dates</label><input type="text" value="{{exp.period}}" onChange="{{ exp.onPeriod }}"></div>
+        </div>
+      </sc-for>
+      <button class="addBtn" onClick="{{ addExperience }}" style="margin-bottom:16px">+ Add experience</button>
+
+      <h2 class="sectionTitle">Skills</h2>
+      <div class="field"><label>Comma separated</label><input type="text" value="{{skillsText}}" onChange="{{ onSkills }}"></div>
+
+      <div style="height:1px;background:#E4E7EC;margin:16px 0"></div>
+      <h2 class="sectionTitle">Style</h2>
+      <label>Accent color</label>
+      <div style="display:flex;gap:7px;margin-bottom:14px">
+        <sc-for list="{{swatches}}" as="sw" hint-placeholder-count="6">
+          <div class="swatch" onClick="{{ sw.pick }}" style="background:{{sw.color}};{{sw.ring}}"></div>
+        </sc-for>
+      </div>
+      <label>Layout</label>
+      <div style="display:flex;gap:7px">
+        <sc-for list="{{layouts}}" as="lo" hint-placeholder-count="3">
+          <button class="vbtn" onClick="{{ lo.pick }}" style="{{ lo.style }}">{{ lo.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+</div>
+<dc-import name="ChatBot" hint-size="58px,58px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2250}}'>
+const ACCENTS = ["#1D3557","#3B5A82","#2F6F63","#6354A1","#A66A32","#8C5A5A"];
+const LAYOUTS = [
+  { key: "v0", label: "Classic" },
+  { key: "v1", label: "Profile" },
+  { key: "v2", label: "Sidebar" }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "Alex Morgan",
+      title: "Product Designer",
+      email: "alex.morgan@email.com",
+      phone: "+1 555 0100",
+      summary: "Product designer with 6+ years building clean, usable interfaces.",
+      experiences: [
+        { role: "Senior Product Designer", company: "Acme Co", period: "2022 — Present" },
+        { role: "Product Designer", company: "Globex", period: "2019 — 2022" }
+      ],
+      skillsText: "Figma, Design Systems, User Research, Prototyping",
+      accentIndex: 0,
+      layout: "v0"
+    };
+  }
+
+  updateExperience(idx, field, value) {
+    const experiences = this.state.experiences.map((e, i) => i === idx ? { ...e, [field]: value } : e);
+    this.setState({ experiences });
+  }
+
+  computeScore() {
+    const s = this.state;
+    let contact = 0;
+    if (s.name && s.name.trim()) contact += 5;
+    if (s.title && s.title.trim()) contact += 5;
+    if (s.email && s.email.includes("@")) contact += 5;
+    if (s.phone && s.phone.trim()) contact += 5;
+
+    const words = (s.summary || "").trim().split(/\s+/).filter(Boolean).length;
+    const summary = words > 0 ? Math.min(20, Math.round((words / 30) * 20)) : 0;
+
+    let experience = 0;
+    s.experiences.forEach((e) => {
+      if (e.role && e.role.trim() && e.company && e.company.trim()) {
+        experience += 10;
+      }
+    });
+    experience = Math.min(20, experience);
+
+    const skillCount = (s.skillsText || "").split(",").map((x) => x.trim()).filter(Boolean).length;
+    const skills = Math.min(20, skillCount * 4);
+    const education = 15;
+
+    const raw = [
+      { name: "Contact Info", score: contact, color: "#2F6F63", tip: "add your name, title, email, and phone" },
+      { name: "Summary", score: summary, color: "#1D3557", tip: "write a 2–3 sentence summary" },
+      { name: "Experience", score: experience, color: "#6354A1", tip: "add a role and company for each job" },
+      { name: "Education", score: education, color: "#A66A32", tip: "fill in your degree and school" },
+      { name: "Skills", score: skills, color: "#8C5A5A", tip: "list at least 5 relevant skills" }
+    ];
+
+    const overall = raw.reduce((sum, c) => sum + c.score, 0);
+    const sumScores = overall;
+
+    let cursor = 0;
+    const categories = raw.map((c) => {
+      const percent = Math.round((c.score / 20) * 100);
+      const weight = sumScores > 0 ? (c.score / sumScores) * 100 : 100 / raw.length;
+      const start = cursor;
+      const end = cursor + weight;
+      cursor = end;
+      return { name: c.name, color: c.color, percent, tip: c.tip, sliceStart: start, sliceEnd: end };
+    });
+
+    const pieGradient = sumScores > 0
+      ? categories.map((c) => `${c.color} ${c.sliceStart.toFixed(2)}% ${c.sliceEnd.toFixed(2)}%`).join(", ")
+      : "#E4E7EC 0% 100%";
+
+    const weakest = categories.reduce((min, c) => (c.percent < min.percent ? c : min), categories[0]);
+
+    let scoreLabel = "Needs work before you send it";
+    if (overall >= 85) scoreLabel = "Looking professional!";
+    else if (overall >= 60) scoreLabel = "Good start — a few gaps";
+
+    const scoreTip = overall >= 85
+      ? "Covers all the key sections well."
+      : `Weakest area: ${weakest.name} (${weakest.percent}%) — ${weakest.tip}.`;
+
+    return { overall, categories, pieGradient, scoreLabel, scoreTip };
+  }
+
+  renderVals() {
+    const scoreInfo = this.computeScore();
+    const accent = ACCENTS[this.state.accentIndex];
+
+    const swatches = ACCENTS.map((color, idx) => ({
+      color,
+      ring: idx === this.state.accentIndex ? `outline:2px solid ${color};outline-offset:2px` : "",
+      pick: () => this.setState({ accentIndex: idx })
+    }));
+
+    const layouts = LAYOUTS.map((l) => ({
+      label: l.label,
+      style: this.state.layout === l.key ? "background:#1D3557;color:#FFF;border-color:#1D3557" : "",
+      pick: () => this.setState({ layout: l.key })
+    }));
+
+    const experiences = this.state.experiences.map((e, idx) => ({
+      ...e,
+      onRole: (ev) => this.updateExperience(idx, "role", ev.target.value),
+      onCompany: (ev) => this.updateExperience(idx, "company", ev.target.value),
+      onPeriod: (ev) => this.updateExperience(idx, "period", ev.target.value),
+      remove: () => this.setState({ experiences: this.state.experiences.filter((_, i) => i !== idx) })
+    }));
+
+    const skills = this.state.skillsText.split(",").map((s) => s.trim()).filter(Boolean).map((text) => ({ text }));
+
+    return {
+      name: this.state.name,
+      title: this.state.title,
+      email: this.state.email,
+      phone: this.state.phone,
+      summary: this.state.summary,
+      skillsText: this.state.skillsText,
+      accent,
+      swatches,
+      layouts,
+      experiences,
+      skills,
+      v0: this.state.layout === "v0",
+      v1: this.state.layout === "v1",
+      v2: this.state.layout === "v2",
+      onName: (e) => this.setState({ name: e.target.value }),
+      onTitle: (e) => this.setState({ title: e.target.value }),
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onPhone: (e) => this.setState({ phone: e.target.value }),
+      onSummary: (e) => this.setState({ summary: e.target.value }),
+      onSkills: (e) => this.setState({ skillsText: e.target.value }),
+      addExperience: () => this.setState({
+        experiences: [...this.state.experiences, { role: "New role", company: "Company", period: "Year — Year" }]
+      }),
+      ...scoreInfo
+    };
+  }
+}
+</script>
+</body>
+</html>

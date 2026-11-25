@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MR.DRAFTORA</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.cbw-root *{box-sizing:border-box;font-family:'Inter',system-ui,sans-serif}
+.cbw-fab{position:fixed;bottom:24px;right:24px;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1D3557 0%,#3B5A82 100%);box-shadow:0 10px 28px rgba(16,24,40,0.28);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:2147483000;transition:transform .12s ease}
+.cbw-fab:hover{transform:translateY(-2px)}
+.cbw-panel{position:fixed;bottom:24px;right:24px;width:348px;max-width:calc(100vw - 32px);height:500px;max-height:calc(100vh - 48px);background:#FFF;border-radius:16px;box-shadow:0 24px 60px rgba(16,24,40,0.3);display:flex;flex-direction:column;overflow:hidden;z-index:2147483000;border:1px solid #E4E7EC}
+.cbw-head{background:linear-gradient(135deg,#1D3557 0%,#3B5A82 100%);padding:14px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.cbw-logo{width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cbw-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#F0E6D3}
+.cbw-bubble-bot{align-self:flex-start;background:#FFF;border:1px solid #E4E7EC;color:#101828;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 12px 4px;max-width:85%;white-space:pre-line}
+.cbw-bubble-user{align-self:flex-end;background:#1D3557;color:#FFF;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:12px 12px 4px 12px;max-width:85%}
+.cbw-chip{background:#EDF2FA;color:#1D3557;font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;border:none;cursor:pointer;text-align:left}
+.cbw-chip:hover{background:#DCE7F7}
+.cbw-inputrow{display:flex;gap:8px;padding:12px;border-top:1px solid #E4E7EC;flex-shrink:0;background:#FFF}
+.cbw-input{flex:1;border:1px solid #D0D5DD;border-radius:999px;padding:9px 14px;font-size:13px;outline:none;color:#101828}
+.cbw-input:focus{border-color:#1D3557;box-shadow:0 0 0 3px rgba(29,53,87,0.12)}
+.cbw-send{width:36px;height:36px;border-radius:50%;background:#1D3557;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;cursor:pointer}
+.cbw-close{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:auto}
+.cbw-dot{position:absolute;bottom:1px;right:1px;width:15px;height:15px;border-radius:50%;background:#86EFAC;border:2.5px solid #FFF;box-shadow:0 0 0 1px rgba(16,24,40,0.08)}
+.cbw-dot-sm{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#86EFAC;border:2px solid #1D3557}
+.cbw-close:hover{background:rgba(255,255,255,0.26)}
+</style>
+</helmet>
+
+<div class="cbw-root">
+
+  <sc-if value="{{ closed }}">
+    <button class="cbw-fab" onClick="{{ toggleOpen }}" aria-label="Open the MR.DRAFTORA chat" style="position:fixed">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <line x1="12" y1="2.2" x2="12" y2="4.6" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="12" cy="1.9" r="1.35" fill="#86EFAC"/>
+        <rect x="5" y="4.6" width="14" height="12.6" rx="4.2" fill="#FFFFFF" fill-opacity="0.96"/>
+        <rect x="2.6" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+        <rect x="19.1" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+        <circle cx="9.3" cy="10.8" r="1.5" fill="#1D3557"/>
+        <circle cx="14.7" cy="10.8" r="1.5" fill="#1D3557"/>
+        <rect x="9" y="14" width="6" height="1.6" rx="0.8" fill="#1D3557"/>
+      </svg>
+      <span class="cbw-dot"></span>
+    </button>
+  </sc-if>
+
+  <sc-if value="{{ !closed }}">
+    <div class="cbw-panel">
+      <div class="cbw-head">
+        <div class="cbw-logo" style="position:relative">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <line x1="12" y1="2.2" x2="12" y2="4.6" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="12" cy="1.9" r="1.35" fill="#86EFAC"/>
+            <rect x="5" y="4.6" width="14" height="12.6" rx="4.2" fill="#FFFFFF" fill-opacity="0.96"/>
+            <rect x="2.6" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+            <rect x="19.1" y="9" width="2.3" height="4.4" rx="1.15" fill="#FFFFFF" fill-opacity="0.8"/>
+            <circle cx="9.3" cy="10.8" r="1.5" fill="#1D3557"/>
+            <circle cx="14.7" cy="10.8" r="1.5" fill="#1D3557"/>
+            <rect x="9" y="14" width="6" height="1.6" rx="0.8" fill="#1D3557"/>
+          </svg>
+          <span class="cbw-dot-sm"></span>
+        </div>
+        <div style="min-width:0">
+          <div style="color:#FFF;font-weight:700;font-size:13.5px">MR.DRAFTORA</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px">Resume &amp; banner help</div>
+        </div>
+        <div class="cbw-close" onClick="{{ toggleOpen }}" aria-label="Close chat">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#FFF" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+
+      <div class="cbw-msgs">
+        <sc-for list="{{messages}}" as="m" hint-placeholder-count="2">
+          <sc-if value="{{ m.fromBot }}">
+            <div class="cbw-bubble-bot">{{m.text}}</div>
+          </sc-if>
+          <sc-if value="{{ m.fromUser }}">
+            <div class="cbw-bubble-user">{{m.text}}</div>
+          </sc-if>
+        </sc-for>
+
+        <sc-if value="{{ showChips }}">
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+            <sc-for list="{{chips}}" as="chip" hint-placeholder-count="4">
+              <button class="cbw-chip" onClick="{{ chip.ask }}">{{chip.label}}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+
+      <div class="cbw-inputrow">
+        <input class="cbw-input" type="text" placeholder="Ask me what you need help with…" value="{{draft}}" onChange="{{ onDraft }}">
+        <button class="cbw-send" onClick="{{ send }}" aria-label="Send">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11l18-7-7 18-3-7-8-4z" fill="#FFF"/></svg>
+        </button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"startOpen":{"editor":null},"$preview":{"width":140,"height":140}}'>
+const CHIPS = [
+  { label: "What does HR want in a CV today?" },
+  { label: "What certifications do I need?" },
+  { label: "Which layout should I pick?" },
+  { label: "Best banner size for social media?" }
+];
+
+const KB = [
+  { keys: ["main content", "what matters", "job market", "most important", "what to include", "what should i include", "stand out", "recruiters look for", "what employers want", "catches recruiter", "what counts", "what matters most"], answer: "In today's job market, four things matter most: 1) a tailored summary and skills list that mirror the exact keywords in the job post (most companies scan with ATS software first), 2) measurable achievements in your experience section — numbers, percentages, or outcomes beat vague duties, 3) relevant, up-to-date skills (tools, software, certifications) specific to the role, and 4) clean, consistent formatting that's easy to scan in under 10 seconds. Older, irrelevant history matters far less than a tight, targeted top half of the page." },
+  { keys: ["ats", "applicant tracking", "keyword"], answer: "ATS systems scan for exact keywords from the job description, so mirror the wording the employer uses for your skills and job titles where it's accurate. Stick to standard section headings (Experience, Education, Skills), avoid text inside images or tables, and use a simple single- or two-column layout so the system can parse it correctly." },
+  { keys: ["hr want", "hr wants", "hr looks for", "hr look for", "recruiter want", "recruiters want", "hiring manager", "what do employers", "what does hr"], answer: "HR teams today mainly screen for: 1) a resume tailored to THIS job, not a generic one, 2) proof of impact — specific results, not just duties, 3) skills that match the posting (tools, certifications, software), 4) a clean, error-free, easy-to-scan format, and 5) signs of adaptability and continuous learning. Many also check your LinkedIn or portfolio link, so make sure it matches your resume." },
+  { keys: ["finance", "accounting", "accountant", "banking", "financial analyst", "finance certification"], answer: "For finance roles, HR looks for: certifications (CFA, CPA, CA, FRM if relevant), strong Excel/financial modeling skills, accuracy and compliance awareness, and quantified results — e.g. \"managed a $2M budget\" or \"reduced reporting errors by 20%\". Mention specific tools (Excel, SAP, QuickBooks, Bloomberg) and any regulatory knowledge relevant to your market." },
+  { keys: ["marketing", "digital marketing", "seo", "social media manager", "brand", "marketing certification"], answer: "For marketing roles, lead with measurable campaign results — ROI, conversion rate, engagement growth, audience reach — rather than just \"managed social media.\" List the specific tools you use (Google Analytics, Meta Ads, HubSpot, SEO/SEM, Canva) and, if possible, link a portfolio of campaigns or content you've created. Useful certifications: Google Analytics, Google Ads, HubSpot Content/Inbound Marketing, Meta Blueprint." },
+  { keys: ["it sector", "software engineer", "developer", "programmer", "technical role", "tech job", "coding", "information technology", "it industry", "it field", "technical", "it certification"], answer: "For IT/technical roles, HR and hiring managers want: the specific languages, frameworks, and tools you use (e.g. Python, React, AWS, Docker), measurable project impact (performance gains, users served, bugs reduced), and a link to GitHub or a portfolio. Mentioning Agile/Scrum experience helps. Useful certifications: AWS/Azure/Google Cloud, CompTIA, PMP or Scrum/Agile (CSM), and language- or vendor-specific certs relevant to your stack." },
+  { keys: ["next 10 years", "future of job", "future skills", "future-proof", "long term career", "job market trend", "future certification"], answer: "Across every field, the skills that hold up over the next decade are: comfort working with AI and data tools, continuous learning (certifications, upskilling), strong communication and cross-functional collaboration, adaptability to new tools/processes, and proven problem-solving backed by measurable results. Helpful future-facing certifications: AI/ML fundamentals (Google, Microsoft, or Coursera/edX courses), data analytics (Google Data Analytics, Power BI), and project management (PMP, Scrum). Technical skills will keep changing, but these transferable strengths stay valuable." },
+  { keys: ["certification", "certifications", "certificate", "qualification needed", "which course"], answer: "It depends on the field:\n• Finance — CFA, CPA, CA, or FRM, plus strong Excel/financial modeling.\n• Marketing — Google Analytics, Google Ads, HubSpot, or Meta Blueprint, backed by real campaign metrics (ROI, conversions, engagement).\n• IT/Technical — AWS/Azure/Google Cloud, CompTIA, or Scrum/Agile (CSM), plus a GitHub or project portfolio.\n• Future-proofing (any field) — AI/data literacy courses, data analytics certs, and project management (PMP/Scrum) for continuous learning.\nTell me which field you're in and I can go deeper." },
+  { keys: ["layout", "template", "which one", "choose"], answer: "Pick a layout that matches your field: Classic suits most industries, Profile (with a photo) works well for client-facing or creative roles, and Sidebar is great when you have a lot of contact details or skills to show. Keep one layout throughout for consistency." },
+  { keys: ["skill", "skills"], answer: "List 6–10 skills that are directly relevant to the job you're applying for. Lead with the ones mentioned in the job post, and group similar skills together (e.g. tools vs. soft skills) so they're easy to scan." },
+  { keys: ["experience", "bullet", "job history", "work history"], answer: "For each role, use 2–4 bullet points that start with an action verb and include a measurable result where possible (e.g. 'Reduced onboarding time by 30%'). Keep the most recent role the most detailed." },
+  { keys: ["summary", "about me", "objective"], answer: "Keep your summary to 2–3 sentences: your role/years of experience, your strongest skill area, and what kind of impact you're looking to make next. Avoid generic phrases like 'hardworking team player'." },
+  { keys: ["font", "typography", "typeface"], answer: "Stick to one clean, readable font family (like the Inter font used in these templates) and at most two weights — bold for headings, regular for body text. Avoid more than 2 font sizes in the body text." },
+  { keys: ["color", "colour", "accent"], answer: "Pick one accent color and use it sparingly — for your name, section headings, or a sidebar. Keep the rest of the page neutral (black/gray/white) so the accent actually stands out and prints well." },
+  { keys: ["photo", "picture", "headshot"], answer: "A photo is optional and more common outside the US — it fits the Profile layout well. If you include one, use a simple, well-lit headshot with a plain background." },
+  { keys: ["pdf", "export", "download"], answer: "Once your resume looks right in the preview, use the Download PDF button at the top of the editor — it keeps your fonts and layout exactly as shown." },
+  { keys: ["education"], answer: "List your highest or most relevant degree first, with the institution and year. You can drop older or less relevant education once you have a few years of work experience." },
+  { keys: ["length", "one page", "pages"], answer: "Aim for one page if you have under ~10 years of experience, and no more than two pages otherwise. Trim older or less relevant roles rather than shrinking the font." },
+  { keys: ["banner size", "social media", "dimensions", "resolution"], answer: "Common sizes: Instagram post 1080×1080, Instagram story 1080×1920, LinkedIn banner 1584×396, Facebook cover 820×312, YouTube thumbnail 1280×720. Pick the matching preset in the Banner Maker before you start designing." },
+  { keys: ["banner", "professional", "brand"], answer: "For a professional banner: use one accent color or gradient, one bold headline (under ~6 words), plenty of empty space, and your logo or name in a consistent corner. Avoid more than 2 fonts and keep text readable at a glance." },
+  { keys: ["logo", "brand mark"], answer: "Keep your logo in the same corner across all your banners for brand consistency, and give it some breathing room (don't let text touch it)." },
+  { keys: ["text", "headline", "copy", "wording"], answer: "Keep banner headlines short — 4 to 7 words reads best at a glance. Put supporting details (dates, price, etc.) in a smaller line underneath, not in the headline itself." }
+];
+
+const GREETING = "Hi! I'm MR.DRAFTORA. Here's what I can help with:\n• Resume & banner design (layout, fonts, colors, sizing)\n• What HR and recruiters look for today\n• Certifications & skills for finance, marketing, IT/tech, and future-proofing your career\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
+
+function matchAnswer(raw) {
+  const text = raw.toLowerCase();
+  for (const entry of KB) {
+    if (entry.keys.some((k) => text.includes(k))) return entry.answer;
+  }
+  const IN_SCOPE_WORDS = [
+    "resume", "cv", "curriculum", "banner", "template", "design", "pdf", "png", "export",
+    "professional", "cover letter", "job application", "interview", "work history",
+    "job title", "portfolio", "graphic", "poster", "flyer", "social media", "instagram",
+    "linkedin", "facebook", "twitter", "youtube", "image", "formatting", "format",
+    "margin", "spacing", "bullet", "action verb", "ats", "applicant tracking",
+    "keyword", "achievement", "certification", "reference", "print", "paper",
+    "size", "dimension", "advertisement", "promo", "sale", "event", "quote",
+    "post", "canva", "hiring", "recruiter", "job post", "career", "qualification",
+    "layout", "canvas", "gradient", "icon", "spacing", "alignment", "contrast"
+  ];
+  const inScope = IN_SCOPE_WORDS.some((k) => text.includes(k));
+  if (inScope) {
+    return "Good question — here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try asking me about layout, colors, fonts, skills, or banner sizes for more specific tips.";
+  }
+  return "I'm built just to help you make your resume and banners more professional — I can't help with anything outside of CV or banner making. Try asking about layout, wording, colors, fonts, skills, or banner sizes.";
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      closed: !(props && props.startOpen),
+      draft: "",
+      messages: [
+        { fromBot: true, fromUser: false, text: GREETING }
+      ]
+    };
+  }
+
+  pushAndAnswer(question) {
+    const trimmed = question.trim();
+    if (!trimmed) return;
+    const answer = matchAnswer(trimmed);
+    this.setState({
+      draft: "",
+      messages: [
+        ...this.state.messages,
+        { fromBot: false, fromUser: true, text: trimmed },
+        { fromBot: true, fromUser: false, text: answer }
+      ]
+    });
+  }
+
+  askCvTips() {
+    const raw = (this.props && this.props.cvTips) || "";
+    const tips = raw.split(" || ").map((t) => t.trim()).filter(Boolean);
+    let answer;
+    if (tips.length === 0) {
+      answer = "Nice — based on what you've filled in so far, your CV looks complete and solid. Keep descriptions specific and back them up with numbers as you add more.";
+    } else {
+      answer = "Here's what I'd add or fix right now, based on your CV as it stands:\n" + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
+    }
+    this.setState({
+      messages: [
+        ...this.state.messages,
+        { fromBot: false, fromUser: true, text: "What should I add to my CV right now?" },
+        { fromBot: true, fromUser: false, text: answer }
+      ]
+    });
+  }
+
+  renderVals() {
+    const hasCvContext = this.props && typeof this.props.cvTips !== "undefined";
+    const baseChips = CHIPS.map((c) => ({
+      label: c.label,
+      ask: () => this.pushAndAnswer(c.label)
+    }));
+    const chips = hasCvContext
+      ? [{ label: "What should I add to my CV right now?", ask: () => this.askCvTips() }, ...baseChips]
+      : baseChips;
+
+    return {
+      closed: this.state.closed,
+      messages: this.state.messages,
+      draft: this.state.draft,
+      showChips: this.state.messages.length <= 1,
+      chips,
+      toggleOpen: () => {
+        const isClosingNow = !this.state.closed;
+        if (isClosingNow) {
+          this.setState({
+            closed: true,
+            draft: "",
+            messages: [{ fromBot: true, fromUser: false, text: GREETING }]
+          });
+        } else {
+          this.setState({ closed: false });
+        }
+      },
+      onDraft: (e) => this.setState({ draft: e.target.value }),
+      send: () => this.pushAndAnswer(this.state.draft)
+    };
+  }
+}
+</script>
+</body>
+</html>

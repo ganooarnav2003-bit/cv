@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>150 Resume Templates</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Inter',system-ui,sans-serif;background:#F0E6D3;color:#101828;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none}
+.backlink{color:#475467;font-weight:500;font-size:14px}
+.backlink:hover{color:#101828}
+.pill{background:#FFF;border:1px solid #D0D5DD;color:#475467;font-weight:600;font-size:13px;padding:8px 16px;border-radius:7px}
+.pill:hover{border-color:#1D3557;color:#101828}
+.tcard:hover{border-color:#D0D5DD;box-shadow:0 12px 28px rgba(16,24,40,0.08)}
+.usebtn{opacity:0;transition:opacity .12s ease}
+.tcard:hover .usebtn{opacity:1}
+@media (max-width:700px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)) !important}
+}
+</style>
+</helmet>
+
+<div style="width:100%;max-width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;box-sizing:border-box">
+
+  <!-- HEADER -->
+  <header style="width:100%;max-width:1280px;padding:28px 32px 0;box-sizing:border-box">
+    <a class="backlink" href="Main.dc.html">&larr; Back to home</a>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:14px">
+      <div>
+        <h1 style="font-size:28px;font-weight:800;letter-spacing:-0.01em;margin:0 0 6px">Resume templates</h1>
+        <p style="font-size:14.5px;color:#475467;margin:0">150 free templates &mdash; pick one and start filling it in</p>
+      </div>
+    </div>
+
+    <!-- CATEGORY FILTER -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 8px">
+      <sc-for list="{{categories}}" as="cat" hint-placeholder-count="6">
+        <button class="pill" onClick="{{ cat.pick }}" style="{{ cat.style }}">{{ cat.label }}</button>
+      </sc-for>
+    </div>
+  </header>
+
+  <!-- GRID -->
+  <section style="width:100%;max-width:1280px;padding:16px 32px 80px;box-sizing:border-box">
+    <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px">
+      <sc-for list="{{templates}}" as="item" hint-placeholder-count="30">
+        <div class="tcard" onClick="{{ item.open }}" style="background:#FFF;border:1px solid #E4E7EC;border-radius:12px;overflow:hidden;transition:all .12s ease;display:flex;flex-direction:column;min-width:0;cursor:pointer">
+
+          <div style="height:150px;background:#FBFBFC;padding:16px;box-sizing:border-box;position:relative">
+
+            <sc-if value="{{ item.isModern }}">
+              <div style="position:absolute;top:0;right:0;width:70px;height:70px;background:{{item.accent}};border-radius:0 0 0 70px"></div>
+              <div style="width:30px;height:30px;border-radius:50%;background:#FFF;border:3px solid {{item.accent}};margin-bottom:10px"></div>
+              <div style="height:9px;width:60%;background:#101828;border-radius:2px;margin-bottom:6px"></div>
+              <div style="height:5px;width:40%;background:#D0D5DD;border-radius:2px;margin-bottom:14px"></div>
+              <div style="height:5px;width:85%;background:#EAECF0;border-radius:2px;margin-bottom:5px"></div>
+              <div style="height:5px;width:70%;background:#EAECF0;border-radius:2px"></div>
+            </sc-if>
+
+            <sc-if value="{{ item.isMinimal }}">
+              <div style="height:2px;width:30%;background:{{item.accent}};margin-bottom:16px"></div>
+              <div style="height:7px;width:50%;background:#101828;border-radius:1px;margin-bottom:20px"></div>
+              <div style="height:4px;width:75%;background:#EDEDED;border-radius:1px;margin-bottom:8px"></div>
+              <div style="height:4px;width:55%;background:#EDEDED;border-radius:1px"></div>
+            </sc-if>
+
+            <sc-if value="{{ item.isCreative }}">
+              <div style="position:absolute;top:-10px;left:-10px;width:56px;height:56px;background:{{item.accent}};border-radius:50%;opacity:0.85"></div>
+              <div style="position:absolute;top:8px;left:26px;width:30px;height:30px;background:{{item.accent2}};border-radius:50%;opacity:0.9"></div>
+              <div style="margin-top:48px">
+                <div style="height:8px;width:65%;background:#101828;border-radius:2px;margin-bottom:6px"></div>
+                <div style="height:5px;width:45%;background:#D0D5DD;border-radius:2px;margin-bottom:12px"></div>
+                <div style="height:5px;width:88%;background:#EAECF0;border-radius:2px;margin-bottom:5px"></div>
+                <div style="height:5px;width:70%;background:#EAECF0;border-radius:2px"></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ item.isExecutive }}">
+              <div style="text-align:center">
+                <div style="height:9px;width:55%;background:#101828;border-radius:2px;margin:0 auto 6px"></div>
+                <div style="height:5px;width:35%;background:{{item.accent}};border-radius:2px;margin:0 auto 10px"></div>
+                <div style="height:1px;width:70%;background:#D0D5DD;margin:0 auto 10px"></div>
+                <div style="height:5px;width:80%;background:#EAECF0;border-radius:2px;margin:0 auto 5px"></div>
+                <div style="height:5px;width:60%;background:#EAECF0;border-radius:2px;margin:0 auto"></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ item.isProfessional }}">
+              <div style="display:flex;gap:10px;height:100%">
+                <div style="width:30%;background:{{item.accent}};border-radius:4px;flex-shrink:0"></div>
+                <div style="flex:1;min-width:0">
+                  <div style="height:8px;width:80%;background:#101828;border-radius:2px;margin-bottom:10px"></div>
+                  <div style="height:5px;width:95%;background:#EAECF0;border-radius:2px;margin-bottom:5px"></div>
+                  <div style="height:5px;width:88%;background:#EAECF0;border-radius:2px;margin-bottom:5px"></div>
+                  <div style="height:5px;width:70%;background:#EAECF0;border-radius:2px;margin-bottom:5px"></div>
+                  <div style="height:5px;width:80%;background:#EAECF0;border-radius:2px"></div>
+                </div>
+              </div>
+            </sc-if>
+
+            <button class="usebtn" onClick="{{ item.open }}" style="position:absolute;inset:0;margin:auto;width:110px;height:34px;background:#101828;color:#FFF;font-weight:700;font-size:13px;border-radius:7px;align-self:center">Preview</button>
+          </div>
+
+          <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+            <div style="min-width:0">
+              <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{item.name}}</div>
+              <div style="font-size:11.5px;color:#98A2B3;font-weight:500">{{item.category}}</div>
+            </div>
+            <a href="Editor.dc.html" onClick="{{ stopClick }}" style="display:inline-block;background:#EDF2FA;color:#1D3557;font-weight:700;font-size:12px;padding:7px 12px;border-radius:7px;flex-shrink:0">Use</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{ showPreview }}">
+    <div onClick="{{ closePreview }}" style="position:fixed;inset:0;background:rgba(16,24,40,0.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px;box-sizing:border-box">
+      <div onClick="{{ stopClick }}" style="background:#FFF;border-radius:16px;max-width:440px;width:100%;overflow:hidden;box-shadow:0 30px 70px rgba(16,24,40,0.35)">
+        <div style="height:340px;background:#FBFBFC;padding:32px;box-sizing:border-box;position:relative">
+
+          <sc-if value="{{ preview.isModern }}">
+            <div style="position:absolute;top:0;right:0;width:130px;height:130px;background:{{preview.accent}};border-radius:0 0 0 130px"></div>
+            <div style="width:56px;height:56px;border-radius:50%;background:#FFF;border:4px solid {{preview.accent}};margin-bottom:16px"></div>
+            <div style="height:14px;width:55%;background:#101828;border-radius:3px;margin-bottom:8px"></div>
+            <div style="height:8px;width:35%;background:#D0D5DD;border-radius:3px;margin-bottom:22px"></div>
+            <div style="height:7px;width:85%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+            <div style="height:7px;width:70%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+            <div style="height:7px;width:78%;background:#EAECF0;border-radius:3px"></div>
+          </sc-if>
+
+          <sc-if value="{{ preview.isMinimal }}">
+            <div style="height:2px;width:22%;background:{{preview.accent}};margin-bottom:28px"></div>
+            <div style="height:13px;width:45%;background:#101828;border-radius:2px;margin-bottom:34px"></div>
+            <div style="height:6px;width:70%;background:#EDEDED;border-radius:2px;margin-bottom:12px"></div>
+            <div style="height:6px;width:55%;background:#EDEDED;border-radius:2px;margin-bottom:12px"></div>
+            <div style="height:6px;width:60%;background:#EDEDED;border-radius:2px"></div>
+          </sc-if>
+
+          <sc-if value="{{ preview.isCreative }}">
+            <div style="position:absolute;top:-20px;left:-20px;width:110px;height:110px;background:{{preview.accent}};border-radius:50%;opacity:0.85"></div>
+            <div style="position:absolute;top:20px;left:55px;width:60px;height:60px;background:{{preview.accent2}};border-radius:50%;opacity:0.9"></div>
+            <div style="margin-top:90px">
+              <div style="height:13px;width:60%;background:#101828;border-radius:3px;margin-bottom:8px"></div>
+              <div style="height:8px;width:40%;background:#D0D5DD;border-radius:3px;margin-bottom:20px"></div>
+              <div style="height:7px;width:88%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+              <div style="height:7px;width:72%;background:#EAECF0;border-radius:3px"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ preview.isExecutive }}">
+            <div style="text-align:center;padding-top:10px">
+              <div style="height:14px;width:50%;background:#101828;border-radius:3px;margin:0 auto 8px"></div>
+              <div style="height:8px;width:30%;background:{{preview.accent}};border-radius:3px;margin:0 auto 16px"></div>
+              <div style="height:1px;width:60%;background:#D0D5DD;margin:0 auto 16px"></div>
+              <div style="height:7px;width:75%;background:#EAECF0;border-radius:3px;margin:0 auto 8px"></div>
+              <div style="height:7px;width:55%;background:#EAECF0;border-radius:3px;margin:0 auto"></div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ preview.isProfessional }}">
+            <div style="display:flex;gap:18px;height:100%">
+              <div style="width:30%;background:{{preview.accent}};border-radius:6px;flex-shrink:0"></div>
+              <div style="flex:1;min-width:0">
+                <div style="height:12px;width:80%;background:#101828;border-radius:3px;margin-bottom:16px"></div>
+                <div style="height:7px;width:95%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+                <div style="height:7px;width:88%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+                <div style="height:7px;width:70%;background:#EAECF0;border-radius:3px;margin-bottom:8px"></div>
+                <div style="height:7px;width:80%;background:#EAECF0;border-radius:3px"></div>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+        <div style="padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid #E4E7EC">
+          <div style="min-width:0">
+            <div style="font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{preview.name}}</div>
+            <div style="font-size:12.5px;color:#98A2B3;font-weight:500">{{preview.category}} template</div>
+          </div>
+          <div style="display:flex;gap:10px;flex-shrink:0">
+            <button onClick="{{ closePreview }}" style="background:#F2F4F7;color:#475467;font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px">Close</button>
+            <a href="Editor.dc.html" style="display:inline-block;background:#1D3557;color:#FFF;font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px">Use this template</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+  <dc-import name="ChatBot" hint-size="58px,58px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":7800}}'>
+const NAME_POOL = [
+  "Modern Minimal","Classic Professional","Creative Edge","Executive Suite","Clean Slate",
+  "Bold Statement","Simple Focus","Fresh Start","Sharp Lines","Elegant Grid",
+  "Timeline Pro","Corner Accent","Two Column","Sidebar Classic","Monochrome",
+  "Color Block","Soft Serif","Structured","Open Layout","Compact Pro"
+];
+const ACCENTS = ["#1D3557","#3B5A82","#2F6F63","#6354A1","#A66A32","#8C5A5A"];
+const CATEGORIES = ["All","Modern","Minimal","Creative","Executive","Professional"];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { category: "All", previewId: null };
+  }
+
+  renderVals() {
+    const selected = this.state.category ?? "All";
+
+    const all = Array.from({ length: 150 }, (_, i) => {
+      const cat = CATEGORIES[1 + (i % 5)];
+      const base = NAME_POOL[i % NAME_POOL.length];
+      const num = Math.floor(i / NAME_POOL.length) + 1;
+      return {
+        id: i,
+        name: num > 1 ? `${base} ${num}` : base,
+        category: cat,
+        accent: ACCENTS[i % ACCENTS.length],
+        accent2: ACCENTS[(i + 3) % ACCENTS.length],
+        isModern: cat === "Modern",
+        isMinimal: cat === "Minimal",
+        isCreative: cat === "Creative",
+        isExecutive: cat === "Executive",
+        isProfessional: cat === "Professional",
+        open: () => this.setState({ previewId: i })
+      };
+    });
+
+    const templates = selected === "All" ? all : all.filter((t) => t.category === selected);
+
+    const categories = CATEGORIES.map((name) => {
+      const isSel = name === selected;
+      return {
+        label: name,
+        style: isSel
+          ? "background:#1D3557;color:#FFF;border-color:#1D3557"
+          : "",
+        pick: () => this.setState({ category: name })
+      };
+    });
+
+    const previewItem = this.state.previewId != null ? all.find((t) => t.id === this.state.previewId) : null;
+    const closePreview = () => this.setState({ previewId: null });
+    const stopClick = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+
+    return {
+      templates,
+      categories,
+      showPreview: !!previewItem,
+      preview: previewItem || { name: "", category: "", accent: "#1D3557", accent2: "#3B5A82", isModern: true, isMinimal: false, isCreative: false, isExecutive: false, isProfessional: false },
+      closePreview,
+      stopClick
+    };
+  }
+}
+</script>
+</body>
+</html>
