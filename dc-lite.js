@@ -54,6 +54,7 @@
     return neg ? !v : v;
   }
 
+  var SVG_ATTRS = { viewbox: "viewBox", preserveaspectratio: "preserveAspectRatio" };
   var HOLE = /\{\{([^}]*)\}\}/g;
   function whole(str) { var m = /^\s*\{\{([^}]*)\}\}\s*$/.exec(str); return m ? m[1] : null; }
   function interp(str, scope) {
@@ -150,7 +151,11 @@
       build(cache[file].markup, vals, ctx).forEach(function (x) { out.push(x); });
       return;
     }
-    var el = document.createElement(tag);
+    var el = (tag === "svg" || ctx.svg)
+      ? document.createElementNS("http://www.w3.org/2000/svg", tag)
+      : document.createElement(tag);
+    var prevSvg = ctx.svg;
+    if (tag === "svg") ctx.svg = true;
     Array.prototype.forEach.call(n.attributes, function (a) {
       var name = a.name, val = a.value, w = whole(val);
       if (name.indexOf("hint-") === 0) return;
@@ -169,13 +174,14 @@
       }
       var v = w != null ? lookup(w, scope) : interp(val, scope);
       if (v == null || v === false) return;
-      el.setAttribute(name, v === true ? "" : String(v));
+      el.setAttribute(SVG_ATTRS[name] || name, v === true ? "" : String(v));
     });
     if (tag === "textarea") {
       if (!el.value) el.value = interp(n.textContent, scope);
     } else {
       build(n, scope, ctx).forEach(function (c) { el.appendChild(c); });
     }
+    ctx.svg = prevSvg;
     out.push(el);
   }
 
