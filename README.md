@@ -35,6 +35,9 @@ Everything lives under [`project/`](./project):
 
 Each `.dc.html` file is a **Design Component**: a small, self-contained unit with its own markup, styles, and a `Component extends DCLogic` class that holds state and renders bindings (`{{like_this}}`). Pages communicate through props (for example, the Editor passes its live CV feedback into the ChatBot via a `cv-tips` prop).
 
-## Best way to view this project
+## Running / deploying
 
-This project is authored and best experienced as a **Claude Artifact** (a Design-type canvas), where all the pages, interactivity, and the floating chatbot render live and are directly editable. Viewing the raw `.dc.html` files as static HTML outside that environment will not run the interactive logic or wire the pages together — treat this repository as the source/export of that canvas rather than a deployable static site.
+The site is static. `index.html` loads `dc-lite.js`, a small runtime that renders the `project/*.dc.html` sources in the browser. No build step is needed.
+
+- Local: `python3 -m http.server` then open http://localhost:8000
+- Vercel: import the repo, framework preset "Other", no build command, output directory left as the root.
