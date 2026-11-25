@@ -43,9 +43,11 @@ body{background:var(--bg);color:var(--text)}
   .cards-row{flex-direction:column !important}
   .steps-row{flex-direction:column !important}
   .pricing-grid{grid-template-columns:repeat(2,1fr) !important}
+  .trust-grid{grid-template-columns:repeat(2,1fr) !important}
 }
 @media (max-width:480px){
   .pricing-grid{grid-template-columns:1fr !important}
+  .trust-grid{grid-template-columns:1fr !important}
 }
 </style>
 </helmet>
@@ -183,6 +185,32 @@ body{background:var(--bg);color:var(--text)}
         <div class="step-num" style="width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">3</div>
         <h4 style="font-size:15px;font-weight:700;margin:0 0 6px">Download</h4>
         <p style="font-size:13.5px;color:var(--text-muted);line-height:1.65;margin:0">Export your resume as a PDF or your banner as a PNG — ready to use.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section style="width:100%;max-width:1000px;padding:0 32px 72px;box-sizing:border-box">
+    <div class="card trust-grid" style="border-radius:16px;padding:32px;box-sizing:border-box;display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+      <div style="text-align:center">
+        <div style="font-size:22px;margin-bottom:8px">&#128274;</div>
+        <div style="font-size:13.5px;font-weight:700;margin-bottom:4px">Private by design</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Everything you type stays in your browser — nothing is uploaded to a server.</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:22px;margin-bottom:8px">&#9889;</div>
+        <div style="font-size:13.5px;font-weight:700;margin-bottom:4px">No sign-up required</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Jump straight into the editor — no account, no email, no waiting.</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:22px;margin-bottom:8px">&#127760;</div>
+        <div style="font-size:13.5px;font-weight:700;margin-bottom:4px">Works anywhere</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Runs entirely in your browser — nothing to install on any device.</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:22px;margin-bottom:8px">&#10003;</div>
+        <div style="font-size:13.5px;font-weight:700;margin-bottom:4px">Free during early access</div>
+        <div style="font-size:12px;color:var(--text-muted);line-height:1.5">Every template and export is free to use while DRAFTORA is in early access.</div>
       </div>
     </div>
   </section>
@@ -349,6 +377,12 @@ class Component extends DCLogic {
   }
   submitFeedback() {
     if (!this.state.feedbackText || !this.state.feedbackText.trim()) return;
+    try {
+      const entry = { name: this.state.feedbackName || "Anonymous", text: this.state.feedbackText.trim(), at: new Date().toISOString() };
+      const existing = JSON.parse(localStorage.getItem("draftora-feedback") || "[]");
+      existing.push(entry);
+      localStorage.setItem("draftora-feedback", JSON.stringify(existing));
+    } catch (e) {}
     this.setState({ feedbackSent: true });
     setTimeout(() => {
       this.setState({ feedbackSent: false, feedbackOpen: false, feedbackName: "", feedbackText: "" });

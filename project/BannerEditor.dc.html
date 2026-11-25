@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>Banner Editor</title>
 <script src="./support.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
 <x-dc>
@@ -67,7 +68,7 @@ input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(21,128,61,0.12)
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="var(--accent)"/></svg>
         </sc-if>
       </button>
-      <button style="background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:8px">Download PNG</button>
+      <button onClick="{{ downloadPng }}" style="background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:8px">{{ downloadLabel }}</button>
     </div>
   </header>
 
@@ -123,7 +124,7 @@ input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(21,128,61,0.12)
     <!-- LIVE PREVIEW -->
     <div style="flex:2;min-width:0;display:flex;justify-content:center">
       <div style="width:100%;max-width:640px">
-        <div style="width:100%;aspect-ratio:1.9/1;border-radius:14px;box-shadow:0 20px 48px rgba(16,24,40,0.1);background:linear-gradient(135deg,{{c1}} 0%,{{c2}} 100%);padding:40px;box-sizing:border-box;position:relative;display:flex;overflow:hidden">
+        <div id="bannerPreview" style="width:100%;aspect-ratio:1.9/1;border-radius:14px;box-shadow:0 20px 48px rgba(16,24,40,0.1);background:linear-gradient(135deg,{{c1}} 0%,{{c2}} 100%);padding:40px;box-sizing:border-box;position:relative;display:flex;overflow:hidden">
 
           <sc-if value="{{ hasImage }}">
             <img src="{{image}}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
@@ -205,6 +206,27 @@ class Component extends DCLogic {
     this.setState({ mode: next });
   }
 
+  downloadPng() {
+    const node = document.getElementById("bannerPreview");
+    if (!node) return;
+    if (typeof html2canvas === "undefined") {
+      this.setState({ downloading: false, downloadError: true });
+      setTimeout(() => this.setState({ downloadError: false }), 2500);
+      return;
+    }
+    this.setState({ downloading: true });
+    html2canvas(node, { useCORS: true, backgroundColor: null, scale: 2 }).then((canvas) => {
+      const link = document.createElement("a");
+      link.download = "draftora-banner.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      this.setState({ downloading: false });
+    }).catch(() => {
+      this.setState({ downloading: false, downloadError: true });
+      setTimeout(() => this.setState({ downloadError: false }), 2500);
+    });
+  }
+
   renderVals() {
     const pair = COLOR_PAIRS[this.state.pairIndex];
 
@@ -249,7 +271,9 @@ class Component extends DCLogic {
         reader.onload = () => this.setState({ image: reader.result });
         reader.readAsDataURL(file);
       },
-      removeImage: () => this.setState({ image: null })
+      removeImage: () => this.setState({ image: null }),
+      downloadPng: () => this.downloadPng(),
+      downloadLabel: this.state.downloading ? "Preparing…" : (this.state.downloadError ? "Try again" : "Download PNG")
     };
   }
 }

@@ -57,6 +57,12 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
   .panel{max-width:100% !important}
   .scorerow{flex-direction:column !important;align-items:flex-start !important}
 }
+@media print{
+  body *{visibility:hidden}
+  #resumePreview,#resumePreview *{visibility:visible}
+  #resumePreview{position:absolute;top:0;left:0;width:100%;max-width:100%;margin:0;box-shadow:none;border:none;border-radius:0;padding:32px}
+  @page{margin:0.4in}
+}
 </style>
 </helmet>
 
@@ -76,7 +82,7 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="var(--accent)"/></svg>
         </sc-if>
       </button>
-      <button style="background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:8px">Download PDF</button>
+      <button onClick="{{ downloadPdf }}" style="background:var(--accent);color:var(--accent-contrast);font-weight:700;font-size:13.5px;padding:10px 18px;border-radius:8px">Download PDF</button>
     </div>
   </header>
 
@@ -251,7 +257,7 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
     <!-- LIVE PREVIEW -->
     <div style="flex:2;min-width:0;display:flex;flex-direction:column;align-items:center">
       <div style="font-size:12px;color:var(--text-faint);font-weight:600;margin-bottom:10px;text-align:center">This is exactly how your resume will look when you open it to edit or download the PDF</div>
-      <div style="width:100%;max-width:560px;background:#FFF;border:1px solid #E4E7EC;border-radius:14px;box-shadow:0 20px 48px rgba(16,24,40,0.08);padding:48px;box-sizing:border-box">
+      <div id="resumePreview" style="width:100%;max-width:560px;background:#FFF;border:1px solid #E4E7EC;border-radius:14px;box-shadow:0 20px 48px rgba(16,24,40,0.08);padding:48px;box-sizing:border-box">
 
         <sc-if value="{{ v0 }}">
           <div style="height:4px;width:60px;background:{{accent}};border-radius:2px;margin-bottom:16px"></div>
@@ -390,6 +396,10 @@ class Component extends DCLogic {
 
   removePhoto() {
     this.setState({ photo: null });
+  }
+
+  downloadPdf() {
+    try { window.print(); } catch (e) {}
   }
 
   updateExperience(idx, field, value) {
@@ -642,6 +652,7 @@ class Component extends DCLogic {
       hasPhoto: !!this.state.photo,
       onPhoto: (e) => this.onPhoto(e),
       removePhoto: () => this.removePhoto(),
+      downloadPdf: () => this.downloadPdf(),
       ...scoreData,
       onName: (e) => this.setState({ name: e.target.value }),
       onTitle: (e) => this.setState({ title: e.target.value }),
