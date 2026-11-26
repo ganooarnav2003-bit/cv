@@ -296,6 +296,14 @@ class Component extends DCLogic {
     } else {
       msg += "This needs real work before it's ready to send — start with your weakest section above, add specific numbers and outcomes, and avoid vague duty statements.";
     }
+
+    const rawTips = (this.props && this.props.cvTips) || "";
+    const tips = rawTips.split(" || ").map((t) => t.trim()).filter(Boolean);
+    if (tips.length > 0) {
+      msg += "\n\nSuggestions to improve it:\n" + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
+    } else {
+      msg += "\n\nNo specific fixes needed right now — every section is already reading well.";
+    }
     return msg;
   }
 
