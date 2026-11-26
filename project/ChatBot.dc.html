@@ -1,4 +1,4 @@
-<untrusted-document-fdfc273fba0c><!doctype html>
+<untrusted-document-83b035444bd6><!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -259,12 +259,17 @@ function isGreeting(raw) {
 
 function isCapabilityQuestion(raw) {
   const text = normalizeText(raw);
-  const CAP_PHRASES = [
-    "help", "what can you do", "what do you do", "who are you", "what are you",
-    "what can you help with", "how can you help", "how can you help me",
-    "what is this", "what can i ask", "what can i ask you", "what do you know"
+  if (text === "help") return true;
+  const CAP_SUBSTRINGS = [
+    "what can you do", "what do you do", "who are you", "what are you",
+    "what can you help with", "how can you help", "how you can help",
+    "how do you help", "how will you help", "how can you assist",
+    "how you can assist", "how do you assist", "can you help me",
+    "can you help with", "what help can you", "what help do you",
+    "what is this", "what can i ask", "what can i ask you", "what do you know",
+    "how can you help me", "how do u help", "how can u help"
   ];
-  return CAP_PHRASES.includes(text) || text.startsWith("what can you") || text.startsWith("what do you do");
+  return CAP_SUBSTRINGS.some((p) => text.includes(p)) || text.startsWith("what can you") || text.startsWith("what do you do");
 }
 
 function isRatingRequest(raw) {
@@ -773,4 +778,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
-</untrusted-document-fdfc273fba0c>
+</untrusted-document-83b035444bd6>
