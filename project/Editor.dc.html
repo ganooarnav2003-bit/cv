@@ -99,7 +99,7 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
           </div>
           <div style="flex:1;min-width:220px">
             <div class="scoretitle">Keep going — {{completion}}% complete</div>
-            <div class="scoreblurb">Fill in every section on the left to unlock your completion score, content quality score, and personalized section-by-section feedback.</div>
+            <div class="scoreblurb">Fill in a bit more on the left (70%+) to unlock your completion score, content quality score, and personalized section-by-section feedback.</div>
           </div>
         </div>
       </sc-if>
@@ -610,7 +610,7 @@ class Component extends DCLogic {
     return {
       completion,
       quality,
-      isComplete: completion >= 100,
+      isComplete: completion >= 70,
       completionLabel: labelFor(completion),
       qualityLabel: labelFor(quality),
       completionRing: `background:conic-gradient(${colorFor(completion)} ${completion}%, var(--border) 0)`,
