@@ -90,6 +90,21 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
   <section style="width:100%;max-width:1200px;padding:18px 32px 0;box-sizing:border-box">
     <div class="card" style="border-radius:14px;padding:22px 24px;box-sizing:border-box">
 
+      <sc-if value="{{ !isComplete }}">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <div style="width:64px;height:64px;border-radius:50%;flex-shrink:0;{{completionRing}};display:flex;align-items:center;justify-content:center">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center">
+              <div style="font-size:13px;font-weight:800">{{completion}}%</div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px">
+            <div class="scoretitle">Keep going — {{completion}}% complete</div>
+            <div class="scoreblurb">Fill in every section on the left to unlock your completion score, content quality score, and personalized section-by-section feedback.</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isComplete }}">
       <div class="scorerow" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
         <div style="display:flex;align-items:center;gap:14px">
           <div style="width:84px;height:84px;border-radius:50%;flex-shrink:0;{{completionRing}};display:flex;align-items:center;justify-content:center">
@@ -141,6 +156,7 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
           </div>
         </div>
       </sc-for>
+      </sc-if>
     </div>
   </section>
 
@@ -575,6 +591,7 @@ class Component extends DCLogic {
     return {
       completion,
       quality,
+      isComplete: completion >= 100,
       completionLabel: labelFor(completion),
       qualityLabel: labelFor(quality),
       completionRing: `background:conic-gradient(${colorFor(completion)} ${completion}%, var(--border) 0)`,
