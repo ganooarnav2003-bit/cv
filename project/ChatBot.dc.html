@@ -273,6 +273,67 @@ const IN_SCOPE_WORDS = [
   "job description", "employer", "company", "internship", "promotion", "title"
 ];
 
+const DEGREE_INTENT_WORDS = [
+  "degree", "qualification", "bachelor", "master", "postgraduate", "phd",
+  "eligibility", "educational", "become a", "become an", "how do i become",
+  "how to become", "want to be a", "want to become"
+];
+
+function isDegreeIntent(raw) {
+  const text = normalizeText(raw);
+  return DEGREE_INTENT_WORDS.some((w) => text.includes(normalizeText(w)));
+}
+
+const DEGREE_PROFILES = [
+  { role: "Software Engineer/Developer", keys: ["software engineer", "software developer", "programmer", "web developer", "app developer", "swe"],
+    answer: "For a Software Engineer or Developer role, a Bachelor's is the standard expectation — typically a B.Tech, B.E., BCA, or BSc in Computer Science or a closely related field. That said, this is one of the few professions where strong, demonstrable project work or a solid portfolio can substitute for formal credentials at many companies, particularly startups and product-based firms. A Master's isn't required unless you're targeting research-heavy roles such as ML/AI research, where an MS or PhD becomes more relevant." },
+  { role: "Data Scientist/Analyst", keys: ["data scientist", "data analyst", "data science", "machine learning engineer", "ml engineer"],
+    answer: "Entry-level Data Analyst or Data Scientist roles generally accept a Bachelor's in Computer Science, Statistics, Mathematics, or Economics, paired with demonstrated skills in Python/R and SQL. For research-driven or senior data science positions — especially roles touching ML research — a Master's or PhD in Statistics, Computer Science, or a related quantitative field is usually expected." },
+  { role: "Doctor/Physician", keys: ["doctor", "physician", "mbbs", "become a doctor"],
+    answer: "Becoming a doctor requires an MBBS degree (or MD/DO depending on the country), followed by a supervised residency in your chosen specialty. This is a non-negotiable requirement everywhere — there's no portfolio-based shortcut here, given the licensing and regulatory standards involved." },
+  { role: "Lawyer/Attorney", keys: ["lawyer", "attorney", "advocate", "legal counsel"],
+    answer: "To practice law, you'll need a Bachelor's degree followed by a professional law degree — a JD in the United States, or an LLB in most other countries including India and the UK — plus passing your jurisdiction's bar exam." },
+  { role: "Professor/Researcher", keys: ["professor", "researcher", "academic career", "research scientist", "become a professor"],
+    answer: "An academic or research career at the university level typically requires a PhD in your subject area. Some teaching-focused or adjunct positions will accept a Master's, but a PhD remains the standard credential for tenure-track and research-heavy roles." },
+  { role: "Clinical Psychologist", keys: ["psychologist", "clinical psychology", "therapist", "counselor", "counsellor"],
+    answer: "Practicing as a licensed clinical psychologist or therapist requires a Master's degree at minimum, though a PhD or PsyD is increasingly standard for independent clinical practice and is often required for licensure, depending on your region." },
+  { role: "Pharmacist", keys: ["pharmacist", "pharmacy"],
+    answer: "To practice as a pharmacist, you'll need a B.Pharm degree in India or a PharmD in the United States, along with passing the relevant licensing examination." },
+  { role: "Architect", keys: ["architect", "architecture career"],
+    answer: "Architecture requires a B.Arch, typically a 5-year professional bachelor's degree. An M.Arch adds value for senior design roles, academic positions, or if your undergraduate degree wasn't architecture-specific." },
+  { role: "Nurse", keys: ["nurse", "nursing", "registered nurse"],
+    answer: "Nursing requires a BSN (Bachelor of Science in Nursing) or an ADN (Associate Degree in Nursing), plus passing your licensing exam (NCLEX in the US). A BSN is increasingly preferred by hospitals and opens more advancement paths." },
+  { role: "Accountant/Finance", keys: ["accountant", "accounting", "finance role", "financial analyst"],
+    answer: "An accounting or finance role typically needs a B.Com or BBA in Accounting/Finance. For senior or specialized positions, a professional certification like CPA (US) or CA (India/UK) carries significant weight — often more than an additional degree." },
+  { role: "Marketing/Business/HR", keys: ["marketing", "human resources", "hr role", "business development", "brand manager"],
+    answer: "Marketing, HR, and general business roles usually accept a Bachelor's — BBA, B.Com, or BA in a related field. These fields tend to value demonstrated results (campaigns run, metrics improved) as much as, or more than, the specific degree on your CV." },
+  { role: "Graphic/UI/UX Designer", keys: ["graphic designer", "ui designer", "ux designer", "product designer", "visual designer"],
+    answer: "Design roles (Graphic/UI/UX) typically look for a BFA or B.Des, but a strong portfolio can substitute for formal design education entirely — this is one of the most portfolio-driven fields in hiring." },
+  { role: "Civil/Mechanical/Electrical Engineer", keys: ["civil engineer", "mechanical engineer", "electrical engineer", "structural engineer"],
+    answer: "Core engineering disciplines — civil, mechanical, electrical — require a B.Tech or B.E. in that specific discipline, and in many countries a professional engineering license (PE) for senior sign-off roles." },
+  { role: "Journalist", keys: ["journalist", "journalism", "news reporter"],
+    answer: "Journalism typically expects a BA in Journalism, Communications, or English, though many successful journalists enter with degrees in other fields paired with strong writing samples and published clips." },
+  { role: "School Teacher", keys: ["school teacher", "teaching career", "become a teacher"],
+    answer: "School teaching requires a Bachelor's in Education or your subject area, plus a teaching certification/license specific to your region and grade level." },
+  { role: "MBA/Management", keys: ["mba", "management consultant", "business strategy role", "investment banking"],
+    answer: "Senior management, strategy, and consulting roles commonly favor an MBA, but it's rarely a strict requirement — many people reach these positions through demonstrated leadership and results. An MBA accelerates the path and matters most for consulting, investment banking, and large-company fast-track programs." },
+  { role: "Dentist", keys: ["dentist", "dentistry", "dental surgeon"],
+    answer: "Dentistry requires a BDS (Bachelor of Dental Surgery) or a DDS/DMD depending on the country, followed by licensing." },
+  { role: "Veterinarian", keys: ["veterinarian", "veterinary", "vet doctor"],
+    answer: "Veterinary practice requires a BVSc (Bachelor of Veterinary Science) or a DVM depending on the country, followed by licensing." }
+];
+
+function matchDegreeProfile(raw) {
+  if (!isDegreeIntent(raw)) return null;
+  const text = normalizeText(raw);
+  for (const profile of DEGREE_PROFILES) {
+    if (profile.keys.some((k) => text.includes(normalizeText(k)))) {
+      return `${profile.answer}\n\nWant the same breakdown for a different role? Just name the position.`;
+    }
+  }
+  return null;
+}
+
 function matchAnswer(raw) {
   const text = normalizeText(raw);
   const tokens = text.split(" ").map(stemWord).filter(Boolean);
@@ -340,6 +401,8 @@ class Component extends DCLogic {
         ? "Hope you got your solution! Feel free to come back anytime you need more help."
         : isAcknowledgement(trimmed)
         ? "You're welcome! If you need anything else, just let me know."
+        : matchDegreeProfile(trimmed)
+        ? matchDegreeProfile(trimmed)
         : matchAnswer(trimmed);
       this.setState({
         typing: false,
