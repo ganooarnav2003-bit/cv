@@ -104,7 +104,10 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
         </div>
       </sc-if>
 
-      <sc-if value="{{ isComplete }}">
+      <sc-if value="{{ isComplete && !scoreHidden }}">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button onClick="{{ hideScore }}" style="background:var(--chip-bg);color:var(--text-faint-2);font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:7px">Hide &times;</button>
+      </div>
       <div class="scorerow" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
         <div style="display:flex;align-items:center;gap:14px">
           <div style="width:84px;height:84px;border-radius:50%;flex-shrink:0;{{completionRing}};display:flex;align-items:center;justify-content:center">
@@ -156,6 +159,21 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
           </div>
         </div>
       </sc-for>
+      </sc-if>
+
+      <sc-if value="{{ isComplete && scoreHidden }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:36px;height:36px;border-radius:50%;background:#DCFCE7;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="#15803D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="scoretitle">Resume complete &mdash; {{completionLabel}}</div>
+              <div class="scoreblurb">Your completion score, quality score, and feedback are ready whenever you want them.</div>
+            </div>
+          </div>
+          <button onClick="{{ showScore }}" style="background:var(--chip-bg-2);color:var(--accent);font-weight:700;font-size:12.5px;padding:9px 16px;border-radius:7px;flex-shrink:0">Show score</button>
+        </div>
       </sc-if>
     </div>
   </section>
@@ -391,7 +409,8 @@ class Component extends DCLogic {
       skillsText: "Figma, Design Systems, User Research, Prototyping, HTML/CSS",
       accentIndex: 0,
       layout: "v0",
-      photo: null
+      photo: null,
+      scoreHidden: false
     };
   }
 
@@ -670,6 +689,9 @@ class Component extends DCLogic {
       onPhoto: (e) => this.onPhoto(e),
       removePhoto: () => this.removePhoto(),
       downloadPdf: () => this.downloadPdf(),
+      scoreHidden: !!this.state.scoreHidden,
+      hideScore: () => this.setState({ scoreHidden: true }),
+      showScore: () => this.setState({ scoreHidden: false }),
       ...scoreData,
       onName: (e) => this.setState({ name: e.target.value }),
       onTitle: (e) => this.setState({ title: e.target.value }),
