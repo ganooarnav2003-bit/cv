@@ -37,9 +37,13 @@ body{background:var(--bg);color:var(--text)}
 .card:hover{border-color:var(--accent-2);box-shadow:0 12px 28px rgba(16,24,40,0.08)}
 .step-num{font-family:'Inter',sans-serif}
 .theme-toggle{width:38px;height:38px;border-radius:8px;background:var(--chip-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mobile-menu-btn{display:none}
+.mobile-menu-panel{display:none}
 @media (max-width:760px){
   .hero-title{font-size:38px !important}
   .nav-links{display:none !important}
+  .mobile-menu-btn{display:flex !important}
+  .mobile-menu-panel{display:flex !important}
   .cards-row{flex-direction:column !important}
   .steps-row{flex-direction:column !important}
   .pricing-grid{grid-template-columns:repeat(2,1fr) !important}
@@ -68,6 +72,7 @@ body{background:var(--bg);color:var(--text)}
       <nav class="nav-links" style="display:flex;align-items:center;gap:32px">
         <a class="navlink" href="Templates.dc.html">Resume Builder</a>
         <a class="navlink" href="Templates.dc.html">Templates</a>
+        <a class="navlink" href="Banners.dc.html">Banner Maker</a>
         <a class="navlink" href="#">Pricing</a>
       </nav>
       <div style="display:flex;align-items:center;gap:14px">
@@ -82,9 +87,26 @@ body{background:var(--bg);color:var(--text)}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="var(--accent)"/></svg>
           </sc-if>
         </button>
+        <button class="mobile-menu-btn" onClick="{{ toggleMenu }}" aria-label="Open menu" style="width:38px;height:38px;border-radius:8px;background:var(--chip-bg);border:none;align-items:center;justify-content:center;flex-shrink:0">
+          <sc-if value="{{ menuOpen }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="var(--text)" stroke-width="2" stroke-linecap="round"/></svg>
+          </sc-if>
+          <sc-if value="{{ !menuOpen }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="var(--text)" stroke-width="2" stroke-linecap="round"/></svg>
+          </sc-if>
+        </button>
         <button style="background:var(--accent);color:var(--accent-contrast);padding:10px 20px;border-radius:8px;font-weight:600;font-size:13.5px">Get Started — Free</button>
       </div>
     </div>
+    <sc-if value="{{ menuOpen }}">
+      <div class="mobile-menu-panel" style="flex-direction:column;width:100%;padding:8px 32px 18px;box-sizing:border-box;border-top:1px solid var(--border)">
+        <a class="navlink" href="Templates.dc.html" style="padding:12px 0;border-bottom:1px solid var(--border)">Resume Builder</a>
+        <a class="navlink" href="Templates.dc.html" style="padding:12px 0;border-bottom:1px solid var(--border)">Templates</a>
+        <a class="navlink" href="Banners.dc.html" style="padding:12px 0;border-bottom:1px solid var(--border)">Banner Maker</a>
+        <a class="navlink" href="#" style="padding:12px 0">Pricing</a>
+        <a href="Templates.dc.html" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box;width:100%;background:var(--accent);color:var(--accent-contrast);padding:12px;border-radius:8px;font-weight:600;font-size:14px;margin-top:12px">Get Started — Free</a>
+      </div>
+    </sc-if>
   </header>
 
   <!-- HERO -->
@@ -145,6 +167,15 @@ body{background:var(--bg);color:var(--text)}
         <div style="display:inline-block;background:var(--chip-bg);color:var(--accent);font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.02em">LIVE CV RATING &middot; FREE</div>
         <p style="font-size:14.5px;line-height:1.65;color:var(--text-muted);margin:0 0 18px">A built-in assistant most resume builders don't have: it rates your CV's content quality live and gives section-by-section suggestions, answers questions from a growing knowledge base (ATS keywords, degree requirements, career gaps, and more), and understands natural, everyday phrasing — not just exact keywords.</p>
         <a href="Templates.dc.html" style="font-weight:600;font-size:14px;color:var(--accent)">Try the assistant &rarr;</a>
+      </div>
+      <div class="card" style="flex:1;border-radius:14px;padding:30px;transition:all 0.15s ease;min-width:0">
+        <div style="width:42px;height:42px;border-radius:9px;background:var(--chip-bg);display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" style="stroke:var(--accent)" stroke-width="1.8"/><circle cx="8.5" cy="10" r="1.6" fill="var(--accent)"/><path d="M4 16l4.5-4 3 3 3.5-4L20 16" style="stroke:var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </div>
+        <h3 style="font-size:18px;font-weight:700;margin:0 0 10px">Banner Maker</h3>
+        <div style="display:inline-block;background:var(--chip-bg);color:var(--accent);font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;margin-bottom:12px;letter-spacing:0.02em">250+ TEMPLATES &middot; FREE</div>
+        <p style="font-size:14.5px;line-height:1.65;color:var(--text-muted);margin:0 0 18px">Design social posts, LinkedIn banners, event flyers, sale promos, and quote cards. Upload an image, pick a color theme and layout, and export — no design skills needed.</p>
+        <a href="Banners.dc.html" style="font-weight:600;font-size:14px;color:var(--accent)">Create a banner &rarr;</a>
       </div>
     </div>
   </section>
@@ -342,13 +373,16 @@ class Component extends DCLogic {
     try { mode = localStorage.getItem("draftora-theme") || "light"; } catch (e) {}
     let systemDark = false;
     try { systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
-    this.state = { mode: mode, systemDark: systemDark, feedbackOpen: false, feedbackName: "", feedbackText: "", feedbackSent: false };
+    this.state = { mode: mode, systemDark: systemDark, feedbackOpen: false, feedbackName: "", feedbackText: "", feedbackSent: false, menuOpen: false };
     try {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
       const onChange = (e) => this.setState({ systemDark: e.matches });
       if (mq.addEventListener) mq.addEventListener("change", onChange);
       else if (mq.addListener) mq.addListener(onChange);
     } catch (e) {}
+  }
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen });
   }
   cycleTheme() {
     const order = ["light", "dark", "auto"];
@@ -378,6 +412,8 @@ class Component extends DCLogic {
       isLight: mode === "light",
       isAuto: mode === "auto",
       toggleTheme: () => this.cycleTheme(),
+      menuOpen: !!this.state.menuOpen,
+      toggleMenu: () => this.toggleMenu(),
       feedbackName: this.state.feedbackName || "",
       feedbackText: this.state.feedbackText || "",
       feedbackSent: !!this.state.feedbackSent,
