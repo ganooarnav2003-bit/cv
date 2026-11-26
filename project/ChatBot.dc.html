@@ -1,4 +1,4 @@
-<!doctype html>
+<untrusted-document-f5389706b718><!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -79,10 +79,11 @@
           </svg>
           <span class="cbw-dot-sm"></span>
         </div>
-        <div style="min-width:0">
+        <div style="min-width:0;flex:1">
           <div style="color:#FFF;font-weight:700;font-size:13.5px">MR.DRAFTORA</div>
-          <div style="color:rgba(255,255,255,0.75);font-size:11px">CV Making Helper</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px">{{headerSubtitle}}</div>
         </div>
+        <button onClick="{{ toggleLang }}" aria-label="Switch language" style="background:rgba(255,255,255,0.16);border:none;color:#FFF;font-size:11px;font-weight:700;padding:5px 9px;border-radius:7px;cursor:pointer;flex-shrink:0">{{langButtonLabel}}</button>
         <div class="cbw-close" onClick="{{ toggleOpen }}" aria-label="Close chat">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#FFF" stroke-width="2.2" stroke-linecap="round"/></svg>
         </div>
@@ -114,7 +115,7 @@
       </div>
 
       <div class="cbw-inputrow">
-        <input class="cbw-input" type="text" placeholder="Ask me what you need help with…" value="{{draft}}" onChange="{{ onDraft }}" onKeyDown="{{ onKeyDown }}">
+        <input class="cbw-input" type="text" placeholder="{{inputPlaceholder}}" value="{{draft}}" onChange="{{ onDraft }}" onKeyDown="{{ onKeyDown }}">
         <button class="cbw-send" onClick="{{ send }}" aria-label="Send">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11l18-7-7 18-3-7-8-4z" fill="#FFF"/></svg>
         </button>
@@ -126,50 +127,50 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"startOpen":{"editor":null},"$preview":{"width":140,"height":140}}'>
 const CHIPS = [
-  { label: "What does HR want in a CV today?" },
-  { label: "How do I write a cover letter?" },
-  { label: "What should my LinkedIn say?" },
-  { label: "Which layout should I pick?" },
-  { label: "What certifications do I need?" }
+  { labelEn: "What does HR want in a CV today?", labelHi: "आज HR किसी CV में क्या चाहता है?", query: "hr wants" },
+  { labelEn: "How do I write a cover letter?", labelHi: "मैं कवर लेटर कैसे लिखूं?", query: "cover letter" },
+  { labelEn: "What should my LinkedIn say?", labelHi: "मेरी LinkedIn प्रोफ़ाइल में क्या होना चाहिए?", query: "linkedin" },
+  { labelEn: "Which layout should I pick?", labelHi: "मुझे कौन सा लेआउट चुनना चाहिए?", query: "layout" },
+  { labelEn: "What certifications do I need?", labelHi: "मुझे कौन से सर्टिफिकेशन चाहिए?", query: "certifications" }
 ];
 
 const KB = [
-  { keys: ["main content", "what matters", "job market", "most important", "what to include", "what should i include", "stand out", "recruiters look for", "what employers want", "catches recruiter", "what counts", "what matters most"], answer: "In today's job market, four things matter most: 1) a tailored summary and skills list that mirror the exact keywords in the job post (most companies scan with ATS software first), 2) measurable achievements in your experience section — numbers, percentages, or outcomes beat vague duties, 3) relevant, up-to-date skills (tools, software, certifications) specific to the role, and 4) clean, consistent formatting that's easy to scan in under 10 seconds. Older, irrelevant history matters far less than a tight, targeted top half of the page." },
-  { keys: ["ats", "applicant tracking", "keyword"], answer: "ATS systems scan for exact keywords from the job description, so mirror the wording the employer uses for your skills and job titles where it's accurate. Stick to standard section headings (Experience, Education, Skills), avoid text inside images or tables, and use a simple single- or two-column layout so the system can parse it correctly." },
-  { keys: ["hr want", "hr wants", "hr looks for", "hr look for", "recruiter want", "recruiters want", "hiring manager", "what do employers", "what does hr"], answer: "HR teams today mainly screen for: 1) a resume tailored to THIS job, not a generic one, 2) proof of impact — specific results, not just duties, 3) skills that match the posting (tools, certifications, software), 4) a clean, error-free, easy-to-scan format, and 5) signs of adaptability and continuous learning. Many also check your LinkedIn or portfolio link, so make sure it matches your resume." },
-  { keys: ["finance", "accounting", "accountant", "banking", "financial analyst", "finance certification"], answer: "For finance roles, HR looks for: certifications (CFA, CPA, CA, FRM if relevant), strong Excel/financial modeling skills, accuracy and compliance awareness, and quantified results — e.g. \"managed a $2M budget\" or \"reduced reporting errors by 20%\". Mention specific tools (Excel, SAP, QuickBooks, Bloomberg) and any regulatory knowledge relevant to your market." },
-  { keys: ["marketing", "digital marketing", "seo", "social media manager", "brand", "marketing certification"], answer: "For marketing roles, lead with measurable campaign results — ROI, conversion rate, engagement growth, audience reach — rather than just \"managed social media.\" List the specific tools you use (Google Analytics, Meta Ads, HubSpot, SEO/SEM, Canva) and, if possible, link a portfolio of campaigns or content you've created. Useful certifications: Google Analytics, Google Ads, HubSpot Content/Inbound Marketing, Meta Blueprint." },
-  { keys: ["it sector", "software engineer", "developer", "programmer", "technical role", "tech job", "coding", "information technology", "it industry", "it field", "technical", "it certification"], answer: "For IT/technical roles, HR and hiring managers want: the specific languages, frameworks, and tools you use (e.g. Python, React, AWS, Docker), measurable project impact (performance gains, users served, bugs reduced), and a link to GitHub or a portfolio. Mentioning Agile/Scrum experience helps. Useful certifications: AWS/Azure/Google Cloud, CompTIA, PMP or Scrum/Agile (CSM), and language- or vendor-specific certs relevant to your stack." },
-  { keys: ["next 10 years", "future of job", "future skills", "future-proof", "long term career", "job market trend", "future certification"], answer: "Across every field, the skills that hold up over the next decade are: comfort working with AI and data tools, continuous learning (certifications, upskilling), strong communication and cross-functional collaboration, adaptability to new tools/processes, and proven problem-solving backed by measurable results. Helpful future-facing certifications: AI/ML fundamentals (Google, Microsoft, or Coursera/edX courses), data analytics (Google Data Analytics, Power BI), and project management (PMP, Scrum). Technical skills will keep changing, but these transferable strengths stay valuable." },
-  { keys: ["certification", "certifications", "certificate", "qualification needed", "which course"], answer: "It depends on the field:\n• Finance — CFA, CPA, CA, or FRM, plus strong Excel/financial modeling.\n• Marketing — Google Analytics, Google Ads, HubSpot, or Meta Blueprint, backed by real campaign metrics (ROI, conversions, engagement).\n• IT/Technical — AWS/Azure/Google Cloud, CompTIA, or Scrum/Agile (CSM), plus a GitHub or project portfolio.\n• Future-proofing (any field) — AI/data literacy courses, data analytics certs, and project management (PMP/Scrum) for continuous learning.\nTell me which field you're in and I can go deeper." },
-  { keys: ["layout", "template", "which one", "choose"], answer: "Pick a layout that matches your field: Classic suits most industries, Profile (with a photo) works well for client-facing or creative roles, and Sidebar is great when you have a lot of contact details or skills to show. Keep one layout throughout for consistency." },
-  { keys: ["degree required", "degree needed", "which degree", "what degree", "educational qualification", "minimum qualification", "qualification required", "qualification needed", "eligibility criteria", "bachelors required", "bachelor's required", "masters required", "master's required", "postgraduate required", "education required", "degree do i need", "degree for"], answer: "Degree requirements vary by field and employer, but here's a general guide:\n\nUsually just a Bachelor's:\n• Software Engineer/Developer — B.Tech/B.E./BCA/BSc in CS or related (a strong portfolio can substitute)\n• Marketing, HR, Business roles — BBA/B.Com/BA in a related field\n• Accountant — B.Com/BBA in Accounting or Finance (CPA/CA helps for senior roles)\n• Graphic/UI Designer — BFA/B.Des, or a strong portfolio without one\n• Civil/Mechanical/Electrical Engineer — B.Tech/B.E. in that discipline\n• Nurse (RN) — BSN or ADN\n• Journalist — BA in Journalism/Communications\n• School Teacher — Bachelor's in Education or subject + teaching certification\n\nUsually need a Master's or professional degree:\n• Doctor/Physician — MBBS (or MD/DO), then residency\n• Lawyer — Bachelor's + JD (US) or LLB (most other countries)\n• University Professor/Researcher — PhD (Master's minimum for some teaching roles)\n• Clinical Psychologist — Master's or PhD in Psychology\n• Pharmacist — B.Pharm (India) or PharmD (US)\n• Architect — B.Arch (5-year bachelor's), M.Arch for some senior/academic roles\n• Senior management/strategy roles — MBA is common, though not always required\n• Data Scientist (research-heavy roles) — Master's/PhD in Stats, CS, or related; entry-level roles often accept a Bachelor's + a strong portfolio\n\nTell me the specific role you're targeting and I can be more precise." },
-  { keys: ["skill", "skills"], answer: "List 6–10 skills that are directly relevant to the job you're applying for. Lead with the ones mentioned in the job post, and group similar skills together (e.g. tools vs. soft skills) so they're easy to scan." },
-  { keys: ["experience", "bullet", "job history", "work history"], answer: "For each role, use 2–4 bullet points that start with an action verb and include a measurable result where possible (e.g. 'Reduced onboarding time by 30%'). Keep the most recent role the most detailed." },
-  { keys: ["summary", "about me", "objective"], answer: "Keep your summary to 2–3 sentences: your role/years of experience, your strongest skill area, and what kind of impact you're looking to make next. Avoid generic phrases like 'hardworking team player'." },
-  { keys: ["font", "typography", "typeface"], answer: "Stick to one clean, readable font family (like the Inter font used in these templates) and at most two weights — bold for headings, regular for body text. Avoid more than 2 font sizes in the body text." },
-  { keys: ["color", "colour", "accent"], answer: "Pick one accent color and use it sparingly — for your name, section headings, or a sidebar. Keep the rest of the page neutral (black/gray/white) so the accent actually stands out and prints well." },
-  { keys: ["photo", "picture", "headshot"], answer: "A photo is optional and more common outside the US — it fits the Profile layout well. If you include one, use a simple, well-lit headshot with a plain background." },
-  { keys: ["pdf", "export", "download"], answer: "Once your resume looks right in the preview, use the Download PDF button at the top of the editor — it keeps your fonts and layout exactly as shown." },
-  { keys: ["education"], answer: "List your highest or most relevant degree first, with the institution and year. You can drop older or less relevant education once you have a few years of work experience." },
-  { keys: ["length", "one page", "pages"], answer: "Aim for one page if you have under ~10 years of experience, and no more than two pages otherwise. Trim older or less relevant roles rather than shrinking the font." },
-  { keys: ["cover letter"], answer: "A strong cover letter is 3 short paragraphs: 1) the role you want and one sentence on why you're a fit, 2) one or two specific achievements that prove it (pull numbers straight from your resume), and 3) a brief close saying you're looking forward to discussing it further. Address a named person if you can find one, mirror 2-3 keywords from the job post, and keep the whole thing under half a page." },
-  { keys: ["linkedin"], answer: "Your LinkedIn headline should state your role plus your strongest skill or specialty (not just a job title). The About section should expand on your resume summary in a more conversational tone, your Experience section can mirror your resume's bullet points, and you should list the same skills your resume uses as keywords. Add a professional photo and make sure your headline and most recent role match what's on your resume — recruiters check both." },
-  { keys: ["reference", "references page", "recommendation letter"], answer: "Don't put \"References available upon request\" on your resume — it wastes space and is assumed. Instead, keep a separate one-page references list (name, title, company, relationship, phone/email) ready to send when asked, usually 2-3 people who can speak to your recent work." },
-  { keys: ["portfolio", "work samples"], answer: "For design, writing, dev, or marketing roles, a portfolio link on your resume (next to your email) matters as much as the bullet points. Link to 3-5 of your strongest, most relevant pieces rather than everything you've made, and make sure each one loads fast and explains your specific role in it." },
-  { keys: ["cv vs resume", "difference between cv and resume", "what is the difference"], answer: "In the US and Canada, a resume is a 1-2 page summary tailored per job, while a CV is longer and used mainly for academic, research, or medical roles, listing full publication and education history. In the UK, Europe, and most other countries, \"CV\" is just the common word for what Americans call a resume — same document, different name." }, 
-  { keys: ["chronological", "functional resume", "combination resume", "resume format", "which format"], answer: "Chronological (most recent job first) is the safest default and what most recruiters expect. Functional (grouped by skill, not by job) can help hide gaps or a career change but is viewed with some suspicion by recruiters and ATS. Combination (a skills summary up top, then chronological history below) is a good middle ground if you're changing fields but still have relevant experience to show." },
-  { keys: ["gap", "employment gap", "career break", "unemployed"], answer: "Don't try to hide a gap by omitting dates — it's noticeable and a red flag. A short line in your summary (e.g. \"took a career break for caregiving, returned to the workforce in 2024\") is usually enough; employers mainly want to know you're ready now. If you used the gap productively (courses, freelance work, volunteering), list it as a line item in your timeline." },
-  { keys: ["career change", "switching careers", "changing industries", "transferable skills"], answer: "Lead with a summary that explicitly states the role you're targeting and your most relevant transferable skills (communication, project management, data analysis, etc. translate across most fields). Reorder your bullet points to foreground achievements closest to the new field, and consider the combination format above. A short line on why you're making the switch, framed positively, helps too." },
-  { keys: ["fresher", "no experience", "student resume", "first job", "entry level", "intern"], answer: "With little or no work experience, lead with Education (GPA if strong, relevant coursework) and move it above Experience. Fill the Experience section with internships, class projects, part-time work, or volunteering — describe them with the same action-verb, measurable-impact style as a full job. A Skills section with the specific tools from the job post matters a lot here since you have less history to lean on." },
-  { keys: ["executive resume", "senior role", "c-suite", "leadership resume"], answer: "Senior and executive resumes lead with a short leadership summary (scope: team size, budget, revenue you owned) rather than a list of duties. Favor business outcomes — revenue growth, cost savings, market expansion — over day-to-day tasks, and it's fine to run to two pages given the length of your track record. Board roles, speaking engagements, or publications can go in a short section near the end." },
-  { keys: ["power verb", "strong verb", "verb list"], answer: "Strong resume verbs by type: Leadership — led, directed, launched, mentored. Growth — increased, grew, generated, expanded. Efficiency — streamlined, automated, reduced, optimized. Creation — built, designed, developed, founded. Avoid weak openers like \"responsible for\" or \"helped with\" — state what you actually did and its result instead." },
-  { keys: ["mistake", "common mistakes", "what to avoid"], answer: "The most common resume mistakes: typos and inconsistent formatting (always proofread out loud), a generic \"one-size-fits-all\" resume sent to every job, listing duties instead of achievements, an unprofessional email address, missing or buried contact info, and resumes that are too long for the experience level. Fix the top three first — they cost the most interviews." },
-  { keys: ["tailor", "customize resume", "tailoring", "every job"], answer: "Keep one master resume with everything you've done, then trim and reorder it per application: match 3-5 keywords from the job post into your summary and skills, reorder bullet points so the most relevant achievement for THIS role is first in each entry, and cut anything clearly irrelevant to the posting. Ten minutes of tailoring per application meaningfully raises your ATS match rate." },
-  { keys: ["academic cv", "research cv", "phd", "publications"], answer: "Academic CVs run longer than a resume and are organized differently: Education first (with advisor/thesis topic), then Publications (full citation list), Grants & Fellowships, Teaching Experience, Conference Presentations, and Research Experience. Unlike a resume, length is expected — what matters is complete, accurately formatted citations." },
-  { keys: ["freelance", "freelancer", "gig work", "self employed", "contract work"], answer: "List freelance/contract work the same way as a job: company name becomes \"Freelance [Your Role]\" or the client's name if notable, with the same action-verb, measurable-outcome bullet style. Group short-term or recurring clients under one \"Freelance Consultant\" entry with a date range rather than listing each gig separately, unless one project is especially impressive." },
-  { keys: ["follow up", "follow-up email", "after applying", "after interview"], answer: "Send a short thank-you email within 24 hours of an interview, naming one specific thing you discussed and reaffirming your interest. If you haven't heard back after applying, one polite follow-up after 1-2 weeks is reasonable — keep it to two or three sentences and avoid following up more than once unless invited to." },
-  { keys: ["dark mode", "light mode", "theme", "dark theme", "light theme"], answer: "You can switch between light and dark mode any time using the toggle in the top-right of the page (the sun/moon icon) — your choice is remembered the next time you visit." }
+  { keys: ["main content", "what matters", "job market", "most important", "what to include", "what should i include", "stand out", "recruiters look for", "what employers want", "catches recruiter", "what counts", "what matters most"], answer: "In today's job market, four things matter most: 1) a tailored summary and skills list that mirror the exact keywords in the job post (most companies scan with ATS software first), 2) measurable achievements in your experience section — numbers, percentages, or outcomes beat vague duties, 3) relevant, up-to-date skills (tools, software, certifications) specific to the role, and 4) clean, consistent formatting that's easy to scan in under 10 seconds. Older, irrelevant history matters far less than a tight, targeted top half of the page.", answerHi: "आज के जॉब मार्केट में चार चीज़ें सबसे ज़्यादा मायने रखती हैं: 1) एसा सारांश और स्किल्स लिस्ट जो जॉब पोस्ट के सटीक कीवर्ड्स से मेल खाए (ज्यादातर कंपनियां पहले ATS सॉफ़्टवेयर से स्कैन करती हैं), 2) एक्सपीरियंस सेक्शन में मापने लायक उपलब्धियां — नंबर, प्रतिशत या नतीजे, सामान्य ड्यूटी लिस्ट से बेहतर होते हैं, 3) रोल से जुड़े मौजूदा स्किल्स (टूल्स, सॉफ़्टवेयर, सर्टिफिकेशन), और 4) साफ़-सुथरा, एक जैसा फ़ॉर्मेटिंग जिसे 10 सेकंड में पढ़ा जा सके। पुराना, असंबंधित अनुभव पेज के शुरुआती आधे हिस्से जितना मायने नहीं रखता।" },
+  { keys: ["ats", "applicant tracking", "keyword"], answer: "ATS systems scan for exact keywords from the job description, so mirror the wording the employer uses for your skills and job titles where it's accurate. Stick to standard section headings (Experience, Education, Skills), avoid text inside images or tables, and use a simple single- or two-column layout so the system can parse it correctly.", answerHi: "ATS सिस्टम जॉब डिस्क्रिप्शन के सटीक कीवर्ड्स स्कैन करते हैं, इसलिए अपने स्किल्स और जॉब टाइटल में वही शब्द इस्तेमाल करें जो एम्प्लॉयर ने लिखे हैं (जहां सही हो)। स्टैंडर्ड सेक्शन हेडिंग्स (Experience, Education, Skills) का इस्तेमाल करें, इमेज या टेबल के अंदर टेक्स्ट डालने से बचें, और एक सिंपल सिंगल- या टू-कॉलम लेआउट रखें ताकि सिस्टम उसे सही से पढ़ सके।" },
+  { keys: ["hr want", "hr wants", "hr looks for", "hr look for", "recruiter want", "recruiters want", "hiring manager", "what do employers", "what does hr"], answer: "HR teams today mainly screen for: 1) a resume tailored to THIS job, not a generic one, 2) proof of impact — specific results, not just duties, 3) skills that match the posting (tools, certifications, software), 4) a clean, error-free, easy-to-scan format, and 5) signs of adaptability and continuous learning. Many also check your LinkedIn or portfolio link, so make sure it matches your resume.", answerHi: "आज एचआर टीमें मुख्य रूप से इन चीज़ों की जांच करती हैं: 1) रिज्यूमे इसी जॉब के लिए तैयार किया गया हो, जेनेरिक न हो, 2) असर का सबूत — सिर्फ़ ड्यूटी नहीं बल्कि ठोस नतीजे, 3) जॉब पोस्टिंग से मेल खाते स्किल्स (टूल्स, सर्टिफिकेशन, सॉफ़्टवेयर), 4) साफ़, गलती-रहित और आसानी से पढ़ा जा सकने वाला फॉर्मेट, और 5) अनुकूलनशीलता और लगातार सीखने के संकेत। कई लोग आपकी LinkedIn या पोर्टफोलियो लिंक भी चेक करते हैं, इसलिए सुनिश्चित करें कि वह आपके रिज्यूमे से मेल खाता हो।" },
+  { keys: ["finance", "accounting", "accountant", "banking", "financial analyst", "finance certification"], answer: "For finance roles, HR looks for: certifications (CFA, CPA, CA, FRM if relevant), strong Excel/financial modeling skills, accuracy and compliance awareness, and quantified results — e.g. \"managed a $2M budget\" or \"reduced reporting errors by 20%\". Mention specific tools (Excel, SAP, QuickBooks, Bloomberg) and any regulatory knowledge relevant to your market.", answerHi: "फ़ाइनेंस रोल्स के लिए एचआर यह देखता है: सर्टिफिकेशन (CFA, CPA, CA, FRM अगर लागू हो), मज़बूत Excel/फ़ाइनेंशियल मॉडलिंग स्किल्स, सटीकता और कंप्लायंस की समझ, और मापने लायक नतीजे — जैसे \"$2M बजट मैनेज किया\" या \"रिपोर्टिंग एरर 20% घटाया\"। Excel, SAP, QuickBooks, Bloomberg जैसे टूल्स और अपने मार्केट से जुड़ी रेगुलेटरी जानकारी का ज़िक्र करें।" },
+  { keys: ["marketing", "digital marketing", "seo", "social media manager", "brand", "marketing certification"], answer: "For marketing roles, lead with measurable campaign results — ROI, conversion rate, engagement growth, audience reach — rather than just \"managed social media.\" List the specific tools you use (Google Analytics, Meta Ads, HubSpot, SEO/SEM, Canva) and, if possible, link a portfolio of campaigns or content you've created. Useful certifications: Google Analytics, Google Ads, HubSpot Content/Inbound Marketing, Meta Blueprint.", answerHi: "मार्केटिंग रोल्स के लिए, सिर्फ़ \"सोशल मीडिया मैनेज किया\" कहने की बजाय मापने लायक कैंपेन नतीजों (ROI, कन्वर्ज़न रेट, एंगेजमेंट ग्रोथ, ऑडियंस रीच) को आगे रखें। जो टूल्स आप इस्तेमाल करते हैं (Google Analytics, Meta Ads, HubSpot, SEO/SEM, Canva) उन्हें लिस्ट करें, और हो सके तो अपने बनाए कैंपेन या कंटेंट का पोर्टफोलियो लिंक करें। उपयोगी सर्टिफिकेशन: Google Analytics, Google Ads, HubSpot Content/Inbound Marketing, Meta Blueprint।" },
+  { keys: ["it sector", "software engineer", "developer", "programmer", "technical role", "tech job", "coding", "information technology", "it industry", "it field", "technical", "it certification"], answer: "For IT/technical roles, HR and hiring managers want: the specific languages, frameworks, and tools you use (e.g. Python, React, AWS, Docker), measurable project impact (performance gains, users served, bugs reduced), and a link to GitHub or a portfolio. Mentioning Agile/Scrum experience helps. Useful certifications: AWS/Azure/Google Cloud, CompTIA, PMP or Scrum/Agile (CSM), and language- or vendor-specific certs relevant to your stack.", answerHi: "IT/टेक्निकल रोल्स के लिए एचआर और हायरिंग मैनेजर यह देखना चाहते हैं: आप जो स्पेसिफिक भाषाएं, फ्रेमवर्क और टूल्स इस्तेमाल करते हैं (जैसे Python, React, AWS, Docker), मापने लायक प्रोजेक्ट इम्पैक्ट (परफॉर्मेंस गेन, यूज़र्स, बग्स में कमी), और GitHub या पोर्टफोलियो का लिंक। Agile/Scrum अनुभव का ज़िक्र फायदेमंद है। उपयोगी सर्टिफिकेशन: AWS/Azure/Google Cloud, CompTIA, PMP या Scrum/Agile (CSM), और आपके स्टैक से जुड़े भाषा- या वेंडर-स्पेसिफिक सर्टिफिकेट।" },
+  { keys: ["next 10 years", "future of job", "future skills", "future-proof", "long term career", "job market trend", "future certification"], answer: "Across every field, the skills that hold up over the next decade are: comfort working with AI and data tools, continuous learning (certifications, upskilling), strong communication and cross-functional collaboration, adaptability to new tools/processes, and proven problem-solving backed by measurable results. Helpful future-facing certifications: AI/ML fundamentals (Google, Microsoft, or Coursera/edX courses), data analytics (Google Data Analytics, Power BI), and project management (PMP, Scrum). Technical skills will keep changing, but these transferable strengths stay valuable.", answerHi: "हर फील्ड में, अगले दशक तक टिकने वाले स्किल्स हैं: AI और डेटा टूल्स के साथ सहजता, लगातार सीखना (सर्टिफिकेशन, अपस्किलिंग), मज़बूत कम्युनिकेशन और क्रॉस-फ़ंक्शनल सहयोग, नए टूल्स/प्रोसेस के साथ ढलने की क्षमता, और मापने लायक नतीजों के साथ साबित समस्या-समाधान। उपयोगी भविष्य-केंद्रित सर्टिफिकेशन: AI/ML फंडामेंटल्स (Google, Microsoft, या Coursera/edX कोर्स), डेटा एनालिटिक्स (Google Data Analytics, Power BI), और प्रोजेक्ट मैनेजमेंट (PMP, Scrum)। टेक्निकल स्किल्स बदलते रहेंगे, पर ये ट्रांसफ़रेबल स्ट्रेंथ्स हमेशा काम आएंगी।" },
+  { keys: ["certification", "certifications", "certificate", "qualification needed", "which course"], answer: "It depends on the field:\n• Finance — CFA, CPA, CA, or FRM, plus strong Excel/financial modeling.\n• Marketing — Google Analytics, Google Ads, HubSpot, or Meta Blueprint, backed by real campaign metrics (ROI, conversions, engagement).\n• IT/Technical — AWS/Azure/Google Cloud, CompTIA, or Scrum/Agile (CSM), plus a GitHub or project portfolio.\n• Future-proofing (any field) — AI/data literacy courses, data analytics certs, and project management (PMP/Scrum) for continuous learning.\nTell me which field you're in and I can go deeper.", answerHi: "यह फील्ड पर निर्भर करता है:\n• फ़ाइनेंस — CFA, CPA, CA, या FRM, साथ में मज़बूत Excel/फ़ाइनेंशियल मॉडलिंग।\n• मार्केटिंग — Google Analytics, Google Ads, HubSpot, या Meta Blueprint, असली कैंपेन मेट्रिक्स (ROI, कन्वर्ज़न, एंगेजमेंट) के साथ।\n• IT/टेक्निकल — AWS/Azure/Google Cloud, CompTIA, या Scrum/Agile (CSM), साथ में GitHub या प्रोजेक्ट पोर्टफोलियो।\n• भविष्य के लिए (किसी भी फील्ड में) — AI/डेटा लिटरेसी कोर्स, डेटा एनालिटिक्स सर्टिफिकेट, और प्रोजेक्ट मैनेजमेंट (PMP/Scrum)।\nबताएं आप किस फील्ड में हैं, मैं और गहराई से बता सकता हूं।" },
+  { keys: ["layout", "template", "which one", "choose"], answer: "Pick a layout that matches your field: Classic suits most industries, Profile (with a photo) works well for client-facing or creative roles, and Sidebar is great when you have a lot of contact details or skills to show. Keep one layout throughout for consistency.", answerHi: "अपनी फील्ड के हिसाब से लेआउट चुनें: Classic ज़्यादातर इंडस्ट्री के लिए सही है, Profile (फोटो के साथ) क्लाइंट-फ़ेसिंग या क्रिएटिव रोल्स के लिए अच्छा है, और Sidebar तब बढ़िया है जब आपके पास दिखाने के लिए ज़्यादा कॉन्टैक्ट डिटेल्स या स्किल्स हों। एकरूपता के लिए पूरे रिज़्यूमे में एक ही लेआउट रखें।" },
+  { keys: ["degree required", "degree needed", "which degree", "what degree", "educational qualification", "minimum qualification", "qualification required", "qualification needed", "eligibility criteria", "bachelors required", "bachelor's required", "masters required", "master's required", "postgraduate required", "education required", "degree do i need", "degree for"], answer: "Degree requirements vary by field and employer, but here's a general guide:\n\nUsually just a Bachelor's:\n• Software Engineer/Developer — B.Tech/B.E./BCA/BSc in CS or related (a strong portfolio can substitute)\n• Marketing, HR, Business roles — BBA/B.Com/BA in a related field\n• Accountant — B.Com/BBA in Accounting or Finance (CPA/CA helps for senior roles)\n• Graphic/UI Designer — BFA/B.Des, or a strong portfolio without one\n• Civil/Mechanical/Electrical Engineer — B.Tech/B.E. in that discipline\n• Nurse (RN) — BSN or ADN\n• Journalist — BA in Journalism/Communications\n• School Teacher — Bachelor's in Education or subject + teaching certification\n\nUsually need a Master's or professional degree:\n• Doctor/Physician — MBBS (or MD/DO), then residency\n• Lawyer — Bachelor's + JD (US) or LLB (most other countries)\n• University Professor/Researcher — PhD (Master's minimum for some teaching roles)\n• Clinical Psychologist — Master's or PhD in Psychology\n• Pharmacist — B.Pharm (India) or PharmD (US)\n• Architect — B.Arch (5-year bachelor's), M.Arch for some senior/academic roles\n• Senior management/strategy roles — MBA is common, though not always required\n• Data Scientist (research-heavy roles) — Master's/PhD in Stats, CS, or related; entry-level roles often accept a Bachelor's + a strong portfolio\n\nTell me the specific role you're targeting and I can be more precise.", answerHi: "डिग्री की ज़रूरत फील्ड और एम्प्लॉयर पर निर्भर करती है, पर यह एक सामान्य गाइड है:\n\nआमतौर पर सिर्फ़ Bachelor's काफ़ी है:\n• सॉफ्टवेयर इंजीनियर/डेवलपर — B.Tech/B.E./BCA/BSc (CS या संबंधित), मज़बूत पोर्टफोलियो इसकी जगह ले सकता है\n• मार्केटिंग, HR, बिज़नेस रोल्स — BBA/B.Com/BA (संबंधित फील्ड में)\n• अकाउंटेंट — B.Com/BBA (अकाउंटिंग या फ़ाइनेंस में), सीनियर रोल्स के लिए CPA/CA मददगार\n• ग्राफिक/UI डिज़ाइनर — BFA/B.Des, या सिर्फ़ मज़बूत पोर्टफोलियो\n• सिविल/मैकेनिकल/इलेक्ट्रिकल इंजीनियर — उसी डिसिप्लिन में B.Tech/B.E.\n• नर्स (RN) — BSN या ADN\n• जर्नलिस्ट — BA (जर्नलिज़्म/कम्युनिकेशन)\n• स्कूल टीचर — Bachelor's (एजुकेशन या विषय) + टीचिंग सर्टिफिकेशन\n\nआमतौर पर Master's या प्रोफेशनल डिग्री चाहिए:\n• डॉक्टर/फिज़िशियन — MBBS (या MD/DO), फिर रेज़िडेंसी\n• वकील — Bachelor's + JD (US) या LLB (ज़्यादातर अन्य देशों में)\n• यूनिवर्सिटी प्रोफेसर/रिसर्चर — PhD (कुछ टीचिंग रोल्स के लिए Master's न्यूनतम)\n• क्लिनिकल साइकोलॉजिस्ट — Master's या PhD (साइकोलॉजी में)\n• फ़ार्मासिस्ट — B.Pharm (भारत) या PharmD (US)\n• आर्किटेक्ट — B.Arch (5 साल की Bachelor's), सीनियर/अकादमिक रोल्स के लिए M.Arch\n• सीनियर मैनेजमेंट/स्ट्रैटजी रोल्स — MBA आम है, पर हमेशा ज़रूरी नहीं\n• डेटा साइंटिस्ट (रिसर्च-हेवी रोल्स) — Master's/PhD (स्टैट्स, CS या संबंधित); एंट्री-लेवल में अक्सर Bachelor's + मज़बूत पोर्टफोलियो काफ़ी होता है\n\nमुझे बताएं आप किस रोल को टारगेट कर रहे हैं, मैं और सटीक जवाब दे सकता हूं।" },
+  { keys: ["skill", "skills"], answer: "List 6–10 skills that are directly relevant to the job you're applying for. Lead with the ones mentioned in the job post, and group similar skills together (e.g. tools vs. soft skills) so they're easy to scan.", answerHi: "उन 6–10 स्किल्स को लिस्ट करें जो आप जिस जॉब के लिए अप्लाई कर रहे हैं, उससे सीधे जुड़े हों। जो स्किल्स जॉब पोस्ट में मेंशन हैं उन्हें आगे रखें, और मिलते-जुलते स्किल्स को साथ ग्रुप करें (जैसे टूल्स बनाम सॉफ्ट स्किल्स) ताकि उन्हें आसानी से पढ़ा जा सके।" },
+  { keys: ["experience", "bullet", "job history", "work history"], answer: "For each role, use 2–4 bullet points that start with an action verb and include a measurable result where possible (e.g. 'Reduced onboarding time by 30%'). Keep the most recent role the most detailed.", answerHi: "हर रोल के लिए, 2–4 बुलेट पॉइंट्स का इस्तेमाल करें जो एक्शन वर्ब से शुरू हों और जहां संभव हो वहां मापने लायक नतीजा शामिल करें (जैसे 'ऑनबोर्डिंग टाइम 30% घटाया')। सबसे हालिया रोल को सबसे ज़्यादा विस्तार से लिखें।" },
+  { keys: ["summary", "about me", "objective"], answer: "Keep your summary to 2–3 sentences: your role/years of experience, your strongest skill area, and what kind of impact you're looking to make next. Avoid generic phrases like 'hardworking team player'.", answerHi: "अपने समरी को 2–3 वाक्यों में रखें: आपका रोल/अनुभव के साल, आपकी सबसे मज़बूत स्किल एरिया, और आप आगे किस तरह का असर डालना चाहते हैं। 'hardworking team player' जैसे जेनेरिक वाक्यों से बचें।" },
+  { keys: ["font", "typography", "typeface"], answer: "Stick to one clean, readable font family (like the Inter font used in these templates) and at most two weights — bold for headings, regular for body text. Avoid more than 2 font sizes in the body text.", answerHi: "एक साफ़़, पढ़ने में आसान फॉन्ट फैमिली (जैसे इन टेम्पलेट्स में इस्तेमाल होने वाला Inter फॉन्ट) और ज्यादा से ज्यादा दो वेट्स रखें — हेडिंग्स के लिए बोल्ड, बॉडी टेक्स्ट के लिए रेगुलर। बॉडी टेक्स्ट में 2 से ज्यादा फॉन्ट साइज़ न रखें।" },
+  { keys: ["color", "colour", "accent"], answer: "Pick one accent color and use it sparingly — for your name, section headings, or a sidebar. Keep the rest of the page neutral (black/gray/white) so the accent actually stands out and prints well.", answerHi: "एक एक्सेंट कलर चुनें और उसे कम इस्तेमाल करें — अपने नाम, सेक्शन हेडिंग्स, या साइडबार के लिए। बाकी पेज न्यूट्रल (काला/ग्रे/सफेद) रखें ताकि एक्सेंट उभर कर दिखे और प्रिंट में भी अच्छा लगे।" },
+  { keys: ["photo", "picture", "headshot"], answer: "A photo is optional and more common outside the US — it fits the Profile layout well. If you include one, use a simple, well-lit headshot with a plain background.", answerHi: "फोटो देना वैकल्पिक है और US के बाहर ज्यादा आम है — यह Profile लेआउट के साथ अच्छी लगती है। अगर आप फोटो डाल रहे हैं, तो एक सिंपल, अच्छी रोशनी वाली हेडशॉट चुनें जिसका बैकग्राउंड प्लेन हो।" },
+  { keys: ["pdf", "export", "download"], answer: "Once your resume looks right in the preview, use the Download PDF button at the top of the editor — it keeps your fonts and layout exactly as shown.", answerHi: "जब आपका रिज्यूमे प्रीव्यू में सही दिखने लगे, तो एडिटर के ऊपर मौजूद Download PDF बटन इस्तेमाल करें — यह आपके फॉन्ट्स और लेआउट को बिल्कुल वैसा ही रखता है जैसा दिख रहा है।" },
+  { keys: ["education"], answer: "List your highest or most relevant degree first, with the institution and year. You can drop older or less relevant education once you have a few years of work experience.", answerHi: "अपनी सबसे उच्च या सबसे प्रासंगिक डिग्री को पहले लिखें, साथ में संस्थान और साल। कुछ साल के वर्क एक्सपीरियंस के बाद, आप पुरानी या कम प्रासंगिक एजुकेशन हटा सकते हैं।" },
+  { keys: ["length", "one page", "pages"], answer: "Aim for one page if you have under ~10 years of experience, and no more than two pages otherwise. Trim older or less relevant roles rather than shrinking the font.", answerHi: "अगर आपके पास ~10 साल से कम अनुभव है तो एक पेज रखने की कोशिश करें, वरना दो पेज से ज्यादा न जाएं। फॉन्ट छोटा करने की बजाय पुराने या कम प्रासंगिक रोल्स को छांटें।" },
+  { keys: ["cover letter"], answer: "A strong cover letter is 3 short paragraphs: 1) the role you want and one sentence on why you're a fit, 2) one or two specific achievements that prove it (pull numbers straight from your resume), and 3) a brief close saying you're looking forward to discussing it further. Address a named person if you can find one, mirror 2-3 keywords from the job post, and keep the whole thing under half a page.", answerHi: "एक मज़बूत कवर लेटर 3 छोटे पैराग्राफ़़ का होता है: 1) आप जो रोल चाहते हैं और एक वाक्य में क्यों आप फिट हैं, 2) एक या दो स्पेसिफिक उपलब्धियां जो इसे साबित करें (अपने रिज्यूमे से सीधे नंबर लें), और 3) एक छोटा समापन जिसमें आप आगे बात करने की उत्सुकता जताएं। अगर संभव हो तो किसी खास व्यक्ति को संबोधित करें, जॉब पोस्ट से 2-3 कीवर्ड्स मिलाएं, और पूरा लेटर आधे पेज से कम रखें।" },
+  { keys: ["linkedin"], answer: "Your LinkedIn headline should state your role plus your strongest skill or specialty (not just a job title). The About section should expand on your resume summary in a more conversational tone, your Experience section can mirror your resume's bullet points, and you should list the same skills your resume uses as keywords. Add a professional photo and make sure your headline and most recent role match what's on your resume — recruiters check both.", answerHi: "आपकी LinkedIn हेडलाइन में आपका रोल और सबसे मज़बूत स्किल या स्पेशलिटी होनी चाहिए (सिर्फ़ जॉब टाइटल नहीं)। About सेक्शन में अपने रिज्यूमे समरी को थोड़े बातचीत टोन में विस्तार से लिखें, Experience सेक्शन आपके रिज्यूमे के बुलेट पॉइंट्स जैसा हो सकता है, और वही स्किल्स कीवर्ड्स के तौर पर लिस्ट करें जो आपका रिज्यूमे इस्तेमाल करता है। एक प्रोफेशनल फोटो लगाएं और सुनिश्चित करें कि हेडलाइन और हालिया रोल रिज्यूमे से मेल खाएं — रिक्रूटर्स दोनों चेक करते हैं।" },
+  { keys: ["reference", "references page", "recommendation letter"], answer: "Don't put \"References available upon request\" on your resume — it wastes space and is assumed. Instead, keep a separate one-page references list (name, title, company, relationship, phone/email) ready to send when asked, usually 2-3 people who can speak to your recent work.", answerHi: "अपने रिज्यूमे पर \"References available upon request\" मत लिखिए — यह जगह बर्बाद करता है और वैसे भी माना जाता है। इसके बजाय, एक अलग एक-पेज रेफरेंस लिस्ट (नाम, पद, कंपनी, संबंध, फोन/ईमेल) तैयार रखें जिसे पूछे जाने पर भेज सकें, आमतौर 2-3 लोग जो आपके हालिया काम के बारे में बोल सकें।" },
+  { keys: ["portfolio", "work samples"], answer: "For design, writing, dev, or marketing roles, a portfolio link on your resume (next to your email) matters as much as the bullet points. Link to 3-5 of your strongest, most relevant pieces rather than everything you've made, and make sure each one loads fast and explains your specific role in it.", answerHi: "डिज़ाइन, राइटिंग, डेव, या मार्केटिंग रोल्स के लिए, रिज्यूमे पर (ईमेल के पास) पोर्टफोलियो लिंक उतना ही मायने रखता है जितना बुलेट पॉइंट्स। सब कुछ की बजाय अपने 3-5 सबसे मज़बूत और प्रासंगिक काम लिंक करें, और सुनिश्चित करें कि हर एक जल्दी लोड हो और उसमें आपका स्पेसिफिक रोल बताया गया हो।" },
+  { keys: ["cv vs resume", "difference between cv and resume", "what is the difference"], answer: "In the US and Canada, a resume is a 1-2 page summary tailored per job, while a CV is longer and used mainly for academic, research, or medical roles, listing full publication and education history. In the UK, Europe, and most other countries, \"CV\" is just the common word for what Americans call a resume — same document, different name.", answerHi: "US और कनाडा में, resume एक 1-2 पेज का सारांश होता है जो हर जॉब के लिए तैयार किया जाता है, जबकि CV ज्यादा लंबा होता है और मुख्य रूप से अकादमिक, रिसर्च, या मेडिकल रोल्स के लिए इस्तेमाल होता है, जिसमें पूरी पब्लिकेशन और एजुकेशन हिस्ट्री होती है। UK, यूरोप, और ज्यादातर अन्य देशों में, \"CV\" बस वही आम शब्द है जिसे अमरीकी resume कहते हैं — डॉक्यूमेंट वही, नाम अलग।" }, 
+  { keys: ["chronological", "functional resume", "combination resume", "resume format", "which format"], answer: "Chronological (most recent job first) is the safest default and what most recruiters expect. Functional (grouped by skill, not by job) can help hide gaps or a career change but is viewed with some suspicion by recruiters and ATS. Combination (a skills summary up top, then chronological history below) is a good middle ground if you're changing fields but still have relevant experience to show.", answerHi: "Chronological (सबसे हालिया जॉब पहले) सबसे सुरक्षित डिफ़ॉल्ट है और ज्यादातर रिक्रूटर्स यही उम्मीद रखते हैं। Functional (जॉब के बजाय स्किल के हिसाब से ग्रुप्ड) गैप या करियर बदलाव छुपाने में मदद कर सकता है, पर रिक्रूटर्स और ATS इसे कुछ शंका की नजर से देखते हैं। Combination (ऊपर स्किल्स समरी, फिर नीचे क्रोनोलॉजिकल हिस्ट्री) एक अच्छा बीच का रास्ता है अगर आप फील्ड बदल रहे हैं पर दिखाने के लिए प्रासंगिक अनुभव भी है।" },
+  { keys: ["gap", "employment gap", "career break", "unemployed"], answer: "Don't try to hide a gap by omitting dates — it's noticeable and a red flag. A short line in your summary (e.g. \"took a career break for caregiving, returned to the workforce in 2024\") is usually enough; employers mainly want to know you're ready now. If you used the gap productively (courses, freelance work, volunteering), list it as a line item in your timeline.", answerHi: "तारीखें हटाकर गैप छुपाने की कोशिश न करें — यह साफ़ दिखता है और एक रेड फ़्लैग बन जाता है। अपने समरी में एक छोटी लाइन (जैसे \"केयरगिविंग के लिए करियर ब्रेक लिया, 2024 में वापस काम पर आया\") आमतौर काफ़़ी होती है; एम्प्लॉयर मुख्य रूप से यह जानना चाहते हैं कि आप अब तैयार हैं। अगर आपने गैप का सदुपयोग किया (कोर्स, फ़्रीलांस काम, वॉलंटियरिंग), तो उसे अपनी टाइमलाइन में एक लाइन आइटम के तौर पर लिस्ट करें।" },
+  { keys: ["career change", "switching careers", "changing industries", "transferable skills"], answer: "Lead with a summary that explicitly states the role you're targeting and your most relevant transferable skills (communication, project management, data analysis, etc. translate across most fields). Reorder your bullet points to foreground achievements closest to the new field, and consider the combination format above. A short line on why you're making the switch, framed positively, helps too.", answerHi: "एक समरी से शुरू करें जो साफ़़ बताए कि आप किस रोल को टारगेट कर रहे हैं और आपके सबसे प्रासंगिक ट्रांसफ़़रेबल स्किल्स कौन से हैं (कम्युनिकेशन, प्रोजेक्ट मैनेजमेंट, डेटा एनालिसिस जैसी चीज़़ें ज़़्यादातर फ़़ील्ड में काम आती हैं)। अपने बुलेट पॉइंट्स को इस तरह क्रम दें कि नई फ़़ील्ड से ज़़ुड़़ी उपलब्धियां सबसे आगे हों, और ऊपर बताए गए Combination फ़़ॉर्मेट पर विचार करें।" },
+  { keys: ["fresher", "no experience", "student resume", "first job", "entry level", "intern"], answer: "With little or no work experience, lead with Education (GPA if strong, relevant coursework) and move it above Experience. Fill the Experience section with internships, class projects, part-time work, or volunteering — describe them with the same action-verb, measurable-impact style as a full job. A Skills section with the specific tools from the job post matters a lot here since you have less history to lean on.", answerHi: "बहुत कम या कोई वर्क एक्सपीरियंस न होने पर, Education को आगे रखें (अगर अच्छा हो तो GPA, प्रासंगिक कोर्सवर्क) और इसे Experience से ऊपर रखें। Experience सेक्शन को इंटर्नशिप, क्लास प्रोजेक्ट्स, पार्ट-टाइम काम, या वॉलंटियरिंग से भरें — इन्हें उसी एक्शन-वर्ब, मापने-लायक-असर स्टाइल में लिखें जैसे किसी फुल जॉब को लिखते हैं। यहां Skills सेक्शन बहुत मायने रखता है क्योंकि आपके पास दिखाने के लिए कम हिस्ट्री है, इसलिए जॉब पोस्ट के स्पेसिफिक टूल्स शामिल करें।" },
+  { keys: ["executive resume", "senior role", "c-suite", "leadership resume"], answer: "Senior and executive resumes lead with a short leadership summary (scope: team size, budget, revenue you owned) rather than a list of duties. Favor business outcomes — revenue growth, cost savings, market expansion — over day-to-day tasks, and it's fine to run to two pages given the length of your track record. Board roles, speaking engagements, or publications can go in a short section near the end.", answerHi: "सीनियर और एग्ज़़िक्यूटिव रिज़़्यूमे ड्यूटी लिस्ट की बज़़ाय एक छोटे लीडरशिप समरी (स्कोप: टीम साइज़़, बज़़ट, रेवेन्यू जो आपने संभाला) से शुरू होते हैं। डे-टू-डे टास्क की बज़़ाय बिज़़नेस नतीज़़ों — रेवेन्यू ग्रोथ, कॉस्ट सेविंग, मार्केट एक्सपेंशन — को आगे रखें, और आपके ट्रैक रिकॉर्ड की लंबाई को देखते हुए दो पेज़़ तक जाना ठीक है। बोर्ड रोल्स, स्पीकिंग एंगेज़़मेंट, या पब्लिकेशन अंत में एक छोटे सेक्शन में दिए जा सकते हैं।" },
+  { keys: ["power verb", "strong verb", "verb list"], answer: "Strong resume verbs by type: Leadership — led, directed, launched, mentored. Growth — increased, grew, generated, expanded. Efficiency — streamlined, automated, reduced, optimized. Creation — built, designed, developed, founded. Avoid weak openers like \"responsible for\" or \"helped with\" — state what you actually did and its result instead.", answerHi: "टाइप के हिसाब से मज़़बूत रिज़़्यूमे वर्ब: लीडरशिप — led, directed, launched, mentored। ग्रोथ — increased, grew, generated, expanded। एफ़़िशियंसी — streamlined, automated, reduced, optimized। क्रिएशन — built, designed, developed, founded। \"responsible for\" या \"helped with\" जैसे कमज़़ोर शब्दों से बचें — इसके बज़़ाय बताएं कि आपने असल में क्या किया और उसका नतीज़़ा क्या रहा।" },
+  { keys: ["mistake", "common mistakes", "what to avoid"], answer: "The most common resume mistakes: typos and inconsistent formatting (always proofread out loud), a generic \"one-size-fits-all\" resume sent to every job, listing duties instead of achievements, an unprofessional email address, missing or buried contact info, and resumes that are too long for the experience level. Fix the top three first — they cost the most interviews.", answerHi: "सबसे आम रिज़़्यूमे गलतियां: टाइपो और असंगत फ़़ॉर्मेटिंग (हमेशा ज़़ोर से पढ़़कर प्रूफ़़रीड करें), हर ज़़ॉब के लिए एक ही ज़़ेनेरिक रिज़़्यूमे भेज़़ना, ड्यूटी लिस्ट करना न कि उपलब्धियां, गैर-पेशेवर ईमेल एड्रेस, गायब या छुपी हुई कॉन्टैक्ट ज़़ानकारी, और अनुभव के हिसाब से बहुत लंबा रिज़़्यूमे। पहले तीन को ठीक करें — ये सबसे ज़़्यादा इंटरव्यू खोने का कारण बनते हैं।" },
+  { keys: ["tailor", "customize resume", "tailoring", "every job"], answer: "Keep one master resume with everything you've done, then trim and reorder it per application: match 3-5 keywords from the job post into your summary and skills, reorder bullet points so the most relevant achievement for THIS role is first in each entry, and cut anything clearly irrelevant to the posting. Ten minutes of tailoring per application meaningfully raises your ATS match rate.", answerHi: "एक मास्टर रिज़़्यूमे रखें जिसमें आपका सब कुछ हो, फ़़िर हर एप्लीकेशन के हिसाब से उसे छांटें और दोबारा क्रम दें: ज़़ॉब पोस्ट से 3-5 कीवर्ड्स अपने समरी और स्किल्स में मिलाएं, बुलेट पॉइंट्स को इस तरह क्रम दें कि इस रोल के लिए सबसे प्रासंगिक उपलब्धि हर एंट्री में पहले आए, और जो स्पष्ट रूप से असंबंधित हो उसे हटा दें। हर एप्लीकेशन पर दस मिनट की टेलरिंग आपकी ATS मैच रेट काफ़़ी बढ़़ा देती है।" },
+  { keys: ["academic cv", "research cv", "phd", "publications"], answer: "Academic CVs run longer than a resume and are organized differently: Education first (with advisor/thesis topic), then Publications (full citation list), Grants & Fellowships, Teaching Experience, Conference Presentations, and Research Experience. Unlike a resume, length is expected — what matters is complete, accurately formatted citations.", answerHi: "अकादमिक CV रिज़़्यूमे से ज़़्यादा लंबे होते हैं और अलग तरीके से व्यवस्थित होते हैं: पहले Education (एडवाइज़़र/थीसिस टॉपिक के साथ), फ़़िर Publications (पूरी साइटेशन लिस्ट), Grants & Fellowships, Teaching Experience, Conference Presentations, और Research Experience। रिज़़्यूमे के उलट, यहां लंबाई अपेक्षित है — मायने रखता है पूरी, सही तरीके से फ़़ॉर्मेट की गई साइटेशन।" },
+  { keys: ["freelance", "freelancer", "gig work", "self employed", "contract work"], answer: "List freelance/contract work the same way as a job: company name becomes \"Freelance [Your Role]\" or the client's name if notable, with the same action-verb, measurable-outcome bullet style. Group short-term or recurring clients under one \"Freelance Consultant\" entry with a date range rather than listing each gig separately, unless one project is especially impressive.", answerHi: "फ़़्रीलांस/कॉन्ट्रैक्ट काम को ज़़ॉब की तरह ही लिस्ट करें: कंपनी का नाम \"Freelance [आपका रोल]\" बन ज़़ाए, या अगर क्लाइंट ज़़ाना-पहचाना हो तो उसका नाम, उसी एक्शन-वर्ब, मापने-लायक-नतीज़़ा स्टाइल के साथ। छोटी अवधि या बार-बार आने वाले क्लाइंट्स को एक \"Freelance Consultant\" एंट्री के तहत डेट रेंज़़ के साथ ग्रुप करें, जब तक कोई एक प्रोजेक्ट खासतौर प्रभावशाली न हो।" },
+  { keys: ["follow up", "follow-up email", "after applying", "after interview"], answer: "Send a short thank-you email within 24 hours of an interview, naming one specific thing you discussed and reaffirming your interest. If you haven't heard back after applying, one polite follow-up after 1-2 weeks is reasonable — keep it to two or three sentences and avoid following up more than once unless invited to.", answerHi: "इंटरव्यू के 24 घंटे के अंदर एक छोटा थैंक-यू ईमेल भेज़़ें, जिसमें आपने जिस बारे में बात की उसका कोई एक स्पेसिफ़़िक पॉइंट मेंशन करें और अपनी दिлचस्पी दोहराएं। अगर अप्लाई करने के बाद जवाब न मिले, तो 1-2 हफ़़्ते बाद एक विनम्र फ़़ॉलो-अप ठीक है — इसे दो या तीन वाक्यों तक सीमित रखें और जब तक न कहा जाए, एक से ज़़्यादा फ़़ॉलो-अप न करें।" },
+  { keys: ["dark mode", "light mode", "theme", "dark theme", "light theme"], answer: "You can switch between light and dark mode any time using the toggle in the top-right of the page (the sun/moon icon) — your choice is remembered the next time you visit.", answerHi: "आप कभी भी पेज़़ के ऊपर-दाईं टॉगल (सूरज़़/चांद आइकॉन) से लाइट और डार्क मोड के बीच स्विच कर सकते हैं — अगली बार विज़़िट करने पर आपकी पसंद याद रखी ज़़ाती है।" }
 ];
 
 function scrollMsgsToBottom() {
@@ -182,8 +183,14 @@ function scrollMsgsToBottom() {
 }
 
 const CAPABILITIES_LIST = "• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Rating your CV's content quality and what to add right now";
+const CAPABILITIES_LIST_HI = "• रिज्यूमे डिज़ाइन और राइटिंग (लेआउट, फॉन्ट, वर्डिंग, फॉर्मेट)\n• कवर लेटर, LinkedIn प्रोफ़ाइल, रेफरेंस, और पोर्टफोलियो\n• आज HR और रिक्रूटर्स क्या देखते हैं, इंडस्ट्री के हिसाब से\n• करियर बदलाव, एम्प्लॉयमेंट गैप, फ्रेशर्स, और एग्ज़िक्यूटिव रिज्यूमे\n• आपके CV की कंटेंट क्वालिटी रेट करना और अभी क्या जोड़ना चाहिए";
 
 const GREETING = `Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n${CAPABILITIES_LIST}\nPick a question below, or just type what you need help with.`;
+const GREETING_HI = `नमस्ते! मैं MR.DRAFTORA हूं, आपका CV विशेषज्ञ। मैं इनमें मदद कर सकता हूं:\n${CAPABILITIES_LIST_HI}\nनीचे कोई सवाल चुनें, या बस टाइप करें आपको क्या मदद चाहिए।`;
+
+function greetingFor(lang) {
+  return lang === "hi" ? GREETING_HI : GREETING;
+}
 
 function normalizeText(raw) {
   return raw
@@ -288,55 +295,75 @@ function isDegreeIntent(raw) {
 
 const DEGREE_PROFILES = [
   { role: "Software Engineer/Developer", keys: ["software engineer", "software developer", "programmer", "web developer", "app developer", "swe"],
-    answer: "For a Software Engineer or Developer role, a Bachelor's is the standard expectation — typically a B.Tech, B.E., BCA, or BSc in Computer Science or a closely related field. That said, this is one of the few professions where strong, demonstrable project work or a solid portfolio can substitute for formal credentials at many companies, particularly startups and product-based firms. A Master's isn't required unless you're targeting research-heavy roles such as ML/AI research, where an MS or PhD becomes more relevant." },
+    answer: "For a Software Engineer or Developer role, a Bachelor's is the standard expectation — typically a B.Tech, B.E., BCA, or BSc in Computer Science or a closely related field. That said, this is one of the few professions where strong, demonstrable project work or a solid portfolio can substitute for formal credentials at many companies, particularly startups and product-based firms. A Master's isn't required unless you're targeting research-heavy roles such as ML/AI research, where an MS or PhD becomes more relevant.",
+    answerHi: "सॉफ्टवेयर इंजीनियर या डेवलपर रोल के लिए, Bachelor's डिग्री मानक अपेक्षा है — आमतौर B.Tech, B.E., BCA, या Computer Science (या संबंधित फील्ड) में BSc। हालांकि, यह उन चुनिंदा फील्ड्स में से एक है जहां मज़बूत प्रोजेक्ट वर्क या ठोस पोर्टफोलियो कई कंपनियों, खासकर स्टार्टअप्स और प्रोडक्ट-बेस्ड फर्म्स में, औपचारिक डिग्री की जगह ले सकता है। Master's ज़रूरी नहीं है जब तक आप ML/AI रिसर्च जैसे रिसर्च-हेवी रोल्स टारगेट नहीं कर रहे, जहां MS या PhD ज़्यादा प्रासंगिक हो जाती है।" },
   { role: "Data Scientist/Analyst", keys: ["data scientist", "data analyst", "data science", "machine learning engineer", "ml engineer"],
-    answer: "Entry-level Data Analyst or Data Scientist roles generally accept a Bachelor's in Computer Science, Statistics, Mathematics, or Economics, paired with demonstrated skills in Python/R and SQL. For research-driven or senior data science positions — especially roles touching ML research — a Master's or PhD in Statistics, Computer Science, or a related quantitative field is usually expected." },
+    answer: "Entry-level Data Analyst or Data Scientist roles generally accept a Bachelor's in Computer Science, Statistics, Mathematics, or Economics, paired with demonstrated skills in Python/R and SQL. For research-driven or senior data science positions — especially roles touching ML research — a Master's or PhD in Statistics, Computer Science, or a related quantitative field is usually expected.",
+    answerHi: "एंट्री-लेवल Data Analyst या Data Scientist रोल्स आमतौर Computer Science, Statistics, Mathematics, या Economics में Bachelor's स्वीकार करते हैं, साथ में Python/R और SQL की स्किल्स। रिसर्च-ड्रिवन या सीनियर डेटा साइंस पोज़िशन्स के लिए — खासकर ML रिसर्च से जुड़े रोल्स में — Statistics, Computer Science, या संबंधित क्वांटिटेटिव फील्ड में Master's या PhD आमतौर अपेक्षित है।" },
   { role: "Doctor/Physician", keys: ["doctor", "physician", "mbbs", "become a doctor"],
-    answer: "Becoming a doctor requires an MBBS degree (or MD/DO depending on the country), followed by a supervised residency in your chosen specialty. This is a non-negotiable requirement everywhere — there's no portfolio-based shortcut here, given the licensing and regulatory standards involved." },
+    answer: "Becoming a doctor requires an MBBS degree (or MD/DO depending on the country), followed by a supervised residency in your chosen specialty. This is a non-negotiable requirement everywhere — there's no portfolio-based shortcut here, given the licensing and regulatory standards involved.",
+    answerHi: "डॉक्टर बनने के लिए MBBS डिग्री (या देश के हिसाब से MD/DO) चाहिए, उसके बाद अपनी चुनी हुई स्पेशलिटी में सुपरवाइज़्ड रेज़िडेंसी। यह हर जगह एक गैर-परक्राम्य शर्त है — लाइसेंसिंग और रेगुलेटरी मानकों को देखते हुए यहां पोर्टफोलियो जैसा कोई शॉर्टकट नहीं।" },
   { role: "Lawyer/Attorney", keys: ["lawyer", "attorney", "advocate", "legal counsel"],
-    answer: "To practice law, you'll need a Bachelor's degree followed by a professional law degree — a JD in the United States, or an LLB in most other countries including India and the UK — plus passing your jurisdiction's bar exam." },
+    answer: "To practice law, you'll need a Bachelor's degree followed by a professional law degree — a JD in the United States, or an LLB in most other countries including India and the UK — plus passing your jurisdiction's bar exam.",
+    answerHi: "वकालत करने के लिए, आपको पहले Bachelor's डिग्री चाहिए, फिर एक प्रोफेशनल लॉ डिग्री — US में JD, या भारत और UK सहित ज्यादातर अन्य देशों में LLB — साथ ही अपने क्षेत्राधिकार की बार परीक्षा पास करनी होगी।" },
   { role: "Professor/Researcher", keys: ["professor", "researcher", "academic career", "research scientist", "become a professor"],
-    answer: "An academic or research career at the university level typically requires a PhD in your subject area. Some teaching-focused or adjunct positions will accept a Master's, but a PhD remains the standard credential for tenure-track and research-heavy roles." },
+    answer: "An academic or research career at the university level typically requires a PhD in your subject area. Some teaching-focused or adjunct positions will accept a Master's, but a PhD remains the standard credential for tenure-track and research-heavy roles.",
+    answerHi: "यूनिवर्सिटी-स्तर पर अकादमिक या रिसर्च करियर के लिए आमतौर आपके विषय में PhD चाहिए। कुछ टीचिंग-फोकस्ड या एडजंक्ट पोज़िशन्स Master's स्वीकार कर लेती हैं, पर टेन्योर-ट्रैक और रिसर्च-हेवी रोल्स के लिए PhD ही मानक योग्यता है।" },
   { role: "Clinical Psychologist", keys: ["psychologist", "clinical psychology", "therapist", "counselor", "counsellor"],
-    answer: "Practicing as a licensed clinical psychologist or therapist requires a Master's degree at minimum, though a PhD or PsyD is increasingly standard for independent clinical practice and is often required for licensure, depending on your region." },
+    answer: "Practicing as a licensed clinical psychologist or therapist requires a Master's degree at minimum, though a PhD or PsyD is increasingly standard for independent clinical practice and is often required for licensure, depending on your region.",
+    answerHi: "लाइसेंस्ड क्लिनिकल साइकोलॉजिस्ट या थेरापिस्ट के तौर पर प्रैक्टिस करने के लिए कम से कम Master's डिग्री चाहिए, हालांकि स्वतंत्र क्लिनिकल प्रैक्टिस के लिए PhD या PsyD तेज़ी से मानक बनता जा रहा है और आपके क्षेत्र के हिसाब से लाइसेंस के लिए अक्सर ज़रूरी होता है।" },
   { role: "Pharmacist", keys: ["pharmacist", "pharmacy"],
-    answer: "To practice as a pharmacist, you'll need a B.Pharm degree in India or a PharmD in the United States, along with passing the relevant licensing examination." },
+    answer: "To practice as a pharmacist, you'll need a B.Pharm degree in India or a PharmD in the United States, along with passing the relevant licensing examination.",
+    answerHi: "फ़ार्मासिस्ट के तौर पर प्रैक्टिस करने के लिए, आपको भारत में B.Pharm डिग्री या US में PharmD चाहिए, साथ ही संबंधित लाइसेंसिंग परीक्षा पास करनी होगी।" },
   { role: "Architect", keys: ["architect", "architecture career"],
-    answer: "Architecture requires a B.Arch, typically a 5-year professional bachelor's degree. An M.Arch adds value for senior design roles, academic positions, or if your undergraduate degree wasn't architecture-specific." },
+    answer: "Architecture requires a B.Arch, typically a 5-year professional bachelor's degree. An M.Arch adds value for senior design roles, academic positions, or if your undergraduate degree wasn't architecture-specific.",
+    answerHi: "आर्किटेक्चर के लिए B.Arch चाहिए, जो आमतौर 5 साल की प्रोफेशनल बैचलर डिग्री होती है। सीनियर डिज़ाइन रोल्स, अकादमिक पोज़िशन्स, या अगर आपकी अंडरग्रेजुएट डिग्री आर्किटेक्चर-स्पेसिफिक नहीं थी, तो M.Arch वैल्यू जोड़ती है।" },
   { role: "Nurse", keys: ["nurse", "nursing", "registered nurse"],
-    answer: "Nursing requires a BSN (Bachelor of Science in Nursing) or an ADN (Associate Degree in Nursing), plus passing your licensing exam (NCLEX in the US). A BSN is increasingly preferred by hospitals and opens more advancement paths." },
+    answer: "Nursing requires a BSN (Bachelor of Science in Nursing) or an ADN (Associate Degree in Nursing), plus passing your licensing exam (NCLEX in the US). A BSN is increasingly preferred by hospitals and opens more advancement paths.",
+    answerHi: "नर्सिंग के लिए BSN (Bachelor of Science in Nursing) या ADN (Associate Degree in Nursing) चाहिए, साथ ही लाइसेंसिंग परीक्षा (US में NCLEX) पास करनी होगी। BSN को अस्पताल तेज़ी से प्राथमिकता देते हैं और इससे आगे बढ़ने के जौर ज्यादा रास्ते खुलते हैं।" },
   { role: "Accountant/Finance", keys: ["accountant", "accounting", "finance role", "financial analyst"],
-    answer: "An accounting or finance role typically needs a B.Com or BBA in Accounting/Finance. For senior or specialized positions, a professional certification like CPA (US) or CA (India/UK) carries significant weight — often more than an additional degree." },
+    answer: "An accounting or finance role typically needs a B.Com or BBA in Accounting/Finance. For senior or specialized positions, a professional certification like CPA (US) or CA (India/UK) carries significant weight — often more than an additional degree.",
+    answerHi: "अकाउंटिंग या फ़ाइनेंस रोल के लिए आमतौर Accounting/Finance में B.Com या BBA चाहिए। सीनियर या स्पेशलाइज़्ड पोज़िशन्स के लिए, CPA (US) या CA (India/UK) जैसा प्रोफेशनल सर्टिफिकेशन काफ़़ी अहमियत रखता है — अक्सर किसी अतिरिक्त डिग्री से भी ज़्यादा।" },
   { role: "Marketing/Business/HR", keys: ["marketing", "human resources", "hr role", "business development", "brand manager"],
-    answer: "Marketing, HR, and general business roles usually accept a Bachelor's — BBA, B.Com, or BA in a related field — and an MBA is a strong asset on top of that, especially one combining Marketing with Finance, which opens doors into roles like Marketing Analyst, Brand/Product Manager with P&L ownership, Pricing Strategy, or Marketing Finance. Beyond the degree, employers typically screen for: hands-on familiarity with digital marketing tools (Google Ads, Meta Ads Manager, Google Analytics, basic SEO), comfort with data and spreadsheets or SQL for campaign measurement and ROI analysis, a portfolio of campaigns or case studies (internships and coursework projects count), and strong written communication. Certifications such as Google Analytics, Google Ads, or HubSpot Content Marketing meaningfully strengthen an entry-level application alongside the degree, and a finance background specifically stands out for budget-ownership and performance-marketing roles where ROI reporting matters." },
+    answer: "Marketing, HR, and general business roles usually accept a Bachelor's — BBA, B.Com, or BA in a related field — and an MBA is a strong asset on top of that, especially one combining Marketing with Finance, which opens doors into roles like Marketing Analyst, Brand/Product Manager with P&L ownership, Pricing Strategy, or Marketing Finance. Beyond the degree, employers typically screen for: hands-on familiarity with digital marketing tools (Google Ads, Meta Ads Manager, Google Analytics, basic SEO), comfort with data and spreadsheets or SQL for campaign measurement and ROI analysis, a portfolio of campaigns or case studies (internships and coursework projects count), and strong written communication. Certifications such as Google Analytics, Google Ads, or HubSpot Content Marketing meaningfully strengthen an entry-level application alongside the degree, and a finance background specifically stands out for budget-ownership and performance-marketing roles where ROI reporting matters.",
+    answerHi: "मार्केटिंग, HR, और सामान्य बिज़नेस रोल्स में आमतौर BBA, B.Com, या BA (संबंधित फील्ड में) जैसी Bachelor's डिग्री स्वीकार होती है — और इसके ऊपर MBA एक मज़बूत एसेट है, खासतौर Marketing और Finance को जोड़ने वाला, जो Marketing Analyst, Brand/Product Manager (P&L जिम्मेदारी के साथ), Pricing Strategy, या Marketing Finance जैसे रोल्स के दरवाज़े खोलता है। डिग्री के अलावा, एम्प्लॉयर आमतौर यह देखते हैं: डिजिटल मार्केटिंग टूल्स (Google Ads, Meta Ads Manager, Google Analytics, बेसिक SEO) की व्यावहारिक जानकारी, कैंपेन मेज़रमेंट और ROI एनालिसिस के लिए डेटा और स्प्रेडशीट/SQL में सहजता, कैंपेन या केस स्टडी का पोर्टफोलियो (इंटर्नशिप और कोर्सवर्क प्रोजेक्ट्स भी गिनती हैं), और मज़बूत लिखित कम्युनिकेशन। Google Analytics, Google Ads, या HubSpot Content Marketing जैसे सर्टिफिकेशन डिग्री के साथ एंट्री-लेवल एप्लीकेशन को और मज़बूत बनाते हैं, और फ़ाइनेंस बैकग्राउंड खासतौर बजट-ओनरशिप और परफॉर्मेंस-मार्केटिंग रोल्स में अलग से उभरता है जहां ROI रिपोर्टिंग मायने रखती है।" },
   { role: "Graphic/UI/UX Designer", keys: ["graphic designer", "ui designer", "ux designer", "product designer", "visual designer"],
-    answer: "Design roles (Graphic/UI/UX) typically look for a BFA or B.Des, but a strong portfolio can substitute for formal design education entirely — this is one of the most portfolio-driven fields in hiring." },
+    answer: "Design roles (Graphic/UI/UX) typically look for a BFA or B.Des, but a strong portfolio can substitute for formal design education entirely — this is one of the most portfolio-driven fields in hiring.",
+    answerHi: "डिज़ाइन रोल्स (Graphic/UI/UX) के लिए आमतौर BFA या B.Des देखा जाता है, पर एक मज़बूत पोर्टफोलियो औपचारिक डिज़ाइन एजुकेशन की जगह पूरी तरह ले सकता है — हायरिंग में यह सबसे ज़्यादा पोर्टफोलियो-ड्रिवन फील्ड्स में से एक है।" },
   { role: "Civil/Mechanical/Electrical Engineer", keys: ["civil engineer", "mechanical engineer", "electrical engineer", "structural engineer"],
-    answer: "Core engineering disciplines — civil, mechanical, electrical — require a B.Tech or B.E. in that specific discipline, and in many countries a professional engineering license (PE) for senior sign-off roles." },
+    answer: "Core engineering disciplines — civil, mechanical, electrical — require a B.Tech or B.E. in that specific discipline, and in many countries a professional engineering license (PE) for senior sign-off roles.",
+    answerHi: "मुख्य इंजीनियरिंग डिसिप्लिन — सिविल, मैकेनिकल, इलेक्ट्रिकल — में उसी डिसिप्लिन में B.Tech या B.E. चाहिए, और कई देशों में सीनियर साइन-ऑफ रोल्स के लिए प्रोफेशनल इंजीनियरिंग लाइसेंस (PE) भी।" },
   { role: "Journalist", keys: ["journalist", "journalism", "news reporter"],
-    answer: "Journalism typically expects a BA in Journalism, Communications, or English, though many successful journalists enter with degrees in other fields paired with strong writing samples and published clips." },
+    answer: "Journalism typically expects a BA in Journalism, Communications, or English, though many successful journalists enter with degrees in other fields paired with strong writing samples and published clips.",
+    answerHi: "जर्नलिज़्म में आमतौर Journalism, Communications, या English में BA की अपेक्षा होती है, हालांकि कई सफल पत्रकार अन्य फील्ड्स की डिग्री के साथ मज़बूत राइटिंग सैंपल और प्रकाशित क्लिप लेकर इस फील्ड में आते हैं।" },
   { role: "School Teacher", keys: ["school teacher", "teaching career", "become a teacher"],
-    answer: "School teaching requires a Bachelor's in Education or your subject area, plus a teaching certification/license specific to your region and grade level." },
+    answer: "School teaching requires a Bachelor's in Education or your subject area, plus a teaching certification/license specific to your region and grade level.",
+    answerHi: "स्कूल टीचिंग के लिए Education या आपके विषय में Bachelor's डिग्री चाहिए, साथ ही आपके क्षेत्र और ग्रेड-लेवल के हिसाब से एक टीचिंग सर्टिफिकेशन/लाइसेंस।" },
   { role: "MBA/Management", keys: ["mba", "management consultant", "business strategy role", "investment banking"],
-    answer: "Senior management, strategy, and consulting roles commonly favor an MBA, but it's rarely a strict requirement — many people reach these positions through demonstrated leadership and results. An MBA accelerates the path and matters most for consulting, investment banking, and large-company fast-track programs." },
+    answer: "Senior management, strategy, and consulting roles commonly favor an MBA, but it's rarely a strict requirement — many people reach these positions through demonstrated leadership and results. An MBA accelerates the path and matters most for consulting, investment banking, and large-company fast-track programs.",
+    answerHi: "सीनियर मैनेजमेंट, स्ट्रैटजी, और कंसल्टिंग रोल्स में आमतौर MBA को प्राथमिकता दी जाती है, पर यह शायद ही कभी एक सख्त ज़रूरत होती है — कई लोग लीडरशिप और नतीजों के दम पर इन पोज़िशन्स तक पहुंचते हैं। MBA इस रास्ते को तेज़ करता है और कंसल्टिंग, इन्वेस्टमेंट बैंकिंग, और बड़ी कंपनियों के फ़ास्ट-ट्रैक प्रोग्राम के लिए सबसे ज़्यादा मायने रखता है।" },
   { role: "Dentist", keys: ["dentist", "dentistry", "dental surgeon"],
-    answer: "Dentistry requires a BDS (Bachelor of Dental Surgery) or a DDS/DMD depending on the country, followed by licensing." },
+    answer: "Dentistry requires a BDS (Bachelor of Dental Surgery) or a DDS/DMD depending on the country, followed by licensing.",
+    answerHi: "डेंटिस्ट्री के लिए देश के हिसाब से BDS (Bachelor of Dental Surgery) या DDS/DMD चाहिए, साथ ही लाइसेंसिंग।" },
   { role: "Veterinarian", keys: ["veterinarian", "veterinary", "vet doctor"],
-    answer: "Veterinary practice requires a BVSc (Bachelor of Veterinary Science) or a DVM depending on the country, followed by licensing." }
+    answer: "Veterinary practice requires a BVSc (Bachelor of Veterinary Science) or a DVM depending on the country, followed by licensing.",
+    answerHi: "वेटरनरी प्रैक्टिस के लिए देश के हिसाब से BVSc (Bachelor of Veterinary Science) या DVM चाहिए, साथ ही लाइसेंसिंग।" }
 ];
 
-function matchDegreeProfile(raw) {
+function matchDegreeProfile(raw, lang) {
   if (!isDegreeIntent(raw)) return null;
   const text = normalizeText(raw);
   for (const profile of DEGREE_PROFILES) {
     if (profile.keys.some((k) => text.includes(normalizeText(k)))) {
-      return `${profile.answer}\n\nWant the same breakdown for a different role? Just name the position.`;
+      const body = lang === "hi" && profile.answerHi ? profile.answerHi : profile.answer;
+      const followUp = lang === "hi" ? "किसी और रोल के लिए भी यही जानकारी चाहिए? बस पोस्ट का नाम बताइए।" : "Want the same breakdown for a different role? Just name the position.";
+      return `${body}\n\n${followUp}`;
     }
   }
   return null;
 }
 
-function matchAnswer(raw) {
+function matchAnswer(raw, lang) {
   const text = normalizeText(raw);
   const tokens = text.split(" ").map(stemWord).filter(Boolean);
   const tokenSet = new Set(tokens);
@@ -361,9 +388,15 @@ function matchAnswer(raw) {
       best = entry;
     }
   }
-  if (best) return best.answer;
+  if (best) return lang === "hi" && best.answerHi ? best.answerHi : best.answer;
 
   const inScope = IN_SCOPE_WORDS.some((k) => text.includes(normalizeText(k)));
+  if (lang === "hi") {
+    if (inScope) {
+      return "अच्छा सवाल है — इसके लिए मेरे पास सटीक जवाब नहीं है, पर संक्षेप में: इसे सरल, सुसंगत, और एक समय में एक स्पष्ट संदेश या स्किल-सेट पर केंद्रित रखें। दोबारा पूछें, या मुझसे लेआउट, वर्डिंग, ATS कीवर्ड्स, कवर लेटर, LinkedIn, करियर गैप, या स्किल्स के बारे में पूछें।";
+    }
+    return "मुझे समझ नहीं आया कि यह आपके CV से कैसे जुड़ा है। मैं रिज्यूमे और जॉब-एप्लिकेशन से जुड़े सवालों में मदद के लिए बना हूं — लेआउट, वर्डिंग, ATS कीवर्ड्स, कवर लेटर, LinkedIn, करियर गैप, सर्टिफिकेशन के बारे में पूछें, या अपने CV की कंटेंट रेटिंग करवाएं।";
+  }
   if (inScope) {
     return "Good question — I don't have an exact match for that, but here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try rephrasing, or ask me about layout, wording, ATS keywords, cover letters, LinkedIn, career gaps, or skills for more specific tips.";
   }
@@ -377,35 +410,53 @@ class Component extends DCLogic {
       closed: !(props && props.startOpen),
       draft: "",
       typing: false,
+      lang: "en",
       messages: [
         { fromBot: true, fromUser: false, text: GREETING }
       ]
     };
   }
 
+  toggleLang() {
+    const next = this.state.lang === "hi" ? "en" : "hi";
+    this.setState({ lang: next });
+  }
+
   pushAndAnswer(question) {
     const trimmed = question.trim();
     if (!trimmed || this.state.typing) return;
+    const lang = this.state.lang;
     const withUser = [...this.state.messages, { fromBot: false, fromUser: true, text: trimmed }];
     this.setState({ draft: "", typing: true, messages: withUser });
     scrollMsgsToBottom();
     const delay = 420 + Math.random() * 380;
     setTimeout(() => {
+      const degreeAnswer = matchDegreeProfile(trimmed, lang);
       const answer = isRatingRequest(trimmed)
         ? this.rateCvQuality()
         : isGreeting(trimmed)
-        ? "Hey! Ask me anything about your CV — layout, wording, cover letters, LinkedIn, career gaps, or get your content quality rated. What do you need help with?"
+        ? (lang === "hi"
+            ? "हेलो! अपने CV के बारे में कुछ भी पूछें — लेआउट, वर्डिंग, कवर लेटर, LinkedIn, करियर गैप, या अपने CV की कंटेंट क्वालिटी रेट करवाएं। आपको किस चीज़ में मदद चाहिए?"
+            : "Hey! Ask me anything about your CV — layout, wording, cover letters, LinkedIn, career gaps, or get your content quality rated. What do you need help with?")
         : isCapabilityQuestion(trimmed)
-        ? `Here's what I can help with:\n${CAPABILITIES_LIST}\nJust type your question and I'll do my best.`
+        ? (lang === "hi"
+            ? `मैं इन चीज़ों में मदद कर सकता हूं:\n${CAPABILITIES_LIST_HI}\nबस अपना सवाल टाइप कीजिए और मैं पूरी कोशिश करूंगा।`
+            : `Here's what I can help with:\n${CAPABILITIES_LIST}\nJust type your question and I'll do my best.`)
         : isYes(trimmed)
-        ? "Sure — what kind of help do you need? For example: layout and design, wording for a section, a cover letter, or rating your CV's content quality."
+        ? (lang === "hi"
+            ? "ज़रूर — आपको किस तरह की मदद चाहिए? जैसे: लेआउट और डिज़ाइन, किसी सेक्शन की वर्डिंग, कवर लेटर, या अपने CV की कंटेंट क्वालिटी रेट करवाना।"
+            : "Sure — what kind of help do you need? For example: layout and design, wording for a section, a cover letter, or rating your CV's content quality.")
         : isNo(trimmed)
-        ? "Hope you got your solution! Feel free to come back anytime you need more help."
+        ? (lang === "hi"
+            ? "उम्मीद है आपको समाधान मिल गया होगा! जब भी और मदद चाहिए, बेखिझक वापस आइए।"
+            : "Hope you got your solution! Feel free to come back anytime you need more help.")
         : isAcknowledgement(trimmed)
-        ? "You're welcome! If you need anything else, just let me know."
-        : matchDegreeProfile(trimmed)
-        ? matchDegreeProfile(trimmed)
-        : matchAnswer(trimmed);
+        ? (lang === "hi"
+            ? "आपका स्वागत है! अगर कुछ और चाहिए तो बस बता दीजिए।"
+            : "You're welcome! If you need anything else, just let me know.")
+        : degreeAnswer
+        ? degreeAnswer
+        : matchAnswer(trimmed, lang);
       this.setState({
         typing: false,
         messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
@@ -414,15 +465,55 @@ class Component extends DCLogic {
     }, delay);
   }
 
+  askChip(query, labelEn, labelHi) {
+    const lang = this.state.lang;
+    const label = lang === "hi" ? labelHi : labelEn;
+    if (!label || this.state.typing) return;
+    const withUser = [...this.state.messages, { fromBot: false, fromUser: true, text: label }];
+    this.setState({ draft: "", typing: true, messages: withUser });
+    scrollMsgsToBottom();
+    const delay = 420 + Math.random() * 380;
+    setTimeout(() => {
+      const degreeAnswer = matchDegreeProfile(query, lang);
+      const answer = degreeAnswer ? degreeAnswer : matchAnswer(query, lang);
+      this.setState({
+        typing: false,
+        messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
+      });
+      scrollMsgsToBottom();
+    }, delay);
+  }
+
+  askRatingChip() {
+    if (this.state.typing) return;
+    const lang = this.state.lang;
+    const label = lang === "hi" ? "मेरे CV की कंटेंट क्वालिटी रेट करें" : "Rate my CV's content quality";
+    const withUser = [...this.state.messages, { fromBot: false, fromUser: true, text: label }];
+    this.setState({ draft: "", typing: true, messages: withUser });
+    scrollMsgsToBottom();
+    setTimeout(() => {
+      this.setState({
+        typing: false,
+        messages: [...withUser, { fromBot: true, fromUser: false, text: this.rateCvQuality() }]
+      });
+      scrollMsgsToBottom();
+    }, 480);
+  }
+
   rateCvQuality() {
+    const lang = this.state.lang;
     const raw = (this.props && this.props.cvScore) || "";
     if (!raw) {
-      return "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
+      return lang === "hi"
+        ? "मैं आपके CV की कंटेंट क्वालिटी तभी रेट कर सकता हूं जब आप Resume Builder एडिटर में उस पर सक्रिय रूप से काम कर रहे हों — वहां एक रेज्यूमे खोलें और मुझसे पुनः पूछें।"
+        : "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
     }
     let data = null;
     try { data = JSON.parse(raw); } catch (e) {}
     if (!data) {
-      return "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
+      return lang === "hi"
+        ? "मैं आपके CV की कंटेंट क्वालिटी तभी रेट कर सकता हूं जब आप Resume Builder एडिटर में उस पर सक्रिय रूप से काम कर रहे हों — वहां एक रेज्यूमे खोलें और मुझसे पुनः पूछें।"
+        : "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
     }
     const completion = data.completion || 0;
     const quality = data.quality || 0;
@@ -432,45 +523,70 @@ class Component extends DCLogic {
     const strongest = sorted[0];
     const weakest = sorted[sorted.length - 1];
 
-    let msg = `Here's my read on your CV's content quality right now:\n\n`;
-    msg += `• Completion: ${completion}%\n`;
-    msg += `• Content quality: ${quality}% (${qualityLabel})`;
-    if (strongest) msg += `\n• Strongest section: ${strongest.name} (${strongest.quality}%)`;
-    if (weakest && (!strongest || weakest.name !== strongest.name)) {
-      msg += `\n• Needs the most work: ${weakest.name} (${weakest.quality}%)`;
-    }
-    msg += "\n\n";
-    if (quality >= 85) {
-      msg += "Overall this reads excellent — specific, quantified, and well-organized. Minor polish at most from here.";
-    } else if (quality >= 70) {
-      msg += "Overall this is good, solid content. Tightening your weakest section above with more specific wording or numbers would push it into excellent territory.";
-    } else if (quality >= 50) {
-      msg += "There's a decent foundation here, but it still reads generic in places — focus on your weakest section first and add measurable outcomes wherever you can.";
+    let msg;
+    if (lang === "hi") {
+      msg = `आपके CV की कंटेंट क्वालिटी पर मेरी राय अभी:\n\n`;
+      msg += `• पूर्णता: ${completion}%\n`;
+      msg += `• कंटेंट क्वालिटी: ${quality}% (${qualityLabel})`;
+      if (strongest) msg += `\n• सबसे मज़बूत सेक्शन: ${strongest.name} (${strongest.quality}%)`;
+      if (weakest && (!strongest || weakest.name !== strongest.name)) {
+        msg += `\n• सबसे ज्यादा काम चाहिए: ${weakest.name} (${weakest.quality}%)`;
+      }
+      msg += "\n\n";
+      if (quality >= 85) {
+        msg += "कुल मिलाकर यह बेहतरीन लग रहा है — स्पष्ट, मापनीय, और अच्छी तरह से व्यवस्थित। यहां से बस थोड़ी-बहुत पॉलिश की ज़रूरत है।";
+      } else if (quality >= 70) {
+        msg += "कुल मिलाकर यह अच्छा, ठोस कंटेंट है। अपने सबसे कमज़ोर सेक्शन को अधिक स्पष्ट वर्डिंग या संख्याओं से कसनें तो यह बेहतरीन स्तर तक पहुंच जाएगा।";
+      } else if (quality >= 50) {
+        msg += "यहां एक ठीक-ठाक आधार है, पर कहीं-कहीं यह अभी भी सामान्य लगता है — पहले अपने सबसे कमज़ोर सेक्शन पर ध्यान दें और जहां भी हो सके मापनीय नतीजे जोड़ें।";
+      } else {
+        msg += "भेजे जाने से पहले इसपर वाकई काम चाहिए — अपने सबसे कमज़ोर सेक्शन से शुरू करें, स्पष्ट संख्याएं और नतीजे जोड़ें, और अस्पष्ट ड्यूटी स्टेटमेंट्स से बचें।";
+      }
     } else {
-      msg += "This needs real work before it's ready to send — start with your weakest section above, add specific numbers and outcomes, and avoid vague duty statements.";
+      msg = `Here's my read on your CV's content quality right now:\n\n`;
+      msg += `• Completion: ${completion}%\n`;
+      msg += `• Content quality: ${quality}% (${qualityLabel})`;
+      if (strongest) msg += `\n• Strongest section: ${strongest.name} (${strongest.quality}%)`;
+      if (weakest && (!strongest || weakest.name !== strongest.name)) {
+        msg += `\n• Needs the most work: ${weakest.name} (${weakest.quality}%)`;
+      }
+      msg += "\n\n";
+      if (quality >= 85) {
+        msg += "Overall this reads excellent — specific, quantified, and well-organized. Minor polish at most from here.";
+      } else if (quality >= 70) {
+        msg += "Overall this is good, solid content. Tightening your weakest section above with more specific wording or numbers would push it into excellent territory.";
+      } else if (quality >= 50) {
+        msg += "There's a decent foundation here, but it still reads generic in places — focus on your weakest section first and add measurable outcomes wherever you can.";
+      } else {
+        msg += "This needs real work before it's ready to send — start with your weakest section above, add specific numbers and outcomes, and avoid vague duty statements.";
+      }
     }
 
     const rawTips = (this.props && this.props.cvTips) || "";
     const tips = rawTips.split(" || ").map((t) => t.trim()).filter(Boolean);
     if (tips.length > 0) {
-      msg += "\n\nSuggestions to improve it:\n" + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
+      msg += (lang === "hi" ? "\n\nसुधार के सुझाव:\n" : "\n\nSuggestions to improve it:\n") + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
     } else {
-      msg += "\n\nNo specific fixes needed right now — every section is already reading well.";
+      msg += lang === "hi" ? "\n\nअभी कोई खास फ़िक्स ज़रूरी नहीं — हर सेक्शन पहले से ही अच्छा लग रहा है।" : "\n\nNo specific fixes needed right now — every section is already reading well.";
     }
     return msg;
   }
 
   askCvTips() {
     if (this.state.typing) return;
+    const lang = this.state.lang;
     const raw = (this.props && this.props.cvTips) || "";
     const tips = raw.split(" || ").map((t) => t.trim()).filter(Boolean);
     let answer;
     if (tips.length === 0) {
-      answer = "Nice — based on what you've filled in so far, your CV looks complete and solid. Keep descriptions specific and back them up with numbers as you add more.";
+      answer = lang === "hi"
+        ? "अच्छा — अब तक आपने जो भरा है, उसके हिसाब से आपका CV पूरा और ठोस दिखता है। जैसे-जैसे आप और जोड़ें, विवरण स्पष्ट रखें और संख्याओं से समर्थन दें।"
+        : "Nice — based on what you've filled in so far, your CV looks complete and solid. Keep descriptions specific and back them up with numbers as you add more.";
     } else {
-      answer = "Here's what I'd add or fix right now, based on your CV as it stands:\n" + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
+      answer = (lang === "hi" ? "अभी के लिए मैं यह जोड़ने या ठीक करने की सलाह दूंगा, आपके CV के हिसाब से:\n" : "Here's what I'd add or fix right now, based on your CV as it stands:\n") + tips.map((t, i) => `${i + 1}. ${t}`).join("\n");
     }
-    const withUser = [...this.state.messages, { fromBot: false, fromUser: true, text: "What should I add to my CV right now?" }];
+    const userLabel = lang === "hi" ? "मुझे अभी अपने CV में क्या जोड़ना चाहिए?" : "What should I add to my CV right now?";
+    const withUser = [...this.state.messages, { fromBot: false, fromUser: true, text: userLabel }];
     this.setState({ typing: true, messages: withUser });
     scrollMsgsToBottom();
     setTimeout(() => {
@@ -480,15 +596,16 @@ class Component extends DCLogic {
   }
 
   renderVals() {
+    const lang = this.state.lang;
     const hasCvContext = this.props && typeof this.props.cvTips !== "undefined";
     const baseChips = CHIPS.map((c) => ({
-      label: c.label,
-      ask: () => this.pushAndAnswer(c.label)
+      label: lang === "hi" ? c.labelHi : c.labelEn,
+      ask: () => this.askChip(c.query, c.labelEn, c.labelHi)
     }));
     const chips = hasCvContext
       ? [
-          { label: "Rate my CV's content quality", ask: () => this.pushAndAnswer("Rate my CV's content quality") },
-          { label: "What should I add to my CV right now?", ask: () => this.askCvTips() },
+          { label: lang === "hi" ? "मेरे CV की कंटेंट क्वालिटी रेट करें" : "Rate my CV's content quality", ask: () => this.askRatingChip() },
+          { label: lang === "hi" ? "मुझे अभी अपने CV में क्या जोड़ना चाहिए?" : "What should I add to my CV right now?", ask: () => this.askCvTips() },
           ...baseChips
         ]
       : baseChips;
@@ -501,6 +618,10 @@ class Component extends DCLogic {
       typing: !!this.state.typing,
       showChips: this.state.messages.length <= 1 && !this.state.typing,
       chips,
+      headerSubtitle: lang === "hi" ? "CV बनाने में मददगार" : "CV Making Helper",
+      inputPlaceholder: lang === "hi" ? "अपना सवाल टाइप करें..." : "Type your question...",
+      langButtonLabel: lang === "hi" ? "EN" : "हिंदी",
+      toggleLang: () => this.toggleLang(),
       toggleOpen: () => {
         const isClosingNow = !this.state.closed;
         if (isClosingNow) {
@@ -508,7 +629,7 @@ class Component extends DCLogic {
             closed: true,
             draft: "",
             typing: false,
-            messages: [{ fromBot: true, fromUser: false, text: GREETING }]
+            messages: [{ fromBot: true, fromUser: false, text: greetingFor(this.state.lang) }]
           });
         } else {
           this.setState({ closed: false });
@@ -534,3 +655,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
+</untrusted-document-f5389706b718>
