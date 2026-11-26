@@ -206,6 +206,18 @@ function isAcknowledgement(raw) {
   return ACK_PHRASES.includes(text);
 }
 
+function isYes(raw) {
+  const text = raw.toLowerCase().trim().replace(/[.!]+$/, "");
+  const YES_PHRASES = ["yes", "yeah", "yep", "yup", "ya", "sure", "please", "yes please", "y"];
+  return YES_PHRASES.includes(text);
+}
+
+function isNo(raw) {
+  const text = raw.toLowerCase().trim().replace(/[.!]+$/, "");
+  const NO_PHRASES = ["no", "nope", "nah", "no thanks", "not really", "n", "no need", "i'm good", "im good", "all good", "nothing else"];
+  return NO_PHRASES.includes(text);
+}
+
 function matchAnswer(raw) {
   const text = raw.toLowerCase();
   let best = null;
@@ -264,6 +276,10 @@ class Component extends DCLogic {
     setTimeout(() => {
       const answer = isRatingRequest(trimmed)
         ? this.rateCvQuality()
+        : isYes(trimmed)
+        ? "Sure — what kind of help do you need? For example: layout and design, wording for a section, a cover letter, or rating your CV's content quality."
+        : isNo(trimmed)
+        ? "Hope you got your solution! Feel free to come back anytime you need more help."
         : isAcknowledgement(trimmed)
         ? "You're welcome! If you need anything else, just let me know."
         : matchAnswer(trimmed);
