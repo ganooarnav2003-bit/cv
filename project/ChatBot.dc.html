@@ -181,7 +181,44 @@ function scrollMsgsToBottom() {
   }, 30);
 }
 
-const GREETING = "Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Rating your CV's content quality and what to add right now\nPick a question below, or just type what you need help with.";
+const CAPABILITIES_LIST = "• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Rating your CV's content quality and what to add right now";
+
+const GREETING = `Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n${CAPABILITIES_LIST}\nPick a question below, or just type what you need help with.`;
+
+function normalizeText(raw) {
+  return raw
+    .toLowerCase()
+    .replace(/[^a-z0-9\s']/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stemWord(word) {
+  return word
+    .replace(/'s$/, "")
+    .replace(/ies$/, "y")
+    .replace(/(ing|ed)$/, "")
+    .replace(/s$/, "");
+}
+
+function isGreeting(raw) {
+  const text = normalizeText(raw);
+  const GREETING_PHRASES = [
+    "hi", "hello", "hey", "hiya", "yo", "sup", "hi there", "hey there",
+    "good morning", "good afternoon", "good evening", "howdy"
+  ];
+  return GREETING_PHRASES.includes(text);
+}
+
+function isCapabilityQuestion(raw) {
+  const text = normalizeText(raw);
+  const CAP_PHRASES = [
+    "help", "what can you do", "what do you do", "who are you", "what are you",
+    "what can you help with", "how can you help", "how can you help me",
+    "what is this", "what can i ask", "what can i ask you", "what do you know"
+  ];
+  return CAP_PHRASES.includes(text) || text.startsWith("what can you") || text.startsWith("what do you do");
+}
 
 function isRatingRequest(raw) {
   const text = raw.toLowerCase();
@@ -218,14 +255,43 @@ function isNo(raw) {
   return NO_PHRASES.includes(text);
 }
 
+const IN_SCOPE_WORDS = [
+  "resume", "cv", "curriculum", "template", "design", "pdf", "export",
+  "professional", "cover letter", "job application", "interview", "work history",
+  "job title", "portfolio", "formatting", "format",
+  "margin", "spacing", "bullet", "action verb", "ats", "applicant tracking",
+  "keyword", "achievement", "certification", "reference", "print", "paper",
+  "hiring", "recruiter", "job post", "career", "qualification",
+  "layout", "icon", "alignment", "contrast", "theme", "dark", "light",
+  "linkedin", "gap", "fresher", "entry level", "intern", "chronological",
+  "functional", "executive", "freelance", "follow up", "follow-up", "mistake",
+  "tailor", "academic", "publication", "thesis", "grant",
+  "degree", "bachelor", "master", "postgraduate", "eligibility",
+  "section", "content", "wording", "phrase", "sentence", "summary", "objective",
+  "experience", "skill", "strength", "weakness", "photo", "picture", "color",
+  "colour", "font", "page", "length", "page count", "salary", "email", "phone",
+  "job description", "employer", "company", "internship", "promotion", "title"
+];
+
 function matchAnswer(raw) {
-  const text = raw.toLowerCase();
+  const text = normalizeText(raw);
+  const tokens = text.split(" ").map(stemWord).filter(Boolean);
+  const tokenSet = new Set(tokens);
+
   let best = null;
   let bestScore = 0;
   for (const entry of KB) {
     let score = 0;
     for (const k of entry.keys) {
-      if (text.includes(k)) score += k.split(" ").length;
+      const kNorm = normalizeText(k);
+      if (text.includes(kNorm)) {
+        score += kNorm.split(" ").length * 2;
+        continue;
+      }
+      const kWords = kNorm.split(" ").filter((w) => w.length > 2).map(stemWord);
+      if (kWords.length === 0) continue;
+      const matched = kWords.filter((w) => tokenSet.has(w)).length;
+      if (matched === kWords.length) score += matched;
     }
     if (score > bestScore) {
       bestScore = score;
@@ -233,24 +299,12 @@ function matchAnswer(raw) {
     }
   }
   if (best) return best.answer;
-  const IN_SCOPE_WORDS = [
-    "resume", "cv", "curriculum", "template", "design", "pdf", "export",
-    "professional", "cover letter", "job application", "interview", "work history",
-    "job title", "portfolio", "formatting", "format",
-    "margin", "spacing", "bullet", "action verb", "ats", "applicant tracking",
-    "keyword", "achievement", "certification", "reference", "print", "paper",
-    "hiring", "recruiter", "job post", "career", "qualification",
-    "layout", "icon", "alignment", "contrast", "theme", "dark", "light",
-    "linkedin", "gap", "fresher", "entry level", "intern", "chronological",
-    "functional", "executive", "freelance", "follow up", "follow-up", "mistake",
-    "tailor", "academic", "publication", "thesis", "grant",
-    "degree", "bachelor", "master", "postgraduate", "eligibility"
-  ];
-  const inScope = IN_SCOPE_WORDS.some((k) => text.includes(k));
+
+  const inScope = IN_SCOPE_WORDS.some((k) => text.includes(normalizeText(k)));
   if (inScope) {
-    return "Good question — here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try asking me about layout, colors, fonts, or skills for more specific tips.";
+    return "Good question — I don't have an exact match for that, but here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try rephrasing, or ask me about layout, wording, ATS keywords, cover letters, LinkedIn, career gaps, or skills for more specific tips.";
   }
-  return "I'm built just to help you make your resume more professional — I can't help with anything outside of resume/CV writing. Try asking about layout, wording, colors, fonts, or skills.";
+  return "I didn't quite catch how that relates to your CV. I'm built to help with resume and job-application topics — try asking about layout, wording, ATS keywords, cover letters, LinkedIn, career gaps, certifications, or get your CV's content rated.";
 }
 
 class Component extends DCLogic {
@@ -276,6 +330,10 @@ class Component extends DCLogic {
     setTimeout(() => {
       const answer = isRatingRequest(trimmed)
         ? this.rateCvQuality()
+        : isGreeting(trimmed)
+        ? "Hey! Ask me anything about your CV — layout, wording, cover letters, LinkedIn, career gaps, or get your content quality rated. What do you need help with?"
+        : isCapabilityQuestion(trimmed)
+        ? `Here's what I can help with:\n${CAPABILITIES_LIST}\nJust type your question and I'll do my best.`
         : isYes(trimmed)
         ? "Sure — what kind of help do you need? For example: layout and design, wording for a section, a cover letter, or rating your CV's content quality."
         : isNo(trimmed)
