@@ -365,7 +365,7 @@ input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(
 
   </div>
 </div>
-<dc-import name="ChatBot" cv-tips="{{cvTipsText}}" hint-size="58px,58px" theme="{{theme}}"></dc-import>
+<dc-import name="ChatBot" cv-tips="{{cvTipsText}}" cv-score="{{cvScoreText}}" hint-size="58px,58px" theme="{{theme}}"></dc-import>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1480}}'>
 const ACCENTS = ["#15803D","#22C55E","#2F6F63","#6354A1","#A66A32","#8C5A5A"];
@@ -607,6 +607,13 @@ class Component extends DCLogic {
       .map((c) => `${c.name}: ${c.feedback.message}`)
       .join(" || ");
 
+    const cvScoreText = JSON.stringify({
+      completion,
+      quality,
+      qualityLabel: labelFor(quality),
+      categories: categories.map((c) => ({ name: c.name, quality: c.quality }))
+    });
+
     return {
       completion,
       quality,
@@ -618,7 +625,8 @@ class Component extends DCLogic {
       pieBackground: `background:conic-gradient(${segments.join(",")})`,
       categories,
       feedback,
-      cvTipsText
+      cvTipsText,
+      cvScoreText
     };
   }
 

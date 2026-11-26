@@ -180,7 +180,20 @@ function scrollMsgsToBottom() {
   }, 30);
 }
 
-const GREETING = "Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
+const GREETING = "Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Rating your CV's content quality and what to add right now\nPick a question below, or just type what you need help with.";
+
+function isRatingRequest(raw) {
+  const text = raw.toLowerCase();
+  const RATING_PHRASES = [
+    "rate my cv", "rate my resume", "rate this cv", "rate this resume",
+    "how good is my cv", "how good is my resume", "how strong is my cv",
+    "how strong is my resume", "score my cv", "score my resume",
+    "quality of my cv", "quality of my resume", "grade my cv", "grade my resume",
+    "review my cv", "review my resume", "how is my cv", "how is my resume",
+    "rate the content", "content quality rating", "rate content"
+  ];
+  return RATING_PHRASES.some((p) => text.includes(p));
+}
 
 function matchAnswer(raw) {
   const text = raw.toLowerCase();
@@ -237,13 +250,51 @@ class Component extends DCLogic {
     scrollMsgsToBottom();
     const delay = 420 + Math.random() * 380;
     setTimeout(() => {
-      const answer = matchAnswer(trimmed);
+      const answer = isRatingRequest(trimmed) ? this.rateCvQuality() : matchAnswer(trimmed);
       this.setState({
         typing: false,
         messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
       });
       scrollMsgsToBottom();
     }, delay);
+  }
+
+  rateCvQuality() {
+    const raw = (this.props && this.props.cvScore) || "";
+    if (!raw) {
+      return "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
+    }
+    let data = null;
+    try { data = JSON.parse(raw); } catch (e) {}
+    if (!data) {
+      return "I can rate your CV's content quality once you're actively working on it in the Resume Builder editor — open a resume there and ask me again.";
+    }
+    const completion = data.completion || 0;
+    const quality = data.quality || 0;
+    const qualityLabel = data.qualityLabel || "";
+    const categories = data.categories || [];
+    const sorted = [...categories].sort((a, b) => b.quality - a.quality);
+    const strongest = sorted[0];
+    const weakest = sorted[sorted.length - 1];
+
+    let msg = `Here's my read on your CV's content quality right now:\n\n`;
+    msg += `• Completion: ${completion}%\n`;
+    msg += `• Content quality: ${quality}% (${qualityLabel})`;
+    if (strongest) msg += `\n• Strongest section: ${strongest.name} (${strongest.quality}%)`;
+    if (weakest && (!strongest || weakest.name !== strongest.name)) {
+      msg += `\n• Needs the most work: ${weakest.name} (${weakest.quality}%)`;
+    }
+    msg += "\n\n";
+    if (quality >= 85) {
+      msg += "Overall this reads excellent — specific, quantified, and well-organized. Minor polish at most from here.";
+    } else if (quality >= 70) {
+      msg += "Overall this is good, solid content. Tightening your weakest section above with more specific wording or numbers would push it into excellent territory.";
+    } else if (quality >= 50) {
+      msg += "There's a decent foundation here, but it still reads generic in places — focus on your weakest section first and add measurable outcomes wherever you can.";
+    } else {
+      msg += "This needs real work before it's ready to send — start with your weakest section above, add specific numbers and outcomes, and avoid vague duty statements.";
+    }
+    return msg;
   }
 
   askCvTips() {
@@ -272,7 +323,11 @@ class Component extends DCLogic {
       ask: () => this.pushAndAnswer(c.label)
     }));
     const chips = hasCvContext
-      ? [{ label: "What should I add to my CV right now?", ask: () => this.askCvTips() }, ...baseChips]
+      ? [
+          { label: "Rate my CV's content quality", ask: () => this.pushAndAnswer("Rate my CV's content quality") },
+          { label: "What should I add to my CV right now?", ask: () => this.askCvTips() },
+          ...baseChips
+        ]
       : baseChips;
 
     return {
