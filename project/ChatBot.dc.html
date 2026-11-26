@@ -114,8 +114,10 @@
 <script type="text/x-dc" data-dc-script data-props='{"startOpen":{"editor":null},"$preview":{"width":140,"height":140}}'>
 const CHIPS = [
   { label: "What does HR want in a CV today?" },
-  { label: "What certifications do I need?" },
-  { label: "Which layout should I pick?" }
+  { label: "How do I write a cover letter?" },
+  { label: "What should my LinkedIn say?" },
+  { label: "Which layout should I pick?" },
+  { label: "What certifications do I need?" }
 ];
 
 const KB = [
@@ -137,10 +139,26 @@ const KB = [
   { keys: ["pdf", "export", "download"], answer: "Once your resume looks right in the preview, use the Download PDF button at the top of the editor — it keeps your fonts and layout exactly as shown." },
   { keys: ["education"], answer: "List your highest or most relevant degree first, with the institution and year. You can drop older or less relevant education once you have a few years of work experience." },
   { keys: ["length", "one page", "pages"], answer: "Aim for one page if you have under ~10 years of experience, and no more than two pages otherwise. Trim older or less relevant roles rather than shrinking the font." },
+  { keys: ["cover letter"], answer: "A strong cover letter is 3 short paragraphs: 1) the role you want and one sentence on why you're a fit, 2) one or two specific achievements that prove it (pull numbers straight from your resume), and 3) a brief close saying you're looking forward to discussing it further. Address a named person if you can find one, mirror 2-3 keywords from the job post, and keep the whole thing under half a page." },
+  { keys: ["linkedin"], answer: "Your LinkedIn headline should state your role plus your strongest skill or specialty (not just a job title). The About section should expand on your resume summary in a more conversational tone, your Experience section can mirror your resume's bullet points, and you should list the same skills your resume uses as keywords. Add a professional photo and make sure your headline and most recent role match what's on your resume — recruiters check both." },
+  { keys: ["reference", "references page", "recommendation letter"], answer: "Don't put \"References available upon request\" on your resume — it wastes space and is assumed. Instead, keep a separate one-page references list (name, title, company, relationship, phone/email) ready to send when asked, usually 2-3 people who can speak to your recent work." },
+  { keys: ["portfolio", "work samples"], answer: "For design, writing, dev, or marketing roles, a portfolio link on your resume (next to your email) matters as much as the bullet points. Link to 3-5 of your strongest, most relevant pieces rather than everything you've made, and make sure each one loads fast and explains your specific role in it." },
+  { keys: ["cv vs resume", "difference between cv and resume", "what is the difference"], answer: "In the US and Canada, a resume is a 1-2 page summary tailored per job, while a CV is longer and used mainly for academic, research, or medical roles, listing full publication and education history. In the UK, Europe, and most other countries, \"CV\" is just the common word for what Americans call a resume — same document, different name." }, 
+  { keys: ["chronological", "functional resume", "combination resume", "resume format", "which format"], answer: "Chronological (most recent job first) is the safest default and what most recruiters expect. Functional (grouped by skill, not by job) can help hide gaps or a career change but is viewed with some suspicion by recruiters and ATS. Combination (a skills summary up top, then chronological history below) is a good middle ground if you're changing fields but still have relevant experience to show." },
+  { keys: ["gap", "employment gap", "career break", "unemployed"], answer: "Don't try to hide a gap by omitting dates — it's noticeable and a red flag. A short line in your summary (e.g. \"took a career break for caregiving, returned to the workforce in 2024\") is usually enough; employers mainly want to know you're ready now. If you used the gap productively (courses, freelance work, volunteering), list it as a line item in your timeline." },
+  { keys: ["career change", "switching careers", "changing industries", "transferable skills"], answer: "Lead with a summary that explicitly states the role you're targeting and your most relevant transferable skills (communication, project management, data analysis, etc. translate across most fields). Reorder your bullet points to foreground achievements closest to the new field, and consider the combination format above. A short line on why you're making the switch, framed positively, helps too." },
+  { keys: ["fresher", "no experience", "student resume", "first job", "entry level", "intern"], answer: "With little or no work experience, lead with Education (GPA if strong, relevant coursework) and move it above Experience. Fill the Experience section with internships, class projects, part-time work, or volunteering — describe them with the same action-verb, measurable-impact style as a full job. A Skills section with the specific tools from the job post matters a lot here since you have less history to lean on." },
+  { keys: ["executive resume", "senior role", "c-suite", "leadership resume"], answer: "Senior and executive resumes lead with a short leadership summary (scope: team size, budget, revenue you owned) rather than a list of duties. Favor business outcomes — revenue growth, cost savings, market expansion — over day-to-day tasks, and it's fine to run to two pages given the length of your track record. Board roles, speaking engagements, or publications can go in a short section near the end." },
+  { keys: ["power verb", "strong verb", "verb list"], answer: "Strong resume verbs by type: Leadership — led, directed, launched, mentored. Growth — increased, grew, generated, expanded. Efficiency — streamlined, automated, reduced, optimized. Creation — built, designed, developed, founded. Avoid weak openers like \"responsible for\" or \"helped with\" — state what you actually did and its result instead." },
+  { keys: ["mistake", "common mistakes", "what to avoid"], answer: "The most common resume mistakes: typos and inconsistent formatting (always proofread out loud), a generic \"one-size-fits-all\" resume sent to every job, listing duties instead of achievements, an unprofessional email address, missing or buried contact info, and resumes that are too long for the experience level. Fix the top three first — they cost the most interviews." },
+  { keys: ["tailor", "customize resume", "tailoring", "every job"], answer: "Keep one master resume with everything you've done, then trim and reorder it per application: match 3-5 keywords from the job post into your summary and skills, reorder bullet points so the most relevant achievement for THIS role is first in each entry, and cut anything clearly irrelevant to the posting. Ten minutes of tailoring per application meaningfully raises your ATS match rate." },
+  { keys: ["academic cv", "research cv", "phd", "publications"], answer: "Academic CVs run longer than a resume and are organized differently: Education first (with advisor/thesis topic), then Publications (full citation list), Grants & Fellowships, Teaching Experience, Conference Presentations, and Research Experience. Unlike a resume, length is expected — what matters is complete, accurately formatted citations." },
+  { keys: ["freelance", "freelancer", "gig work", "self employed", "contract work"], answer: "List freelance/contract work the same way as a job: company name becomes \"Freelance [Your Role]\" or the client's name if notable, with the same action-verb, measurable-outcome bullet style. Group short-term or recurring clients under one \"Freelance Consultant\" entry with a date range rather than listing each gig separately, unless one project is especially impressive." },
+  { keys: ["follow up", "follow-up email", "after applying", "after interview"], answer: "Send a short thank-you email within 24 hours of an interview, naming one specific thing you discussed and reaffirming your interest. If you haven't heard back after applying, one polite follow-up after 1-2 weeks is reasonable — keep it to two or three sentences and avoid following up more than once unless invited to." },
   { keys: ["dark mode", "light mode", "theme", "dark theme", "light theme"], answer: "You can switch between light and dark mode any time using the toggle in the top-right of the page (the sun/moon icon) — your choice is remembered the next time you visit." }
 ];
 
-const GREETING = "Hi! I'm MR.DRAFTORA. Here's what I can help with:\n• Resume design (layout, fonts, colors, sizing)\n• What HR and recruiters look for today\n• Certifications & skills for finance, marketing, IT/tech, and future-proofing your career\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
+const GREETING = "Hi! I'm MR.DRAFTORA, your CV specialist. Here's what I can help with:\n• Resume design and writing (layout, fonts, wording, formats)\n• Cover letters, LinkedIn profiles, references, and portfolios\n• What HR and recruiters look for today, by industry\n• Career changes, employment gaps, freshers, and executive resumes\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
 
 function matchAnswer(raw) {
   const text = raw.toLowerCase();
@@ -154,7 +172,10 @@ function matchAnswer(raw) {
     "margin", "spacing", "bullet", "action verb", "ats", "applicant tracking",
     "keyword", "achievement", "certification", "reference", "print", "paper",
     "hiring", "recruiter", "job post", "career", "qualification",
-    "layout", "icon", "alignment", "contrast", "theme", "dark", "light"
+    "layout", "icon", "alignment", "contrast", "theme", "dark", "light",
+    "linkedin", "gap", "fresher", "entry level", "intern", "chronological",
+    "functional", "executive", "freelance", "follow up", "follow-up", "mistake",
+    "tailor", "academic", "publication", "thesis", "grant"
   ];
   const inScope = IN_SCOPE_WORDS.some((k) => text.includes(k));
   if (inScope) {
