@@ -196,6 +196,16 @@ function isRatingRequest(raw) {
   return RATING_PHRASES.some((p) => text.includes(p));
 }
 
+function isAcknowledgement(raw) {
+  const text = raw.toLowerCase().trim().replace(/[.!]+$/, "");
+  const ACK_PHRASES = [
+    "ok", "okay", "k", "kk", "alright", "all right", "got it", "gotit",
+    "understood", "cool", "sounds good", "great", "nice", "perfect",
+    "thanks", "thank you", "thx", "ty", "appreciate it", "noted", "fine", "good"
+  ];
+  return ACK_PHRASES.includes(text);
+}
+
 function matchAnswer(raw) {
   const text = raw.toLowerCase();
   let best = null;
@@ -252,7 +262,11 @@ class Component extends DCLogic {
     scrollMsgsToBottom();
     const delay = 420 + Math.random() * 380;
     setTimeout(() => {
-      const answer = isRatingRequest(trimmed) ? this.rateCvQuality() : matchAnswer(trimmed);
+      const answer = isRatingRequest(trimmed)
+        ? this.rateCvQuality()
+        : isAcknowledgement(trimmed)
+        ? "You're welcome! If you need anything else, just let me know."
+        : matchAnswer(trimmed);
       this.setState({
         typing: false,
         messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
