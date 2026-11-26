@@ -8,9 +8,7 @@
   var PAGES = {
     Main: "project/Main.dc.html",
     Templates: "project/Templates.dc.html",
-    Editor: "project/Editor.dc.html",
-    Banners: "project/Banners.dc.html",
-    BannerEditor: "project/BannerEditor.dc.html"
+    Editor: "project/Editor.dc.html"
   };
 
   var root = document.getElementById("app");
@@ -273,7 +271,7 @@
     }).then(function () {
       instances = {};
       rootInstance = { file: file, inst: new cache[file].Class({}) };
-      var tt = { Main: "Home", Templates: "Resume templates", Editor: "Resume editor", Banners: "Banner templates", BannerEditor: "Banner editor" }[page];
+      var tt = { Main: "Home", Templates: "Resume templates", Editor: "Resume editor" }[page];
       document.title = "DRAFTORA — " + tt;
       root.textContent = "";
       render();
