@@ -1,4 +1,4 @@
-<untrusted-document-83b035444bd6><!doctype html>
+<untrusted-document-7a31dfe22630><!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -270,6 +270,21 @@ function isCapabilityQuestion(raw) {
     "how can you help me", "how do u help", "how can u help"
   ];
   return CAP_SUBSTRINGS.some((p) => text.includes(p)) || text.startsWith("what can you") || text.startsWith("what do you do");
+}
+
+function isScopeQuestion(raw) {
+  const text = normalizeText(raw);
+  const SCOPE_SUBSTRINGS = [
+    "specialized in cv", "specialised in cv", "specialized in resume", "specialised in resume",
+    "specialize in cv", "specialise in cv", "specialize in resume", "specialise in resume",
+    "only for cv", "only for resume", "cv making only", "resume making only",
+    "only do cv", "only do resume", "only help with cv", "only help with resume",
+    "just for cv", "just for resume", "limited to cv", "limited to resume",
+    "are you specialized", "are you specialised", "only cv", "cv only", "resume only",
+    "only resume", "are you only for", "do you only do", "do you only help",
+    "what else can you", "can you help with anything else", "can you help with other"
+  ];
+  return SCOPE_SUBSTRINGS.some((p) => text.includes(p));
 }
 
 function isRatingRequest(raw) {
@@ -545,6 +560,10 @@ class Component extends DCLogic {
         ? (lang === "hi"
             ? "हेलो! अपने CV के बारे में कुछ भी पूछें — लेआउट, वर्डिंग, कवर लेटर, LinkedIn, करियर गैप, या अपने CV की कंटेंट क्वालिटी रेट करवाएं। आपको किस चीज़ में मदद चाहिए?"
             : "Hey! Ask me anything about your CV — layout, wording, cover letters, LinkedIn, career gaps, or get your content quality rated. What do you need help with?")
+        : isScopeQuestion(trimmed)
+        ? (lang === "hi"
+            ? `जी हां — MR.DRAFTORA खासतौर CV और रिज्यूमे से जुड़ी मदद के लिए बनाया गया है। मैं इन चीज़ों में मदद करता हूं:\n${CAPABILITIES_LIST_HI}\nमैं रिज्यूमे/जॉब-एप्लिकेशन से बाहर के सवालों का जवाब नहीं देता।`
+            : `Yes — MR.DRAFTORA is built specifically to help with CVs and resumes. I don't answer questions outside resume and job-application topics. Here's what I cover:\n${CAPABILITIES_LIST}`)
         : isCapabilityQuestion(trimmed)
         ? (lang === "hi"
             ? `मैं इन चीज़ों में मदद कर सकता हूं:\n${CAPABILITIES_LIST_HI}\nबस अपना सवाल टाइप कीजिए और मैं पूरी कोशिश करूंगा।`
@@ -778,4 +797,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
-</untrusted-document-83b035444bd6>
+</untrusted-document-7a31dfe22630>
