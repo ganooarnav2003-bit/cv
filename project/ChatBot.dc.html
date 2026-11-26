@@ -74,7 +74,7 @@
         </div>
         <div style="min-width:0">
           <div style="color:#FFF;font-weight:700;font-size:13.5px">MR.DRAFTORA</div>
-          <div style="color:rgba(255,255,255,0.75);font-size:11px">Resume &amp; banner help</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px">Resume help</div>
         </div>
         <div class="cbw-close" onClick="{{ toggleOpen }}" aria-label="Close chat">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#FFF" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -115,8 +115,7 @@
 const CHIPS = [
   { label: "What does HR want in a CV today?" },
   { label: "What certifications do I need?" },
-  { label: "Which layout should I pick?" },
-  { label: "Best banner size for social media?" }
+  { label: "Which layout should I pick?" }
 ];
 
 const KB = [
@@ -138,14 +137,10 @@ const KB = [
   { keys: ["pdf", "export", "download"], answer: "Once your resume looks right in the preview, use the Download PDF button at the top of the editor — it keeps your fonts and layout exactly as shown." },
   { keys: ["education"], answer: "List your highest or most relevant degree first, with the institution and year. You can drop older or less relevant education once you have a few years of work experience." },
   { keys: ["length", "one page", "pages"], answer: "Aim for one page if you have under ~10 years of experience, and no more than two pages otherwise. Trim older or less relevant roles rather than shrinking the font." },
-  { keys: ["banner size", "social media", "dimensions", "resolution"], answer: "Common sizes: Instagram post 1080×1080, Instagram story 1080×1920, LinkedIn banner 1584×396, Facebook cover 820×312, YouTube thumbnail 1280×720. Pick the matching preset in the Banner Maker before you start designing." },
-  { keys: ["banner", "professional", "brand"], answer: "For a professional banner: use one accent color or gradient, one bold headline (under ~6 words), plenty of empty space, and your logo or name in a consistent corner. Avoid more than 2 fonts and keep text readable at a glance." },
-  { keys: ["logo", "brand mark"], answer: "Keep your logo in the same corner across all your banners for brand consistency, and give it some breathing room (don't let text touch it)." },
-  { keys: ["text", "headline", "copy", "wording"], answer: "Keep banner headlines short — 4 to 7 words reads best at a glance. Put supporting details (dates, price, etc.) in a smaller line underneath, not in the headline itself." },
   { keys: ["dark mode", "light mode", "theme", "dark theme", "light theme"], answer: "You can switch between light and dark mode any time using the toggle in the top-right of the page (the sun/moon icon) — your choice is remembered the next time you visit." }
 ];
 
-const GREETING = "Hi! I'm MR.DRAFTORA. Here's what I can help with:\n• Resume & banner design (layout, fonts, colors, sizing)\n• What HR and recruiters look for today\n• Certifications & skills for finance, marketing, IT/tech, and future-proofing your career\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
+const GREETING = "Hi! I'm MR.DRAFTORA. Here's what I can help with:\n• Resume design (layout, fonts, colors, sizing)\n• What HR and recruiters look for today\n• Certifications & skills for finance, marketing, IT/tech, and future-proofing your career\n• Live suggestions on what to add to your CV\nPick a question below, or just type what you need help with.";
 
 function matchAnswer(raw) {
   const text = raw.toLowerCase();
@@ -153,21 +148,19 @@ function matchAnswer(raw) {
     if (entry.keys.some((k) => text.includes(k))) return entry.answer;
   }
   const IN_SCOPE_WORDS = [
-    "resume", "cv", "curriculum", "banner", "template", "design", "pdf", "png", "export",
+    "resume", "cv", "curriculum", "template", "design", "pdf", "export",
     "professional", "cover letter", "job application", "interview", "work history",
-    "job title", "portfolio", "graphic", "poster", "flyer", "social media", "instagram",
-    "linkedin", "facebook", "twitter", "youtube", "image", "formatting", "format",
+    "job title", "portfolio", "formatting", "format",
     "margin", "spacing", "bullet", "action verb", "ats", "applicant tracking",
     "keyword", "achievement", "certification", "reference", "print", "paper",
-    "size", "dimension", "advertisement", "promo", "sale", "event", "quote",
-    "post", "canva", "hiring", "recruiter", "job post", "career", "qualification",
-    "layout", "canvas", "gradient", "icon", "spacing", "alignment", "contrast", "theme", "dark", "light"
+    "hiring", "recruiter", "job post", "career", "qualification",
+    "layout", "icon", "alignment", "contrast", "theme", "dark", "light"
   ];
   const inScope = IN_SCOPE_WORDS.some((k) => text.includes(k));
   if (inScope) {
-    return "Good question — here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try asking me about layout, colors, fonts, skills, or banner sizes for more specific tips.";
+    return "Good question — here's the short version: keep it simple, consistent, and focused on one clear message or skill set at a time. Try asking me about layout, colors, fonts, or skills for more specific tips.";
   }
-  return "I'm built just to help you make your resume and banners more professional — I can't help with anything outside of CV or banner making. Try asking about layout, wording, colors, fonts, skills, or banner sizes.";
+  return "I'm built just to help you make your resume more professional — I can't help with anything outside of resume/CV writing. Try asking about layout, wording, colors, fonts, or skills.";
 }
 
 class Component extends DCLogic {
