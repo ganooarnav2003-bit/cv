@@ -1,4 +1,4 @@
-<untrusted-document-7a31dfe22630><!doctype html>
+<untrusted-document-e29dc07f0ac8><!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -171,6 +171,14 @@ function saveStoredChat(messages, lang) {
 function clearStoredChat() {
   try {
     window.localStorage.removeItem(CHAT_HISTORY_KEY);
+  } catch (e) {}
+}
+
+function trackEvent(name, data) {
+  try {
+    if (typeof window !== "undefined" && typeof window.va === "function") {
+      window.va("event", data ? { name: name, data: data } : { name: name });
+    }
   } catch (e) {}
 }
 
@@ -484,6 +492,7 @@ class Component extends DCLogic {
     const next = this.state.lang === "hi" ? "en" : "hi";
     this.setState({ lang: next });
     saveStoredChat(this.state.messages, next);
+    trackEvent("chatbot_language_toggled", { lang: next });
   }
 
   clearChat() {
@@ -532,6 +541,7 @@ class Component extends DCLogic {
       this._recognition = recognition;
       this.setState({ isRecording: true });
       recognition.start();
+      trackEvent("chatbot_voice_input_started", { lang: lang });
     } catch (e) {
       this.setState({ isRecording: false });
     }
@@ -589,6 +599,7 @@ class Component extends DCLogic {
         messages: finalMessages
       });
       saveStoredChat(finalMessages, lang);
+      trackEvent("chatbot_message_sent", { lang: lang });
       scrollMsgsToBottom();
     }, delay);
   }
@@ -610,6 +621,7 @@ class Component extends DCLogic {
         messages: finalMessages
       });
       saveStoredChat(finalMessages, lang);
+      trackEvent("chatbot_chip_clicked", { query: query, lang: lang });
       scrollMsgsToBottom();
     }, delay);
   }
@@ -628,6 +640,7 @@ class Component extends DCLogic {
         messages: finalMessages
       });
       saveStoredChat(finalMessages, lang);
+      trackEvent("chatbot_rating_requested", { lang: lang });
       scrollMsgsToBottom();
     }, 480);
   }
@@ -725,6 +738,7 @@ class Component extends DCLogic {
       const finalMessages = [...withUser, { fromBot: true, fromUser: false, text: answer }];
       this.setState({ typing: false, messages: finalMessages });
       saveStoredChat(finalMessages, lang);
+      trackEvent("chatbot_tips_requested", { lang: lang });
       scrollMsgsToBottom();
     }, 480);
   }
@@ -775,6 +789,7 @@ class Component extends DCLogic {
           });
         } else {
           this.setState({ closed: false });
+          trackEvent("chatbot_opened", { lang: this.state.lang });
           setTimeout(() => {
             try {
               const el = document.querySelector(".cbw-input");
@@ -797,4 +812,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
-</untrusted-document-7a31dfe22630>
+</untrusted-document-e29dc07f0ac8>
