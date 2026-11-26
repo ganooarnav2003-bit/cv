@@ -85,6 +85,8 @@ body{background:var(--bg);color:var(--text)}
 
           <div class="tcard-thumb" style="height:150px;padding:16px;box-sizing:border-box;position:relative">
 
+            <div style="position:absolute;top:9px;left:9px;z-index:3;background:{{item.accent}};color:#FFF;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px;letter-spacing:0.03em;text-transform:uppercase;box-shadow:0 1px 4px rgba(0,0,0,0.22)">{{item.category}}</div>
+
             <sc-if value="{{ item.isModern }}">
               <div style="position:absolute;top:0;right:0;width:70px;height:70px;background:{{item.accent}};border-radius:0 0 0 70px"></div>
               <div style="width:30px;height:30px;border-radius:50%;background:var(--surface);border:3px solid {{item.accent}};margin-bottom:10px"></div>
@@ -154,6 +156,8 @@ body{background:var(--bg);color:var(--text)}
     <div onClick="{{ closePreview }}" style="position:fixed;inset:0;background:rgba(16,24,40,0.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px;box-sizing:border-box">
       <div onClick="{{ stopClick }}" style="background:var(--surface);border-radius:16px;max-width:440px;width:100%;overflow:hidden;box-shadow:0 30px 70px rgba(16,24,40,0.35)">
         <div style="height:340px;background:var(--surface-2);padding:32px;box-sizing:border-box;position:relative">
+
+          <div style="position:absolute;top:16px;left:16px;z-index:3;background:{{preview.accent}};color:#FFF;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:6px;letter-spacing:0.03em;text-transform:uppercase;box-shadow:0 2px 6px rgba(0,0,0,0.25)">{{preview.category}}</div>
 
           <sc-if value="{{ preview.isModern }}">
             <div style="position:absolute;top:0;right:0;width:130px;height:130px;background:{{preview.accent}};border-radius:0 0 0 130px"></div>
