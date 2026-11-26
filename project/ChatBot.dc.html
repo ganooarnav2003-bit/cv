@@ -1,4 +1,4 @@
-<untrusted-document-f5389706b718><!doctype html>
+<untrusted-document-fdfc273fba0c><!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -52,6 +52,12 @@
 .cbw-dot{position:absolute;bottom:1px;right:1px;width:15px;height:15px;border-radius:50%;background:#BBF7D0;border:2.5px solid #FFF;box-shadow:0 0 0 1px rgba(16,24,40,0.08)}
 .cbw-dot-sm{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#BBF7D0;border:2px solid #064E2E}
 .cbw-close:hover{background:rgba(255,255,255,0.26)}
+.cbw-clear{background:rgba(255,255,255,0.16);border:none;color:#FFF;font-size:10px;font-weight:600;padding:5px 8px;border-radius:7px;cursor:pointer;flex-shrink:0;opacity:0.9}
+.cbw-clear:hover{background:rgba(255,255,255,0.26)}
+.cbw-mic{width:36px;height:36px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.cbw-mic:hover{background:var(--chip-bg)}
+.cbw-mic[data-recording="true"]{background:#DC2626;border-color:#DC2626;animation:cbwMicPulse 1.2s infinite}
+@keyframes cbwMicPulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,0.4)}50%{box-shadow:0 0 0 7px rgba(220,38,38,0)}}
 </style>
 </helmet>
 
@@ -83,6 +89,7 @@
           <div style="color:#FFF;font-weight:700;font-size:13.5px">MR.DRAFTORA</div>
           <div style="color:rgba(255,255,255,0.75);font-size:11px">{{headerSubtitle}}</div>
         </div>
+        <button class="cbw-clear" onClick="{{ clearChat }}" aria-label="Clear chat history">{{clearButtonLabel}}</button>
         <button onClick="{{ toggleLang }}" aria-label="Switch language" style="background:rgba(255,255,255,0.16);border:none;color:#FFF;font-size:11px;font-weight:700;padding:5px 9px;border-radius:7px;cursor:pointer;flex-shrink:0">{{langButtonLabel}}</button>
         <div class="cbw-close" onClick="{{ toggleOpen }}" aria-label="Close chat">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#FFF" stroke-width="2.2" stroke-linecap="round"/></svg>
@@ -116,6 +123,13 @@
 
       <div class="cbw-inputrow">
         <input class="cbw-input" type="text" placeholder="{{inputPlaceholder}}" value="{{draft}}" onChange="{{ onDraft }}" onKeyDown="{{ onKeyDown }}">
+        <button class="cbw-mic" data-recording="{{isRecording}}" onClick="{{ toggleRecording }}" aria-label="{{micLabel}}" title="{{micLabel}}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="9" y="2" width="6" height="12" rx="3" fill="{{micIconColor}}"/>
+            <path d="M5 11a7 7 0 0 0 14 0" stroke="{{micIconColor}}" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M12 18v3" stroke="{{micIconColor}}" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
         <button class="cbw-send" onClick="{{ send }}" aria-label="Send">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11l18-7-7 18-3-7-8-4z" fill="#FFF"/></svg>
         </button>
@@ -133,6 +147,32 @@ const CHIPS = [
   { labelEn: "Which layout should I pick?", labelHi: "मुझे कौन सा लेआउट चुनना चाहिए?", query: "layout" },
   { labelEn: "What certifications do I need?", labelHi: "मुझे कौन से सर्टिफिकेशन चाहिए?", query: "certifications" }
 ];
+
+const CHAT_HISTORY_KEY = "draftora_chat_history_v1";
+
+function loadStoredChat() {
+  try {
+    const raw = window.localStorage.getItem(CHAT_HISTORY_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.messages) || parsed.messages.length === 0) return null;
+    return parsed;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveStoredChat(messages, lang) {
+  try {
+    window.localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify({ messages, lang }));
+  } catch (e) {}
+}
+
+function clearStoredChat() {
+  try {
+    window.localStorage.removeItem(CHAT_HISTORY_KEY);
+  } catch (e) {}
+}
 
 const KB = [
   { keys: ["main content", "what matters", "job market", "most important", "what to include", "what should i include", "stand out", "recruiters look for", "what employers want", "catches recruiter", "what counts", "what matters most"], answer: "In today's job market, four things matter most: 1) a tailored summary and skills list that mirror the exact keywords in the job post (most companies scan with ATS software first), 2) measurable achievements in your experience section — numbers, percentages, or outcomes beat vague duties, 3) relevant, up-to-date skills (tools, software, certifications) specific to the role, and 4) clean, consistent formatting that's easy to scan in under 10 seconds. Older, irrelevant history matters far less than a tight, targeted top half of the page.", answerHi: "आज के जॉब मार्केट में चार चीज़ें सबसे ज़्यादा मायने रखती हैं: 1) एसा सारांश और स्किल्स लिस्ट जो जॉब पोस्ट के सटीक कीवर्ड्स से मेल खाए (ज्यादातर कंपनियां पहले ATS सॉफ़्टवेयर से स्कैन करती हैं), 2) एक्सपीरियंस सेक्शन में मापने लायक उपलब्धियां — नंबर, प्रतिशत या नतीजे, सामान्य ड्यूटी लिस्ट से बेहतर होते हैं, 3) रोल से जुड़े मौजूदा स्किल्स (टूल्स, सॉफ़्टवेयर, सर्टिफिकेशन), और 4) साफ़-सुथरा, एक जैसा फ़ॉर्मेटिंग जिसे 10 सेकंड में पढ़ा जा सके। पुराना, असंबंधित अनुभव पेज के शुरुआती आधे हिस्से जितना मायने नहीं रखता।" },
@@ -406,20 +446,82 @@ function matchAnswer(raw, lang) {
 class Component extends DCLogic {
   constructor(props) {
     super(props);
+    const stored = loadStoredChat();
     this.state = {
       closed: !(props && props.startOpen),
       draft: "",
       typing: false,
-      lang: "en",
-      messages: [
+      isRecording: false,
+      lang: (stored && stored.lang) || "en",
+      messages: (stored && stored.messages) || [
         { fromBot: true, fromUser: false, text: GREETING }
       ]
     };
+    this._recognition = null;
   }
 
   toggleLang() {
     const next = this.state.lang === "hi" ? "en" : "hi";
     this.setState({ lang: next });
+    saveStoredChat(this.state.messages, next);
+  }
+
+  clearChat() {
+    const lang = this.state.lang;
+    const resetMessages = [{ fromBot: true, fromUser: false, text: greetingFor(lang) }];
+    this.setState({ messages: resetMessages, draft: "", typing: false });
+    saveStoredChat(resetMessages, lang);
+  }
+
+  toggleRecording() {
+    if (this.state.isRecording) {
+      this.stopRecording();
+    } else {
+      this.startRecording();
+    }
+  }
+
+  startRecording() {
+    const lang = this.state.lang;
+    const SpeechRecognitionCtor = (typeof window !== "undefined") && (window.SpeechRecognition || window.webkitSpeechRecognition);
+    if (!SpeechRecognitionCtor) {
+      const notice = lang === "hi"
+        ? "माफ़ कीजिए, आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता — कृपया Chrome का इस्तेमाल करें या टाइप करके पूछें।"
+          : "Sorry, your browser doesn't support voice input — try Chrome, or just type your question.";
+      const withNotice = [...this.state.messages, { fromBot: true, fromUser: false, text: notice }];
+      this.setState({ messages: withNotice });
+      saveStoredChat(withNotice, lang);
+      scrollMsgsToBottom();
+      return;
+    }
+    try {
+      const recognition = new SpeechRecognitionCtor();
+      recognition.lang = lang === "hi" ? "hi-IN" : "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      recognition.onresult = (e) => {
+        const transcript = (e.results && e.results[0] && e.results[0][0] && e.results[0][0].transcript) || "";
+        this.setState({ draft: transcript, isRecording: false });
+      };
+      recognition.onerror = () => {
+        this.setState({ isRecording: false });
+      };
+      recognition.onend = () => {
+        this.setState({ isRecording: false });
+      };
+      this._recognition = recognition;
+      this.setState({ isRecording: true });
+      recognition.start();
+    } catch (e) {
+      this.setState({ isRecording: false });
+    }
+  }
+
+  stopRecording() {
+    if (this._recognition) {
+      try { this._recognition.stop(); } catch (e) {}
+    }
+    this.setState({ isRecording: false });
   }
 
   pushAndAnswer(question) {
@@ -457,10 +559,12 @@ class Component extends DCLogic {
         : degreeAnswer
         ? degreeAnswer
         : matchAnswer(trimmed, lang);
+      const finalMessages = [...withUser, { fromBot: true, fromUser: false, text: answer }];
       this.setState({
         typing: false,
-        messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
+        messages: finalMessages
       });
+      saveStoredChat(finalMessages, lang);
       scrollMsgsToBottom();
     }, delay);
   }
@@ -476,10 +580,12 @@ class Component extends DCLogic {
     setTimeout(() => {
       const degreeAnswer = matchDegreeProfile(query, lang);
       const answer = degreeAnswer ? degreeAnswer : matchAnswer(query, lang);
+      const finalMessages = [...withUser, { fromBot: true, fromUser: false, text: answer }];
       this.setState({
         typing: false,
-        messages: [...withUser, { fromBot: true, fromUser: false, text: answer }]
+        messages: finalMessages
       });
+      saveStoredChat(finalMessages, lang);
       scrollMsgsToBottom();
     }, delay);
   }
@@ -492,10 +598,12 @@ class Component extends DCLogic {
     this.setState({ draft: "", typing: true, messages: withUser });
     scrollMsgsToBottom();
     setTimeout(() => {
+      const finalMessages = [...withUser, { fromBot: true, fromUser: false, text: this.rateCvQuality() }];
       this.setState({
         typing: false,
-        messages: [...withUser, { fromBot: true, fromUser: false, text: this.rateCvQuality() }]
+        messages: finalMessages
       });
+      saveStoredChat(finalMessages, lang);
       scrollMsgsToBottom();
     }, 480);
   }
@@ -590,7 +698,9 @@ class Component extends DCLogic {
     this.setState({ typing: true, messages: withUser });
     scrollMsgsToBottom();
     setTimeout(() => {
-      this.setState({ typing: false, messages: [...withUser, { fromBot: true, fromUser: false, text: answer }] });
+      const finalMessages = [...withUser, { fromBot: true, fromUser: false, text: answer }];
+      this.setState({ typing: false, messages: finalMessages });
+      saveStoredChat(finalMessages, lang);
       scrollMsgsToBottom();
     }, 480);
   }
@@ -621,15 +731,23 @@ class Component extends DCLogic {
       headerSubtitle: lang === "hi" ? "CV बनाने में मददगार" : "CV Making Helper",
       inputPlaceholder: lang === "hi" ? "अपना सवाल टाइप करें..." : "Type your question...",
       langButtonLabel: lang === "hi" ? "EN" : "हिंदी",
+      clearButtonLabel: lang === "hi" ? "साफ़ करें" : "Clear",
+      isRecording: !!this.state.isRecording,
+      micIconColor: this.state.isRecording ? "#FFF" : "var(--text)",
+      micLabel: this.state.isRecording
+        ? (lang === "hi" ? "रिकॉर्डिंग रोकें" : "Stop recording")
+        : (lang === "hi" ? "बोलकर पूछें" : "Ask by voice"),
+      toggleRecording: () => this.toggleRecording(),
       toggleLang: () => this.toggleLang(),
+      clearChat: () => this.clearChat(),
       toggleOpen: () => {
         const isClosingNow = !this.state.closed;
         if (isClosingNow) {
+          if (this.state.isRecording) this.stopRecording();
           this.setState({
             closed: true,
             draft: "",
-            typing: false,
-            messages: [{ fromBot: true, fromUser: false, text: greetingFor(this.state.lang) }]
+            typing: false
           });
         } else {
           this.setState({ closed: false });
@@ -655,4 +773,4 @@ class Component extends DCLogic {
 </script>
 </body>
 </html>
-</untrusted-document-f5389706b718>
+</untrusted-document-fdfc273fba0c>
